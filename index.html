@@ -59,6 +59,11 @@ body.locked{cursor:none;}
 #msg{position:fixed;top:37%;left:50%;transform:translateX(-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,3vw,40px);letter-spacing:3px;text-shadow:0 2px 14px rgba(0,0,0,0.95);opacity:0;transition:opacity .25s;pointer-events:none;z-index:50;text-align:center;white-space:nowrap;}
 #inter{position:fixed;bottom:36%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);border:1px solid rgba(255,255,255,0.15);color:#ddd;padding:4px 16px;font-size:11px;letter-spacing:3px;border-radius:18px;opacity:0;transition:opacity .18s;pointer-events:none;}
 #inter.on{opacity:1;}
+#healthbar{position:fixed;bottom:55px;left:50%;transform:translateX(-50%);width:220px;pointer-events:none;z-index:20;display:none;}
+#healthbar.on{display:block;}
+#hb-label{font-family:'Bebas Neue',sans-serif;font-size:12px;color:#ff4444;letter-spacing:3px;text-align:center;margin-bottom:2px;}
+#hb-track{width:100%;height:12px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,50,50,0.4);border-radius:6px;overflow:hidden;}
+#hb-fill{height:100%;width:100%;background:linear-gradient(to right,#ff2222,#ff6666);border-radius:6px;transition:width .15s;}
 #fps{position:fixed;top:54px;left:14px;background:rgba(0,0,0,0.6);color:#0f0;font-size:11px;font-family:"IBM Plex Mono",monospace;padding:2px 8px;border-radius:4px;z-index:20;pointer-events:none;letter-spacing:1px;}
 #lookhint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.32);font-size:11px;letter-spacing:3px;padding:3px 14px;border-radius:18px;background:rgba(0,0,0,0.5);transition:opacity 2s;}
 #inspbar{position:fixed;top:50%;left:50%;transform:translate(-50%,55px);width:130px;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center;}
@@ -123,6 +128,7 @@ body.locked{cursor:none;}
 <canvas id="main"></canvas>
 <div id="xhair"></div>
 <div id="fps">0 FPS</div>
+<div id="healthbar"><div id="hb-label">❤ HEALTH</div><div id="hb-track"><div id="hb-fill"></div></div></div>
 <div id="vignette"></div>
 <div id="dmg"></div>
 <div id="mflash"></div>
@@ -146,16 +152,16 @@ body.locked{cursor:none;}
     <div class="mega-title">
       <span class="line1">RAT KEBAB</span>
       <span class="line2">SIMULATOR</span>
-      <span class="line3">Epstein fuck nig nice people</span>
+      <span class="line3">HELP EPSTEIN KIPNAP ME TO HIS BASEMENT HELP</span>
     </div>
     <div class="rat-deco">🐀🔪🍢🔥💀</div>
     <div class="credit-tag">A GAME BY <span>TONY</span></div>
-    <div class="shoutout">SHOUTOUT TO: <span>BEN · SCARLETT · AIDEN · ZACH</span></div>
+    <div class="shoutout">SHOUTOUT TO: <span>SCARLETT,AIDEN,ZACH,Mitchel,Jason,and Mason67 FOR DONATING 2 Dollar</span></div>
     <div class="steps">
       <div class="step"><div class="si">🧺</div><div class="st"><h4>GRAB RAT → GRILL → SERVE</h4><p><b>E</b> = grab/use, <b>F</b> = place on grill, <b>G</b> = serve. Cook bar turns brown when done. BLACK = burned. WHITE = raw.</p></div></div>
       <div class="step"><div class="si">🧊</div><div class="st"><h4>FRIDGE KEBAB → ALSO GRILLABLE</h4><p>Grab fridge kebab, then <b>F</b> to place it on grill too — or just <b>G</b> to serve straight away (less points).</p></div></div>
       <div class="step"><div class="si">🔫</div><div class="st"><h4>SHOOT THE INSPECTOR</h4><p>Inspector walks in. Get gun from red locker. <b>CLICK</b>=shoot, <b>R</b>=reload. Inspector escapes = -1 star.</p></div></div>
-      <div class="step"><div class="si">⏱</div><div class="st"><h4>1 MINUTE COOK TIME</h4><p>Cook bar at top fills over 60 seconds. Go over = it turns BLACK and you lose a star. Under-cooked = white = no good.</p></div></div>
+      <div class="step"><div class="si">⏱</div><div class="st"><h4>COOK TIME</h4><p>RAT and Quesadilla both cook in <b>10 seconds</b>. Go over = BLACK and lose a star. WHITE = raw = no good.</p></div></div>
     </div>
     <div class="krow">
       <div class="kb">WASD<span>MOVE</span></div>
@@ -210,7 +216,7 @@ body.locked{cursor:none;}
   <div class="gosb" id="gosb">Inspector shut you down</div>
   <div style="font-family:'Bebas Neue';font-size:22px;color:#aaa;margin-bottom:6px;letter-spacing:3px">SCORE: <span id="fs">0</span></div>
   <div style="font-size:10px;color:#333;letter-spacing:5px;margin-bottom:4px">BY TONY</div>
-  <div style="font-size:9px;color:#2a2a2a;letter-spacing:4px;margin-bottom:20px">SHOUTOUT: BEN · SCARLETT · AIDEN · ZACH</div>
+  <div style="font-size:9px;color:#2a2a2a;letter-spacing:4px;margin-bottom:20px">SHOUTOUT: BEN · SCARLETT · AIDEN · ZACH · MASON 💰</div>
   <button class="sbtn" style="max-width:220px" id="replaybtn">PLAY AGAIN</button>
 </div>
 
@@ -335,7 +341,11 @@ function resolvePlayer(pos,r=0.38){
     }
   }
   pos.x=Math.max(-16,Math.min(16,pos.x));
-  pos.z=Math.max(-5,Math.min(12,pos.z));
+  if(inSewer){
+    pos.x=Math.max(28,Math.min(52,pos.x)); pos.z=Math.max(28,Math.min(52,pos.z));
+  } else {
+    pos.z=Math.max(-5,Math.min(12,pos.z));
+  }
 }
 
 function textTex(lines,bg,w=512,h=128){
@@ -515,7 +525,7 @@ menuBrd.material=new THREE.MeshLambertMaterial({map:textTex([
   {t:'MENU',s:28,c:'#FFD166',y:36,f:"bold 28px 'Bebas Neue',Impact"},
   {t:'Rat Kebab ........... 50k',s:14,c:'#ddd',y:62,f:'13px monospace'},
   {t:'Extra Crispy ......... 65k',s:14,c:'#ddd',y:82,f:'13px monospace'},
-  {t:'Family Pack ........ 120k',s:14,c:'#ddd',y:102,f:'13px monospace'},
+  {t:'Family Pack ........ 120k Epsteinfuck',s:14,c:'#ddd',y:102,f:'13px monospace'},
 ],'#2A1A0A')});
 const menuBorder2=bx(3.8,2.3,0.06,woodLM); at(menuBorder2,3.5,4,0.22); scene.add(menuBorder2);
 
@@ -527,7 +537,7 @@ const bigBorder=bx(10.3,1.92,0.1,lm(0x555555)); at(bigBorder,0,7.8,9.15); scene.
 const neonBoard=new THREE.Mesh(new THREE.PlaneGeometry(7.8,1.45),new THREE.MeshLambertMaterial({
   map:textTex([
     {t:'RAT KEBAB SIMULATOR — BY TONY',s:33,c:'#fff',y:54,f:"bold 33px 'Bebas Neue',Impact"},
-    {t:'"TOTALLY LEGAL" · SHOUTOUT: BEN SCARLETT AIDEN ZACH',s:10,c:'#888',y:84,f:'bold 10px monospace'}
+    {t:'"TOTALLY LEGAL" · SHOUTOUT: BEN SCARLETT AIDEN ZACH MASON(SPONSOR)',s:10,c:'#888',y:84,f:'bold 10px monospace'}
   ],'rgba(0,0,0,0.92)',700,105),
   emissive:0x111111,emissiveIntensity:0.5,transparent:true}));
 at(neonBoard,0,9.5,9.2); scene.add(neonBoard);
@@ -563,6 +573,160 @@ function mkLamp(x,z){
   const pl=new THREE.PointLight(0xFFEE88,1.9,9); at(pl,x+1.04,5.38,z); scene.add(pl); lampPostLights.push(pl);
 }
 mkLamp(-8.5,10.5); mkLamp(8.5,10.5);
+
+// ═══════════════════════════════
+//  SEWER
+// ═══════════════════════════════
+const SEWER_Y = -6.5; // underground floor level
+const sewerGroup = new THREE.Group();
+
+// Sewer tunnel — main east-west
+const sewMat = lm(0x3A3028);
+const sewWetMat = lm(0x2A2018);
+
+// ── MAIN EAST-WEST TUNNEL ──
+const stFloor = bx(22, 0.2, 4.8, lm(0x2A2020)); at(stFloor, 0, SEWER_Y, 0); sewerGroup.add(stFloor);
+const stCeil  = bx(22, 0.2, 4.8, lm(0x1A1A1A)); at(stCeil,  0, SEWER_Y+3.4, 0); sewerGroup.add(stCeil);
+const stWallB = bx(22, 3.6, 0.3, sewMat); at(stWallB, 0, SEWER_Y+1.8, -2.4); sewerGroup.add(stWallB);
+const stWallF = bx(22, 3.6, 0.3, sewMat); at(stWallF, 0, SEWER_Y+1.8,  2.4); sewerGroup.add(stWallF);
+// End caps east-west
+const stEndW = bx(0.3, 3.6, 4.8, sewMat); at(stEndW, -11, SEWER_Y+1.8, 0); sewerGroup.add(stEndW);
+const stEndE = bx(0.3, 3.6, 4.8, sewMat); at(stEndE,  11, SEWER_Y+1.8, 0); sewerGroup.add(stEndE);
+
+// ── NORTH-SOUTH TUNNEL ──
+const stFloor2 = bx(4.8, 0.2, 18, lm(0x2A2020)); at(stFloor2, 0, SEWER_Y, 0); sewerGroup.add(stFloor2);
+const stCeil2  = bx(4.8, 0.2, 18, lm(0x1A1A1A)); at(stCeil2, 0, SEWER_Y+3.4, 0); sewerGroup.add(stCeil2);
+const stWallL  = bx(0.3, 3.6, 18, sewMat); at(stWallL, -2.4, SEWER_Y+1.8, 0); sewerGroup.add(stWallL);
+const stWallR  = bx(0.3, 3.6, 18, sewMat); at(stWallR,  2.4, SEWER_Y+1.8, 0); sewerGroup.add(stWallR);
+// End caps north-south
+const stEndN = bx(4.8, 3.6, 0.3, sewMat); at(stEndN, 0, SEWER_Y+1.8, -9); sewerGroup.add(stEndN);
+const stEndS = bx(4.8, 3.6, 0.3, sewMat); at(stEndS, 0, SEWER_Y+1.8,  9); sewerGroup.add(stEndS);
+
+// Brick mortar lines on walls — horizontal bands
+for(let i=0;i<8;i++){
+  const bh=bx(22,0.04,0.04,lm(0x181814)); bh.position.set(0,SEWER_Y+0.45+i*0.38,-2.38); sewerGroup.add(bh);
+  const bh2=bx(22,0.04,0.04,lm(0x181814)); bh2.position.set(0,SEWER_Y+0.45+i*0.38,2.38); sewerGroup.add(bh2);
+  const bv=bx(0.04,0.04,18,lm(0x181814)); bv.position.set(-2.38,SEWER_Y+0.45+i*0.38,0); sewerGroup.add(bv);
+  const bv2=bx(0.04,0.04,18,lm(0x181814)); bv2.position.set(2.38,SEWER_Y+0.45+i*0.38,0); sewerGroup.add(bv2);
+}
+
+// Sewer water channel down the middle
+const waterChan = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.15, 22), new THREE.MeshLambertMaterial({color:0x1A3A1A, transparent:true, opacity:0.85}));
+at(waterChan, 0, SEWER_Y+0.07, 0); sewerGroup.add(waterChan);
+
+// Entry manhole LIT CIRCLE on sewer floor (where you drop in)
+const entryCircleLight = new THREE.PointLight(0xFFEE88, 3.5, 6); entryCircleLight.position.set(0, SEWER_Y+2.8, 0); sewerGroup.add(entryCircleLight);
+const entryCircleGlow = new THREE.Mesh(new THREE.CircleGeometry(0.7, 28), new THREE.MeshBasicMaterial({color:0xFFFF99, transparent:true, opacity:0.55}));
+entryCircleGlow.rotation.x=-Math.PI/2; entryCircleGlow.position.set(0, SEWER_Y+0.15, 0); sewerGroup.add(entryCircleGlow);
+const entryCircleRing1 = new THREE.Mesh(new THREE.RingGeometry(0.7, 0.9, 28), new THREE.MeshBasicMaterial({color:0xFFDD55, transparent:true, opacity:0.7}));
+entryCircleRing1.rotation.x=-Math.PI/2; entryCircleRing1.position.set(0, SEWER_Y+0.16, 0); sewerGroup.add(entryCircleRing1);
+const entryCircleRing2 = new THREE.Mesh(new THREE.RingGeometry(0.9, 1.05, 28), new THREE.MeshBasicMaterial({color:0xFFDD55, transparent:true, opacity:0.35}));
+entryCircleRing2.rotation.x=-Math.PI/2; entryCircleRing2.position.set(0, SEWER_Y+0.16, 0); sewerGroup.add(entryCircleRing2);
+// Manhole rim on ceiling above
+const ceilMH = new THREE.Mesh(new THREE.CylinderGeometry(0.65,0.65,0.1,24), lm(0x444444)); ceilMH.position.set(0,SEWER_Y+3.38,0); sewerGroup.add(ceilMH);
+
+// Brick texture bands on walls
+for(let i=-4; i<=4; i++){
+  const band = bx(22, 0.07, 0.05, lm(0x2A2020)); at(band, 0, SEWER_Y+0.6+i*0.4, -2.35); sewerGroup.add(band);
+  const band2 = bx(22, 0.07, 0.05, lm(0x2A2020)); at(band2, 0, SEWER_Y+0.6+i*0.4, 2.35); sewerGroup.add(band2);
+}
+
+// Drip pipes on ceiling
+[-6,-2,2,6].forEach(x=>{
+  const pipe = cy(0.06,0.06,0.5,lm(0x555555)); at(pipe,x,SEWER_Y+3.2,0); sewerGroup.add(pipe);
+});
+
+// Sewer lights — dim green/yellow
+const sewerLights = [];
+[-7,0,7].forEach(x=>{
+  const sl = new THREE.PointLight(0x88FF44, 1.2, 7); sl.position.set(x, SEWER_Y+2.8, 0); sewerGroup.add(sl); sewerLights.push(sl);
+  const bulb = sp(0.1, lm(0xAAFF66, 0x88FF33, 2)); bulb.position.set(x, SEWER_Y+3.0, 0); sewerGroup.add(bulb);
+});
+
+// Sewer enemy rats — spawned dynamically in spawnSewerRat()
+
+// EXIT ladder / manhole in the sewer (to come back up)
+const sewExit = new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,0.12,18), lm(0x555555,0x888888,0.4));
+sewExit.position.set(0, SEWER_Y+0.12, -4.5);
+sewerGroup.add(sewExit);
+// Ladder rungs
+for(let i=0;i<5;i++){
+  const rung = bx(0.5,0.06,0.06,lm(0x888888)); rung.position.set(0,SEWER_Y+0.5+i*0.5,-4.7); sewerGroup.add(rung);
+}
+// Exit manhole in sewer (looking up)
+const sewManholeRim2 = new THREE.Mesh(new THREE.CylinderGeometry(0.65,0.65,0.1,24), lm(0x666666));
+sewManholeRim2.position.set(0, SEWER_Y+3.35, -4.7); sewerGroup.add(sewManholeRim2);
+const sewManholeLid2 = new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.06,24), lm(0x222222));
+sewManholeLid2.position.set(0, SEWER_Y+3.38, -4.7); sewerGroup.add(sewManholeLid2);
+for(let r=-3;r<=3;r++){
+  const gl=bx(1.1,0.02,0.04,lm(0x3A3A3A)); gl.position.set(0,SEWER_Y+3.42,-4.7+r*0.15); sewerGroup.add(gl);
+}
+for(let r=-3;r<=3;r++){
+  const gl=bx(0.04,0.02,1.1,lm(0x3A3A3A)); gl.position.set(r*0.15,SEWER_Y+3.42,-4.7); sewerGroup.add(gl);
+}
+// Light shaft through manhole
+const shaftLight = new THREE.PointLight(0xFFEE88, 2.5, 5); shaftLight.position.set(0,SEWER_Y+2.5,-4.7); sewerGroup.add(shaftLight);
+const exitGlow = new THREE.Mesh(new THREE.RingGeometry(0.62,0.78,24), new THREE.MeshBasicMaterial({color:0xFFFF88,side:THREE.DoubleSide,transparent:true,opacity:0.6}));
+exitGlow.rotation.x=-Math.PI/2; exitGlow.position.set(0,SEWER_Y+0.18,-4.7); sewerGroup.add(exitGlow);
+const exitSign = new THREE.Mesh(new THREE.PlaneGeometry(1.3,0.35), new THREE.MeshLambertMaterial({
+  map: textTex([{t:'↑ CLIMB OUT  press E',s:20,c:'#FFD166',y:42,f:'bold 20px Impact'}],'rgba(0,0,0,0.9)',340,64),
+  transparent:true, side:THREE.DoubleSide
+}));
+exitSign.position.set(0,SEWER_Y+2.2,-4.7); sewerGroup.add(exitSign);
+
+// SURFACE MANHOLE — on sidewalk outside shop
+const manholeGroup = new THREE.Group();
+const MH_X=-8.5, MH_Z=4.5;
+
+// Outer rim — grey cast iron ring
+const manholeRim = new THREE.Mesh(new THREE.CylinderGeometry(0.72,0.72,0.12,28), lm(0x777777));
+manholeRim.position.set(MH_X,0.06,MH_Z); manholeGroup.add(manholeRim);
+
+// Dark lid surface
+const manholeLid = new THREE.Mesh(new THREE.CylinderGeometry(0.68,0.68,0.07,28), lm(0x222222));
+manholeLid.position.set(MH_X,0.11,MH_Z); manholeGroup.add(manholeLid);
+
+// Grid lines — horizontal
+for(let row=-4;row<=4;row++){
+  const gl=bx(1.24,0.025,0.045,lm(0x3A3A3A));
+  gl.position.set(MH_X,0.145,MH_Z+row*0.145);
+  manholeGroup.add(gl);
+}
+// Grid lines — vertical
+for(let col=-4;col<=4;col++){
+  const gl=bx(0.045,0.025,1.24,lm(0x3A3A3A));
+  gl.position.set(MH_X+col*0.145,0.145,MH_Z);
+  manholeGroup.add(gl);
+}
+
+// SEWER text (raised letters) — using small boxes
+const sewerTex = textTex([{t:'SEWER',s:28,c:'#888888',y:48,f:'bold 28px Impact'}],'#1A1A1A',200,64);
+const sewerPlate = new THREE.Mesh(new THREE.BoxGeometry(0.7,0.03,0.18), new THREE.MeshLambertMaterial({map:sewerTex,color:0x999999}));
+sewerPlate.position.set(MH_X,0.16,MH_Z); manholeGroup.add(sewerPlate);
+
+// 4 bolt holes
+[[-0.38,-0.38],[0.38,-0.38],[-0.38,0.38],[0.38,0.38]].forEach(([dx,dz])=>{
+  const bolt=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.04,0.04,8),lm(0x111111));
+  bolt.position.set(MH_X+dx,0.16,MH_Z+dz); manholeGroup.add(bolt);
+});
+
+const mhGlow = new THREE.Mesh(new THREE.RingGeometry(0.73,0.88,28), new THREE.MeshBasicMaterial({color:0x00FF88,side:THREE.DoubleSide,transparent:true,opacity:0.5}));
+mhGlow.rotation.x=-Math.PI/2; mhGlow.position.set(MH_X,0.18,MH_Z); manholeGroup.add(mhGlow);
+
+// Floating label above
+const mhLabel = new THREE.Mesh(new THREE.PlaneGeometry(1.8,0.36), new THREE.MeshLambertMaterial({
+  map: textTex([{t:'↓ SEWER  press E',s:22,c:'#00FF88',y:42,f:'bold 22px Impact'}],'rgba(0,0,0,0.85)',340,64),
+  transparent:true, side:THREE.DoubleSide
+}));
+mhLabel.position.set(MH_X,0.9,MH_Z); manholeGroup.add(mhLabel);
+scene.add(manholeGroup);
+
+const MANHOLE_POS = new THREE.Vector3(-8.5, 0.1, 4.5);
+const SEWER_ENTRY_POS = new THREE.Vector3(40, SEWER_Y+1.7, 40);
+const SEWER_EXIT_POS = new THREE.Vector3(40, SEWER_Y+1.7, 36);
+sewerGroup.position.set(40, 0, 40);
+scene.add(sewerGroup);
+sewerGroup.visible = false; // hidden until entered
 
 const clouds=[];
 function mkCloud(x,y,z,s=1){
@@ -779,6 +943,9 @@ let heldItem=null; // 'rat','kebab','gun','ext','fkebab'
 let heldRatData=null, heldKebabData=null;
 let basketCount=8;
 let hasGun=false,ammo=6,maxAmmo=6;
+let inSewer=false;
+let playerHP=100, maxPlayerHP=100;
+const sewerRats=[];
 let hasExt=false;
 let custT=0,inspT=0,refillT=0;
 const INSP_INTERVAL=300;
@@ -924,8 +1091,75 @@ function mkKebab(){
 // ═══════════════════════════════
 //  SPAWN
 // ═══════════════════════════════
+
+// ── SEWER RATS ──
+function spawnSewerRat(){
+  if(!inSewer||sewerRats.length>=6) return;
+  const mesh=mkRat();
+  mesh.scale.set(0.8,0.8,0.8);
+  // Spawn at random tunnel position (offset by sewerGroup world pos 40,0,40)
+  const side=Math.random()<0.5?-1:1;
+  mesh.position.set(40+side*(6+Math.random()*4), SEWER_Y+0.35, 40+(Math.random()-0.5)*14);
+  scene.add(mesh);
+  sewerRats.push({mesh, hp:2, attackTimer:0, speed:0.04+Math.random()*0.02});
+}
+let sewerRatSpawnT=0;
+
+function updateSewerRats(delta){
+  if(!inSewer){ sewerRats.forEach(r=>scene.remove(r.mesh)); sewerRats.length=0; return; }
+  sewerRatSpawnT+=delta;
+  if(sewerRatSpawnT>3){ spawnSewerRat(); sewerRatSpawnT=0; }
+
+  sewerRats.forEach((r,i)=>{
+    const toPlayer=PP.clone().sub(r.mesh.position);
+    const dist=toPlayer.length();
+    // Chase
+    if(dist>0.6){
+      const spd=r.speed*(dist<3?1.8:1);
+      r.mesh.position.x+=toPlayer.x/dist*spd;
+      r.mesh.position.z+=toPlayer.z/dist*spd;
+      r.mesh.rotation.y=Math.atan2(toPlayer.x,toPlayer.z);
+      r.mesh.position.y=SEWER_Y+0.35+Math.abs(Math.sin(Date.now()*0.012+i))*0.08;
+    }
+    // Attack
+    r.attackTimer-=delta;
+    if(dist<0.9&&r.attackTimer<=0){
+      r.attackTimer=1.2;
+      playerHP=Math.max(0,playerHP-12);
+      updateHealthBar();
+      flash('dmg',200);
+      showMsg('Sewer rat bit you!','#FF4444');
+      if(playerHP<=0) endGame('Eaten alive by sewer rats!','#AA2200');
+    }
+  });
+  sewerRats.filter(r=>r.hp<=0).forEach(r=>scene.remove(r.mesh));
+  sewerRats.splice(0,sewerRats.length,...sewerRats.filter(r=>r.hp>0));
+}
+
+function damageSewerRat(){
+  // Shoot sewer rats with gun
+  if(!inSewer||!hasGun||ammo<=0) return;
+  const dir=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize();
+  for(const r of sewerRats){
+    const toR=r.mesh.position.clone().sub(PP).normalize();
+    if(dir.angleTo(toR)<0.15&&PP.distanceTo(r.mesh.position)<12){
+      r.hp--; spawnBlood(r.mesh.position.clone().add(new THREE.Vector3(0,0.3,0)),20);
+      if(r.hp<=0){ scene.remove(r.mesh); score+=25; updateHUD(); showMsg('Sewer rat killed! +25','#FFD166'); }
+      return;
+    }
+  }
+}
+
+function updateHealthBar(){
+  const pct=Math.max(0,playerHP/maxPlayerHP*100);
+  document.getElementById('hb-fill').style.width=pct+'%';
+  const col=pct>60?'linear-gradient(to right,#22cc22,#66ff66)':pct>30?'linear-gradient(to right,#ff8800,#ffcc00)':'linear-gradient(to right,#ff2222,#ff6666)';
+  document.getElementById('hb-fill').style.background=col;
+  document.getElementById('hb-label').textContent='❤ '+Math.ceil(playerHP)+' / '+maxPlayerHP;
+}
+
 function spawnCustomer(){
-  if(customers.length>=2) return;
+  if(customers.length>=4) return;
   const side=Math.random()<0.5?-1:1;
   const mesh=mkCustomer(CCOLS[Math.floor(Math.random()*CCOLS.length)]);
   const tx=side*(2.5+Math.random()*3);
@@ -990,6 +1224,30 @@ function tryInteract(){
     updateHeldUI(); showMsg('Quesadilla! F=grill  G=serve','#00BFFF'); playSound('ding'); return;
   }
 
+  // Sewer manhole — enter or exit
+  if(!inSewer && PP.distanceTo(MANHOLE_POS)<1.8){
+    inSewer=true;
+    sewerGroup.visible=true;
+    scene.fog=new THREE.FogExp2(0x111108,0.07);
+    scene.background=new THREE.Color(0x111108);
+    PP.copy(SEWER_ENTRY_POS);
+    yaw=Math.PI; velY=0;
+    document.getElementById('healthbar').classList.add('on');
+    updateHealthBar();
+    showMsg('You crawled into the sewer... RATS INCOMING!','#FF4444'); return;
+  }
+  if(inSewer && PP.distanceTo(SEWER_EXIT_POS)<1.8){
+    inSewer=false;
+    sewerGroup.visible=false;
+    scene.fog=new THREE.FogExp2(0xAAAAAA,0.016);
+    scene.background=new THREE.Color(0x888888);
+    PP.set(-8.5,1.7,4.5); yaw=0; velY=0;
+    document.getElementById('healthbar').classList.remove('on');
+    playerHP=Math.min(maxPlayerHP,playerHP+30);
+    sewerRats.forEach(r=>scene.remove(r.mesh)); sewerRats.length=0;
+    showMsg('You escaped the sewer! +30 HP','#FFD166'); return;
+  }
+
   // Locker — gun
   if(!hasGun&&PP.distanceTo(LOCKER_POS)<IDIST+0.6){
     hasGun=true; ammo=maxAmmo; heldItem='gun';
@@ -1011,12 +1269,21 @@ function tryInteract(){
   // Pick up done item from grill
   for(const s of grillSlots){
     if(s.done&&s.item&&PP.distanceTo(s.pos)<GDIST){
-      const kb=mkKebab(); kb.visible=false; scene.add(kb);
-      heldItem='kebab'; heldKebabData={km:kb,fridge:false,grillKebab:s.itemType==='kebab'};
-      scene.remove(s.item.mesh||s.item._mesh);
-      if(s.itemType==='rat') rats=rats.filter(r=>r!==s.item);
+      const itemMesh = s.item.mesh || s.item._mesh;
+      if(s.itemType==='rat'){
+        // Grilled rat — hold the actual rat mesh
+        const rd = s.item;
+        rd.mesh.visible=false;
+        heldItem='kebab'; heldKebabData={km:rd.mesh, fridge:false, grillKebab:false, isGrilledRat:true};
+        rats=rats.filter(r=>r!==rd);
+      } else {
+        // Grilled fridge kebab — hold the quesadilla mesh
+        const km = s.item._mesh;
+        km.visible=false;
+        heldItem='kebab'; heldKebabData={km, fridge:false, grillKebab:true};
+      }
       s.item=null; s.itemType=null; s.done=false; s.burned=false; s.cookTime=0; s.ring.visible=false;
-      updateHeldUI(); showMsg('Kebab ready!  G = serve','#06D6A0'); playSound('ding'); return;
+      updateHeldUI(); showMsg('Grilled! G = serve','#06D6A0'); playSound('ding'); return;
     }
   }
 
@@ -1051,10 +1318,10 @@ function tryGrill(){
         heldItem=null; heldKebabData=null;
       }
       s.cookTime=0; s.done=false; s.burned=false; s.frozen=false;
-      s.maxCook=Math.max(45,COOK_TIME-(level-1)*5); // slightly faster at higher levels
+      s.maxCook = 10;
       s.ring.visible=true;
       updateHeldUI();
-      showMsg('Grilling! Watch the cook bar — 1 minute!','#FF8800');
+      showMsg('Grilling! RAT=10s  Quesadilla=10s','#FF8800');
       playSound('sizzle'); spawnPart(s.pos,0xFF5500,10);
       return;
     }
@@ -1070,12 +1337,33 @@ function tryServe(){
     if(!cd.served&&!cd.exiting&&PP.distanceTo(cd.mesh.position)<IDIST+0.7){
       cd.served=true; cd.exiting=true;
       const isFridge=heldKebabData&&heldKebabData.fridge&&!heldKebabData.grillKebab;
-      const pts=isFridge ? Math.floor(30*(cd.patience/cd.maxP))+10 : Math.floor(100*(cd.patience/cd.maxP))+50;
+      if(isFridge){
+        // Uncooked — poop explosion
+        const poopPos=cd.mesh.position.clone().add(new THREE.Vector3(0,0.6,0));
+        for(let i=0;i<50;i++){
+          const size=0.05+Math.random()*0.1;
+          const p=new THREE.Mesh(new THREE.SphereGeometry(size,4,3),new THREE.MeshBasicMaterial({color:Math.random()<0.5?0x5C3317:0x8B5A2B,transparent:true}));
+          p.position.copy(poopPos);
+          const a=Math.random()*Math.PI*2, el=(Math.random()-0.3)*Math.PI;
+          const spd=0.05+Math.random()*0.14;
+          scene.add(p);
+          particles.push({mesh:p,vx:Math.cos(el)*Math.cos(a)*spd,vy:Math.abs(Math.sin(el))*spd+0.02,vz:Math.cos(el)*Math.sin(a)*spd,life:1,decay:0.016+Math.random()*0.012});
+        }
+        const poopDecal=new THREE.Mesh(new THREE.CircleGeometry(0.3+Math.random()*0.15,10),new THREE.MeshBasicMaterial({color:0x3B1F0A,transparent:true,opacity:0.9}));
+        poopDecal.rotation.x=-Math.PI/2; poopDecal.position.set(cd.mesh.position.x,0.02,cd.mesh.position.z); scene.add(poopDecal);
+        particles.push({mesh:poopDecal,vx:0,vy:0,vz:0,life:1,decay:0.002});
+        scene.remove(cd.mesh);
+        scene.remove(heldKebabData.km);
+        heldItem=null; heldKebabData=null; updateHeldUI();
+        loseStar('Customer got food poisoning! -1 star');
+        showMsg('POOP EXPLOSION - RAW FOOD! -1 star','#8B5A2B'); return;
+      }
+      const pts=Math.floor(100*(cd.patience/cd.maxP))+50;
       score+=pts; served++;
       stars=Math.min(10,stars+1);
       updateHUD();
       spawnPart(cd.mesh.position,0xFFD166,20);
-      showMsg((isFridge?'Fridge kebab +'+pts+'pts':'Grilled! +'+pts+'pts')+' -- +1 star','#FFD166');
+      showMsg('Grilled! +'+pts+'pts -- +1 star','#FFD166');
       scene.remove(heldKebabData.km);
       heldItem=null; heldKebabData=null; updateHeldUI();
       playSound('ding'); checkLevel(); return;
@@ -1136,8 +1424,8 @@ function shootGun(){
       spawnBlood(headPos, 55);
       flash('dmg',120);
       cd.exiting=true;
-      loseStar('You shot a customer! -1 star');
-      showMsg('HEADSHOT 💀 -1 star','#FF2222');
+      loseStar('You shot a customer that very mean -1 star');
+      showMsg('HEADSHOT bad boy -1 star','#FF2222');
       return;
     }
   }
@@ -1155,6 +1443,7 @@ function shootGun(){
       return;
     }
   }
+  damageSewerRat();
   // Inspector
   if(inspActive&&inspMesh){
     const toI=inspMesh.position.clone().add(new THREE.Vector3(0,1,0)).sub(PP).normalize();
@@ -1445,8 +1734,8 @@ function updateHeldUI(){
     lbl.classList.remove('on');
   }
   handCv.classList.toggle('on', showHand);
-  vmRat.visible = (heldItem==='rat');
-  vmQuesadilla.visible = (heldItem==='kebab'||heldItem==='fkebab');
+  vmRat.visible = (heldItem==='rat') || (heldItem==='kebab' && heldKebabData && heldKebabData.isGrilledRat);
+  vmQuesadilla.visible = (heldItem==='fkebab') || (heldItem==='kebab' && heldKebabData && !heldKebabData.isGrilledRat);
   gunGroup.visible = (heldItem==='gun');
   const obj=document.getElementById('objt');
   if(heldItem==='rat')      obj.innerHTML='<span class="k">F</span> Grill  <span class="k">E</span> Drop';
@@ -1484,6 +1773,9 @@ function startGame(){
   fireLight.intensity=0; grillFire.intensity=3.5;
   lockLight.color.set(0xFF2222); lockLight.intensity=1.8;
   PP.set(0,1.7,10); yaw=Math.PI; pitch=0; velY=0; onGround=true;
+  playerHP=maxPlayerHP; updateHealthBar();
+  document.getElementById('healthbar').classList.remove('on');
+  sewerRats.forEach(r=>scene.remove(r.mesh)); sewerRats.length=0;
   updateHUD(); updateHeldUI(); spawnCustomer();
   showMsg('E=grab rat  F=grill  G=serve  1 MIN cook time','#FFD166');
 }
@@ -1548,7 +1840,7 @@ function update(delta){
 
   // Timers
   custT+=delta; inspT+=delta; refillT+=delta;
-  if(custT>28){ spawnCustomer(); custT=0; }
+  if(custT>6){ spawnCustomer(); custT=Math.random()*2; }
   if(!inspActive&&inspT>INSP_INTERVAL){ spawnInspector(); inspT=0; }
   if(basketCount<8&&refillT>12){ basketCount++; refillT=0; }
 
@@ -1663,6 +1955,7 @@ function update(delta){
 
 
   doSteam(delta);
+  updateSewerRats(delta);
 
   // Interact prompt
   let near=false;
@@ -1720,6 +2013,13 @@ function animate(){
 
   // Ring pulses
   bkRing.material.opacity=PP.distanceTo(BASKET_POS)<2.8?0.55+Math.sin(time*5)*0.2:0.22;
+  mhGlow.material.opacity = inSewer ? 0 : (0.35+Math.sin(time*4)*0.2);
+  if(inSewer){
+    entryCircleGlow.material.opacity=0.4+Math.sin(time*4)*0.2;
+    entryCircleRing1.material.opacity=0.5+Math.sin(time*4+0.5)*0.25;
+    entryCircleLight.intensity=2.5+Math.sin(time*3)*1.0;
+  }
+  sewerLights.forEach((l,i)=>{ l.intensity = 1.0+Math.sin(time*3+i*1.2)*0.3; });
   if(!hasExt) extRing.material.opacity=PP.distanceTo(EXT_POS)<2.5?0.55+Math.sin(time*5)*0.2:0.28;
   fridgeRing.material.opacity=PP.distanceTo(FRIDGE_POS)<2.5?0.65+Math.sin(time*5)*0.2:0.35;
   if(!hasGun) lockLight.intensity=1.4+Math.sin(time*4)*0.6;
