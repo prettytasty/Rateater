@@ -23,7 +23,6 @@ body.locked{cursor:none;}
 #glitch{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.025) 2px,rgba(255,255,255,0.025) 4px);}
 #glitch.on{opacity:1;}
 
-/* ITEM LABEL — budget rectangle */
 #itemlabel{
   position:fixed;bottom:60px;left:50%;transform:translateX(-50%);
   background:rgba(0,0,0,0.88);border:2px solid rgba(255,255,255,0.3);
@@ -35,11 +34,9 @@ body.locked{cursor:none;}
 #itemlabel-name{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:4px;}
 #itemlabel-sub{font-size:9px;color:#fff;letter-spacing:2px;margin-top:2px;}
 
-/* HAND CANVAS — bottom right viewmodel */
 #handcanvas{position:fixed;bottom:0;right:0;width:280px;height:200px;pointer-events:none;z-index:12;opacity:0;transition:opacity .2s;}
 #handcanvas.on{opacity:1;}
 
-/* HUD */
 #hud{display:none;position:fixed;inset:0;pointer-events:none;z-index:10;}
 #hud.on{display:block;}
 .htop{position:fixed;top:0;left:0;right:0;height:50px;background:linear-gradient(to bottom,rgba(0,0,0,0.9),transparent);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,0.06);}
@@ -75,7 +72,6 @@ body.locked{cursor:none;}
 #fbfill{height:6px;background:linear-gradient(to right,#888,#ccc);border-radius:3px;transition:width .2s;}
 #fblbl{font-size:9px;color:#aaa;letter-spacing:3px;margin-top:2px;}
 
-/* COOK PROGRESS BAR — shown when anything is grilling */
 #cookbar{position:fixed;top:58px;left:50%;transform:translateX(-50%);width:280px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:15;}
 #cookbar.on{opacity:1;}
 #cookbar-track{width:100%;height:14px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);border-radius:7px;overflow:hidden;position:relative;}
@@ -86,7 +82,6 @@ body.locked{cursor:none;}
 #dropext{position:fixed;bottom:95px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);border:1px solid rgba(255,255,255,0.18);color:#ddd;padding:5px 18px;font-size:11px;letter-spacing:3px;border-radius:18px;opacity:0;transition:opacity .2s;pointer-events:all;cursor:pointer;font-family:'IBM Plex Mono',monospace;}
 #dropext.on{opacity:1;}
 
-/* TITLE SCREEN */
 #tut{position:fixed;inset:0;background:#0a0a0a;z-index:100;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 #tut::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px);}
 .tbox{position:relative;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:28px 36px;max-width:560px;width:94%;backdrop-filter:blur(12px);box-shadow:0 0 80px rgba(255,255,255,0.04);}
@@ -110,14 +105,12 @@ body.locked{cursor:none;}
 .sbtn{width:100%;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:6px;background:#fff;border:none;border-radius:6px;color:#000;cursor:pointer;transition:all .15s;box-shadow:0 4px 24px rgba(255,255,255,0.1);}
 .sbtn:hover{background:#eee;transform:translateY(-2px);}
 
-/* CUTSCENE */
 #cutscene{display:none;position:fixed;inset:0;background:#000;z-index:200;flex-direction:column;align-items:center;justify-content:center;}
 #cutscene.on{display:flex;}
 #cutcanvas{border:none;}
 .ct-txt{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,4vw,46px);color:#fff;letter-spacing:4px;margin-top:22px;text-align:center;}
 .ct-sub{color:rgba(255,255,255,0.35);font-size:13px;letter-spacing:4px;margin-top:8px;}
 
-/* GAMEOVER */
 #go{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);flex-direction:column;align-items:center;justify-content:center;z-index:300;}
 #go.on{display:flex;}
 .gotl{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,82px);letter-spacing:6px;margin-bottom:6px;}
@@ -136,13 +129,11 @@ body.locked{cursor:none;}
 <div id="fireoverlay"></div>
 <div id="glitch"></div>
 
-<!-- ITEM LABEL -->
 <div id="itemlabel">
   <div id="itemlabel-name">RAT</div>
-  <div id="itemlabel-sub">sorry we have low budget (0.9 cent)</div>
+  <div id="itemlabel-sub">sorry we have low budget (2 dollar)</div>
 </div>
 
-<!-- HAND VIEWMODEL CANVAS -->
 <canvas id="handcanvas"></canvas>
 
 <button id="dropext">[ Q ] PUT DOWN EXTINGUISHER</button>
@@ -158,20 +149,20 @@ body.locked{cursor:none;}
     <div class="credit-tag">A GAME BY <span>TONY</span></div>
     <div class="shoutout">SHOUTOUT TO: <span>Scarlet,Aiden,Zach,Mitchel,Jason,Eesa and Mason67 FOR DONATING 2 Dollar</span></div>
     <div class="steps">
-      <div class="step"><div class="si">🧺</div><div class="st"><h4>GRAB RAT → GRILL → SERVE</h4><p><b>E</b> = grab/use, <b>F</b> = place on grill, <b>G</b> = serve. Cook bar turns brown when done. BLACK = burned. WHITE = raw.</p></div></div>
-      <div class="step"><div class="si">🧊</div><div class="st"><h4>FRIDGE KEBAB → ALSO GRILLABLE</h4><p>Grab fridge kebab, then <b>F</b> to place it on grill too — or just <b>G</b> to serve straight away (less points).</p></div></div>
-      <div class="step"><div class="si">🔫</div><div class="st"><h4>SHOOT THE INSPECTOR</h4><p>Inspector walks in. Get gun from red locker. <b>CLICK</b>=shoot, <b>R</b>=reload. Inspector escapes = -1 star.</p></div></div>
+      <div class="step"><div class="si">🧺</div><div class="st"><h4>GRAB RAT → GRILL → SERVE</h4><p><b>E</b> = grab/use/serve, <b>F</b> = place on grill. Walk to customer then press <b>E</b> to serve. Cook bar turns brown when done. BLACK = burned. WHITE = raw.</p></div></div>
+      <div class="step"><div class="si">🧊</div><div class="st"><h4>FRIDGE KEBAB → ALSO GRILLABLE</h4><p>Grab fridge kebab, then <b>F</b> to place it on grill too — or walk to customer and press <b>E</b> to serve straight away (less points).</p></div></div>
+      <div class="step"><div class="si">🔫</div><div class="st"><h4>SHOOT THE INSPECTOR</h4><p>Inspector walks in. Get gun from red locker. <b>CLICK</b>=shoot, <b>R</b>=reload, <b>Q</b>=drop gun. Inspector escapes = -1 star.</p></div></div>
       <div class="step"><div class="si">⏱</div><div class="st"><h4>COOK TIME</h4><p>RAT and Quesadilla both cook in <b>10 seconds</b>. Go over = BLACK and lose a star. WHITE = raw = no good.</p></div></div>
+      <div class="step"><div class="si">🐀</div><div class="st"><h4>SEWER SIDE TUNNEL</h4><p>Find the manhole on the sidewalk. Explore the side tunnel east — there's a SECRET ROOM with crates and a rat skull pile!</p></div></div>
     </div>
     <div class="krow">
       <div class="kb">WASD<span>MOVE</span></div>
       <div class="kb">MOUSE<span>LOOK</span></div>
       <div class="kb">CLICK<span>LOCK/SHOOT</span></div>
-      <div class="kb">E<span>GRAB/USE</span></div>
+      <div class="kb">E<span>GRAB/SERVE</span></div>
       <div class="kb">F<span>GRILL</span></div>
-      <div class="kb">G<span>SERVE</span></div>
       <div class="kb">R<span>RELOAD</span></div>
-      <div class="kb">Q<span>DROP EXT</span></div>
+      <div class="kb">Q<span>DROP EXT/GUN</span></div>
     </div>
     <button class="sbtn" id="startbtn">START COOKING — CLICK TO LOCK MOUSE</button>
   </div>
@@ -190,7 +181,6 @@ body.locked{cursor:none;}
     <div class="hst"><div class="hv" id="starsv">x10</div><div class="hl">STARS</div></div>
     <div class="hst"><div class="hv" id="lvl">1</div><div class="hl">LEVEL</div></div>
   </div>
-  <!-- COOK BAR — top center, appears when grilling -->
   <div id="cookbar">
     <div id="cookbar-label">COOKING</div>
     <div id="cookbar-track"><div id="cookbar-fill"></div></div>
@@ -201,7 +191,7 @@ body.locked{cursor:none;}
     <div class="heldico" id="hico">🐀</div>
     <div style="font-size:16px;letter-spacing:1px" id="starsBot">x10</div>
   </div>
-  <div id="panel"><div class="pt">OBJECTIVE</div><div id="objt"><span class="k">E</span> Basket<br><span class="k">F</span> Grill<br><span class="k">G</span> Serve</div></div>
+  <div id="panel"><div class="pt">OBJECTIVE</div><div id="objt"><span class="k">E</span> Basket<br><span class="k">F</span> Grill<br><span class="k">E</span> Serve</div></div>
   <div id="radar"><canvas id="rc" width="96" height="96"></canvas></div>
   <div id="inspbar"><div style="background:rgba(0,0,0,0.5);border-radius:3px;overflow:hidden;"><div id="ibfill" style="width:100%;height:5px;"></div></div><div id="iblbl">INSPECTOR</div></div>
   <div id="firebar"><div style="background:rgba(0,0,0,0.5);border-radius:3px;overflow:hidden;"><div id="fbfill" style="width:0%;height:6px;"></div></div><div id="fblbl">FIRE DANGER</div></div>
@@ -224,14 +214,12 @@ body.locked{cursor:none;}
 <script>
 'use strict';
 
-// ═══════════════════════════════
-//  RENDERER
-// ═══════════════════════════════
 const canvas = document.getElementById('main');
-const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, logarithmicDepthBuffer:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.setSize(innerWidth,innerHeight);
-renderer.shadowMap.enabled = true;
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+renderer.shadowMap.enabled = false;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
@@ -239,6 +227,7 @@ window.addEventListener('resize',()=>{
   camera.aspect=innerWidth/innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth,innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
 });
 
 const scene = new THREE.Scene();
@@ -246,9 +235,6 @@ scene.background = new THREE.Color(0x888888);
 scene.fog = new THREE.FogExp2(0xAAAAAA,0.016);
 const camera = new THREE.PerspectiveCamera(72,innerWidth/innerHeight,0.05,200);
 
-// ═══════════════════════════════
-//  INPUT
-// ═══════════════════════════════
 const keys = {};
 let gameRunning = false;
 
@@ -259,9 +245,9 @@ function onKeyDown(e){
   keys[e.code]=true;
   if(e.code==='KeyE') tryInteract();
   if(e.code==='KeyF') tryGrill();
-  if(e.code==='KeyG') tryServe();
+  // G key removed — E now handles everything including serving
   if(e.code==='KeyR') reloadGun();
-  if(e.code==='KeyQ') dropExtinguisher();
+  if(e.code==='KeyQ'){ dropExtinguisher(); dropGun(); }
 }
 function onKeyUp(e){ keys[e.code]=false; }
 window.addEventListener('keydown',onKeyDown,{capture:true});
@@ -270,9 +256,6 @@ document.getElementById('startbtn').addEventListener('click',startGame);
 document.getElementById('replaybtn').addEventListener('click',resetGame);
 document.getElementById('dropext').addEventListener('click',dropExtinguisher);
 
-// ═══════════════════════════════
-//  POINTER LOCK
-// ═══════════════════════════════
 let yaw=Math.PI, pitch=0;
 const SENS=0.002;
 let pointerLocked=false;
@@ -298,9 +281,6 @@ document.addEventListener('mousemove',e=>{
   pitch=Math.max(-1.05,Math.min(1.05,pitch));
 });
 
-// ═══════════════════════════════
-//  LIGHTS
-// ═══════════════════════════════
 scene.add(new THREE.AmbientLight(0xFFEED8,0.55));
 const sun=new THREE.DirectionalLight(0xFFDDBB,1.3);
 sun.position.set(10,22,12); sun.castShadow=true;
@@ -317,9 +297,6 @@ const signGlow=new THREE.PointLight(0xFFFFFF,2.0,8); signGlow.position.set(0,5.5
 const lockLight=new THREE.PointLight(0xFFFFFF,1.5,3.5); lockLight.position.set(5.5,1.5,1.5); scene.add(lockLight);
 const fireLight=new THREE.PointLight(0xFF3300,0,8); fireLight.position.set(0,2,4); scene.add(fireLight);
 
-// ═══════════════════════════════
-//  HELPERS
-// ═══════════════════════════════
 function lm(color,emi,emiI=0.4){ const m=new THREE.MeshLambertMaterial({color}); if(emi){m.emissive=new THREE.Color(emi);m.emissiveIntensity=emiI;} return m; }
 function bx(w,h,d,m){ const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m); mesh.castShadow=true; mesh.receiveShadow=true; return mesh; }
 function cy(rt,rb,h,m){ const mesh=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,16),m); mesh.castShadow=true; return mesh; }
@@ -329,22 +306,50 @@ function at(o,x,y,z){ o.position.set(x,y,z); return o; }
 const colliders=[];
 function addCol(cx,cz,hw,hd){ colliders.push({minX:cx-hw,maxX:cx+hw,minZ:cz-hd,maxZ:cz+hd}); }
 function resolvePlayer(pos,r=0.38){
-  for(let _ci=0;_ci<colliders.length;_ci++){
-    if(_ci===extColIdx&&!extColActive) continue;
-    const c=colliders[_ci];
-    const cx=(c.minX+c.maxX)/2, cz=(c.minZ+c.maxZ)/2;
-    const hw=(c.maxX-c.minX)/2+r, hd=(c.maxZ-c.minZ)/2+r;
-    const dx=pos.x-cx, dz=pos.z-cz;
-    if(Math.abs(dx)<hw&&Math.abs(dz)<hd){
-      const ox=hw-Math.abs(dx), oz=hd-Math.abs(dz);
-      if(ox<oz) pos.x+=ox*Math.sign(dx); else pos.z+=oz*Math.sign(dz);
+  if(!inSewer){
+    for(let _ci=0;_ci<colliders.length;_ci++){
+      if(_ci===extColIdx&&!extColActive) continue;
+      const c=colliders[_ci];
+      const cx=(c.minX+c.maxX)/2, cz=(c.minZ+c.maxZ)/2;
+      const hw=(c.maxX-c.minX)/2+r, hd=(c.maxZ-c.minZ)/2+r;
+      const dx=pos.x-cx, dz=pos.z-cz;
+      if(Math.abs(dx)<hw&&Math.abs(dz)<hd){
+        const ox=hw-Math.abs(dx), oz=hd-Math.abs(dz);
+        if(ox<oz) pos.x+=ox*Math.sign(dx); else pos.z+=oz*Math.sign(dz);
+      }
     }
-  }
-  pos.x=Math.max(-16,Math.min(16,pos.x));
-  if(inSewer){
-    pos.x=Math.max(28,Math.min(52,pos.x)); pos.z=Math.max(28,Math.min(52,pos.z));
-  } else {
+    pos.x=Math.max(-16,Math.min(16,pos.x));
     pos.z=Math.max(-5,Math.min(12,pos.z));
+  } else {
+    const lx = pos.x - 40;
+    const lz = pos.z - 40;
+    const inMain = (lx>=-2.2&&lx<=2.2)&&(lz>=-8.8&&lz<=8.8);
+    const inSide = (lx>=2.2&&lx<=12.0)&&(lz>=-2.2&&lz<=2.2);
+    const inRoom = (lx>=11.5&&lx<=17.2)&&(lz>=-2.7&&lz<=2.7);
+    if(inRoom){
+      pos.x=Math.max(40+11.5,Math.min(40+17.2,pos.x));
+      pos.z=Math.max(40-2.7,Math.min(40+2.7,pos.z));
+    } else if(inSide){
+      pos.x=Math.max(40+2.2,Math.min(40+12.0,pos.x));
+      pos.z=Math.max(40-2.2,Math.min(40+2.2,pos.z));
+    } else if(inMain){
+      pos.x=Math.max(40-2.2,Math.min(40+2.2,pos.x));
+      pos.z=Math.max(40-8.8,Math.min(40+8.8,pos.z));
+    } else {
+      const dMain=Math.abs(lx)*1.5+Math.max(0,Math.abs(lz)-8.8);
+      const dSide=Math.max(0,2.2-lx)+Math.abs(lz)*0.5;
+      const dRoom=Math.max(0,11.5-lx)+Math.abs(lz)*0.5;
+      if(dSide<=dMain&&dSide<=dRoom){
+        pos.x=Math.max(40+2.2,Math.min(40+12.0,pos.x));
+        pos.z=Math.max(40-2.2,Math.min(40+2.2,pos.z));
+      } else if(dRoom<dMain){
+        pos.x=Math.max(40+11.5,Math.min(40+17.2,pos.x));
+        pos.z=Math.max(40-2.7,Math.min(40+2.7,pos.z));
+      } else {
+        pos.x=Math.max(40-2.2,Math.min(40+2.2,pos.x));
+        pos.z=Math.max(40-8.8,Math.min(40+8.8,pos.z));
+      }
+    }
   }
 }
 
@@ -355,14 +360,8 @@ function textTex(lines,bg,w=512,h=128){
   return new THREE.CanvasTexture(cv);
 }
 
-
-// ═══════════════════════════════
-//  WORLD
-// ═══════════════════════════════
 const road=bx(100,0.02,100,lm(0x2A2A2A)); road.position.y=-0.01; road.receiveShadow=true; scene.add(road);
 const sw=bx(28,0.15,14,lm(0xAAAAAA)); at(sw,0,0.075,5); sw.receiveShadow=true; scene.add(sw);
-// road dashes removed
-// curb removed
 
 const wallM=lm(0x888888), wallDM=lm(0x666666), woodM=lm(0x555555), woodLM=lm(0x777777);
 const backWall=bx(14,7,0.4,wallM); at(backWall,0,3.5,0); scene.add(backWall); addCol(0,-0.2,7,0.6);
@@ -393,15 +392,8 @@ const dfTop=bx(4.2,0.44,0.5,woodM); at(dfTop,0,4.7,0.25); scene.add(dfTop);
   const sill=bx(2.7,0.1,0.35,woodLM); at(sill,x,2.1,0.2); scene.add(sill);
 });
 
-// wainscoting removed
-
 const lampHolders=[];
 
-// shelves removed
-
-// counter removed
-
-// GRILL
 const grillBody=bx(5.4,0.8,1.8,lm(0x8B4513)); at(grillBody,0,0.4,4.1); scene.add(grillBody); addCol(0,4.1,2.8,1.05);
 const grillFrame=bx(5.4,0.1,1.8,lm(0x1A1A1A)); at(grillFrame,0,0.85,4.1); scene.add(grillFrame);
 for(let i=-5;i<=5;i++){ const bar=bx(0.07,0.07,1.7,lm(0x4A4A4A)); at(bar,i*0.48,0.92,4.1); scene.add(bar); }
@@ -417,7 +409,6 @@ const hoodLabel=new THREE.Mesh(new THREE.PlaneGeometry(3.5,0.55),new THREE.MeshL
   transparent:true,side:THREE.DoubleSide}));
 at(hoodLabel,0,3.0,4.45); scene.add(hoodLabel);
 
-// BASKET
 const bkG=new THREE.Group();
 const bkBody=new THREE.Mesh(new THREE.CylinderGeometry(0.56,0.46,0.74,20),lm(0xC8A456)); at(bkBody,0,0.37,0); bkG.add(bkBody);
 const bkRim=new THREE.Mesh(new THREE.TorusGeometry(0.57,0.056,10,28),lm(0xA07830)); bkRim.rotation.x=Math.PI/2; at(bkRim,0,0.76,0); bkG.add(bkRim);
@@ -436,7 +427,6 @@ addCol(-3.5,1.4,0.7,0.7);
 const bkRing=new THREE.Mesh(new THREE.RingGeometry(0.66,0.82,28),new THREE.MeshBasicMaterial({color:0xFFFFFF,side:THREE.DoubleSide,transparent:true,opacity:0.35}));
 bkRing.rotation.x=-Math.PI/2; at(bkRing,-3.5,0.1,1.4); scene.add(bkRing);
 
-// EXTINGUISHER
 const extG=new THREE.Group();
 const extBody2=cy(0.12,0.12,0.6,lm(0xFF2222)); at(extBody2,0,0.3,0); extG.add(extBody2);
 const extTop=cy(0.08,0.12,0.15,lm(0xCC1111)); at(extTop,0,0.675,0); extG.add(extTop);
@@ -444,16 +434,12 @@ const extValve=bx(0.18,0.06,0.05,lm(0xAA8800)); at(extValve,0,0.9,0); extG.add(e
 const extHose=cy(0.02,0.02,0.25,lm(0x111111)); extHose.rotation.z=Math.PI/2; at(extHose,0.18,0.78,0); extG.add(extHose);
 at(extG,5.5,0,4.5); scene.add(extG);
 const EXT_POS=new THREE.Vector3(5.5,0.5,4.5);
-// Ext collider is flagged so it can be disabled on pickup
 const extColIdx=colliders.length;
 addCol(5.5,4.5,0.25,0.25);
 let extColActive=true;
 const extRing=new THREE.Mesh(new THREE.RingGeometry(0.3,0.42,20),new THREE.MeshBasicMaterial({color:0xFFFFFF,side:THREE.DoubleSide,transparent:true,opacity:0.4}));
 extRing.rotation.x=-Math.PI/2; at(extRing,5.5,0.06,4.5); scene.add(extRing);
 
-
-
-// FRIDGE
 const fridgeG=new THREE.Group();
 const fridgeBody=bx(1.1,2.1,0.7,lm(0xEEEEEE)); at(fridgeBody,0,1.05,0); fridgeG.add(fridgeBody);
 const fridgeDoor=bx(0.98,1.95,0.06,lm(0xDDDDDD)); at(fridgeDoor,0,1.05,0.38); fridgeG.add(fridgeDoor);
@@ -473,26 +459,21 @@ at(fridgeLbl,0,1.9,0.42); fridgeG.add(fridgeLbl);
 at(fridgeG,-5.5,0,1.0); scene.add(fridgeG); addCol(-5.5,1.0,0.65,0.45);
 const FRIDGE_POS=new THREE.Vector3(-5.5,1.05,1.0);
 
-// ── FLOATING PICKUP ITEMS ──
-// Floating rat above basket
 const floatRatG = new THREE.Group();
 const floatRatMesh = mkRat();
 floatRatMesh.scale.set(0.55,0.55,0.55);
-floatRatMesh.rotation.set(0, Math.PI, 0); // face toward player
+floatRatMesh.rotation.set(0, Math.PI, 0);
 floatRatG.add(floatRatMesh);
-// Glow ring under rat
 const frRing = new THREE.Mesh(new THREE.RingGeometry(0.38, 0.52, 28), new THREE.MeshBasicMaterial({color:0xFFD166, side:THREE.DoubleSide, transparent:true, opacity:0.55}));
 frRing.rotation.x = -Math.PI/2; floatRatG.add(frRing);
 floatRatG.position.set(BASKET_POS.x, 1.3, BASKET_POS.z);
 floatRatG.userData.tag = 'floatRat';
 scene.add(floatRatG);
 
-// Floating quesadilla above fridge
 const floatKebabG = new THREE.Group();
 const floatKebabMesh = mkKebab();
 floatKebabMesh.scale.set(0.6,0.6,0.6);
 floatKebabG.add(floatKebabMesh);
-// Glow ring under quesadilla
 const fkRing = new THREE.Mesh(new THREE.RingGeometry(0.38, 0.52, 28), new THREE.MeshBasicMaterial({color:0x00BFFF, side:THREE.DoubleSide, transparent:true, opacity:0.55}));
 fkRing.rotation.x = -Math.PI/2; floatKebabG.add(fkRing);
 floatKebabG.position.set(FRIDGE_POS.x, 2.5, FRIDGE_POS.z);
@@ -501,7 +482,6 @@ scene.add(floatKebabG);
 const fridgeRing=new THREE.Mesh(new THREE.RingGeometry(0.66,0.82,28),new THREE.MeshBasicMaterial({color:0x00BFFF,side:THREE.DoubleSide,transparent:true,opacity:0.35}));
 fridgeRing.rotation.x=-Math.PI/2; at(fridgeRing,-5.5,0.1,1.0); scene.add(fridgeRing);
 
-// GUN LOCKER
 const lkG=new THREE.Group();
 const lkBody=bx(0.92,1.88,0.58,lm(0x8B1A1A)); at(lkBody,0,0.94,0); lkG.add(lkBody);
 const lkDoor=bx(0.88,1.82,0.05,lm(0xAA2222)); at(lkDoor,0,0.94,0.31); lkG.add(lkDoor);
@@ -515,11 +495,6 @@ at(lkLbl,0,1.6,0.35); lkG.add(lkLbl);
 at(lkG,5.5,0,1.0); scene.add(lkG); addCol(5.5,1.0,0.6,0.42);
 const LOCKER_POS=new THREE.Vector3(5.5,0.94,1.0);
 
-// TABLES
-// tables removed
-
-
-// Menu board
 const menuBrd=bx(3.6,2.1,0.09,woodM); at(menuBrd,3.5,4,0.26); scene.add(menuBrd);
 menuBrd.material=new THREE.MeshLambertMaterial({map:textTex([
   {t:'MENU',s:28,c:'#FFD166',y:36,f:"bold 28px 'Bebas Neue',Impact"},
@@ -529,7 +504,6 @@ menuBrd.material=new THREE.MeshLambertMaterial({map:textTex([
 ],'#2A1A0A')});
 const menuBorder2=bx(3.8,2.3,0.06,woodLM); at(menuBorder2,3.5,4,0.22); scene.add(menuBorder2);
 
-// SIGNS
 const bigSign=bx(10,1.6,0.22,lm(0x333333));
 bigSign.material=new THREE.MeshLambertMaterial({map:textTex([{t:'RAT KEBAB SIMULATOR — BY TONY',s:30,c:'#fff',y:88}],'#1a1a1a')});
 at(bigSign,0,7.8,9.2); scene.add(bigSign);
@@ -544,14 +518,12 @@ at(neonBoard,0,9.5,9.2); scene.add(neonBoard);
 const neonRing=new THREE.Mesh(new THREE.TorusGeometry(1.45,0.058,10,46),lm(0xFFFFFF,0xFFFFFF,2.8));
 at(neonRing,0,6.55,9.2); scene.add(neonRing);
 
-// Flags
 [[-7,8.8],[7,8.8]].forEach(([x,z])=>{
   const pole=cy(0.04,0.04,6.5,lm(0xCCCCCC)); at(pole,x,3.25,z); scene.add(pole);
   const flag=bx(0.98,0.6,0.03,lm(0xDA0000)); at(flag,x+0.49,6.0,z); scene.add(flag);
   const star=sp(0.15,lm(0xFFE600)); at(star,x+0.49,6.0,z+0.05); scene.add(star);
 });
 
-// Trees
 const trees=[];
 function mkTree(x,z,lean=0){
   const g=new THREE.Group();
@@ -570,51 +542,26 @@ function mkLamp(x,z){
   const shade=new THREE.Mesh(new THREE.ConeGeometry(0.24,0.3,10,1,true),new THREE.MeshLambertMaterial({color:0x333333,side:THREE.DoubleSide}));
   shade.rotation.x=Math.PI; at(shade,x+1.04,5.55,z); scene.add(shade);
   const bulb=sp(0.11,lm(0xFFFFAA,0xFFFF44,2.2)); at(bulb,x+1.04,5.6,z); scene.add(bulb);
-  const pl=new THREE.PointLight(0xFFEE88,1.9,9); at(pl,x+1.04,5.38,z); scene.add(pl); lampPostLights.push(pl);
+  const pl=new THREE.PointLight(0xFFEE88,1.8,10); at(pl,x+1.04,5.38,z); scene.add(pl); lampPostLights.push(pl);
 }
 mkLamp(-8.5,10.5); mkLamp(8.5,10.5);
 
-// ═══════════════════════════════
-//  SEWER
-// ═══════════════════════════════
-const SEWER_Y = -6.5; // underground floor level
+const SEWER_Y = -6.5;
 const sewerGroup = new THREE.Group();
-
-// Sewer tunnel — main east-west
 const sewMat = lm(0x3A3028);
-const sewWetMat = lm(0x2A2018);
 
-// ── MAIN EAST-WEST TUNNEL ──
-const stFloor = bx(22, 0.2, 4.8, lm(0x2A2020)); at(stFloor, 0, SEWER_Y, 0); sewerGroup.add(stFloor);
-const stCeil  = bx(22, 0.2, 4.8, lm(0x1A1A1A)); at(stCeil,  0, SEWER_Y+3.4, 0); sewerGroup.add(stCeil);
-const stWallB = bx(22, 3.6, 0.3, sewMat); at(stWallB, 0, SEWER_Y+1.8, -2.4); sewerGroup.add(stWallB);
-const stWallF = bx(22, 3.6, 0.3, sewMat); at(stWallF, 0, SEWER_Y+1.8,  2.4); sewerGroup.add(stWallF);
-// End caps east-west
-const stEndW = bx(0.3, 3.6, 4.8, sewMat); at(stEndW, -11, SEWER_Y+1.8, 0); sewerGroup.add(stEndW);
-const stEndE = bx(0.3, 3.6, 4.8, sewMat); at(stEndE,  11, SEWER_Y+1.8, 0); sewerGroup.add(stEndE);
+const stFloor2 = bx(4.6, 0.2, 18, lm(0x2A2020)); at(stFloor2, 0, SEWER_Y, 0); sewerGroup.add(stFloor2);
+const stCeil2  = bx(4.6, 0.2, 18, lm(0x1A1A1A)); at(stCeil2, 0, SEWER_Y+3.4, 0); sewerGroup.add(stCeil2);
+const stWallL  = bx(0.25, 3.6, 18, sewMat); at(stWallL, -2.3, SEWER_Y+1.8, 0); sewerGroup.add(stWallL);
+const stWallR1 = bx(0.25, 3.6, 6, sewMat); at(stWallR1, 2.3, SEWER_Y+1.8, -5.5); sewerGroup.add(stWallR1);
+const stWallR2 = bx(0.25, 3.6, 6, sewMat); at(stWallR2, 2.3, SEWER_Y+1.8,  5.5); sewerGroup.add(stWallR2);
+const stWallRtop = bx(0.25, 0.9, 4.5, sewMat); at(stWallRtop, 2.3, SEWER_Y+3.05, 0); sewerGroup.add(stWallRtop);
+const stEndN = bx(4.6, 3.6, 0.25, sewMat); at(stEndN, 0, SEWER_Y+1.8, -9); sewerGroup.add(stEndN);
+const stEndS = bx(4.6, 3.6, 0.25, sewMat); at(stEndS, 0, SEWER_Y+1.8,  9); sewerGroup.add(stEndS);
 
-// ── NORTH-SOUTH TUNNEL ──
-const stFloor2 = bx(4.8, 0.2, 18, lm(0x2A2020)); at(stFloor2, 0, SEWER_Y, 0); sewerGroup.add(stFloor2);
-const stCeil2  = bx(4.8, 0.2, 18, lm(0x1A1A1A)); at(stCeil2, 0, SEWER_Y+3.4, 0); sewerGroup.add(stCeil2);
-const stWallL  = bx(0.3, 3.6, 18, sewMat); at(stWallL, -2.4, SEWER_Y+1.8, 0); sewerGroup.add(stWallL);
-const stWallR  = bx(0.3, 3.6, 18, sewMat); at(stWallR,  2.4, SEWER_Y+1.8, 0); sewerGroup.add(stWallR);
-// End caps north-south
-const stEndN = bx(4.8, 3.6, 0.3, sewMat); at(stEndN, 0, SEWER_Y+1.8, -9); sewerGroup.add(stEndN);
-const stEndS = bx(4.8, 3.6, 0.3, sewMat); at(stEndS, 0, SEWER_Y+1.8,  9); sewerGroup.add(stEndS);
-
-// Brick mortar lines on walls — horizontal bands
-for(let i=0;i<8;i++){
-  const bh=bx(22,0.04,0.04,lm(0x181814)); bh.position.set(0,SEWER_Y+0.45+i*0.38,-2.38); sewerGroup.add(bh);
-  const bh2=bx(22,0.04,0.04,lm(0x181814)); bh2.position.set(0,SEWER_Y+0.45+i*0.38,2.38); sewerGroup.add(bh2);
-  const bv=bx(0.04,0.04,18,lm(0x181814)); bv.position.set(-2.38,SEWER_Y+0.45+i*0.38,0); sewerGroup.add(bv);
-  const bv2=bx(0.04,0.04,18,lm(0x181814)); bv2.position.set(2.38,SEWER_Y+0.45+i*0.38,0); sewerGroup.add(bv2);
-}
-
-// Sewer water channel down the middle
-const waterChan = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.15, 22), new THREE.MeshLambertMaterial({color:0x1A3A1A, transparent:true, opacity:0.85}));
+const waterChan = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.14, 18), new THREE.MeshLambertMaterial({color:0x1A3A1A, transparent:true, opacity:0.85}));
 at(waterChan, 0, SEWER_Y+0.07, 0); sewerGroup.add(waterChan);
 
-// Entry manhole LIT CIRCLE on sewer floor (where you drop in)
 const entryCircleLight = new THREE.PointLight(0xFFEE88, 3.5, 6); entryCircleLight.position.set(0, SEWER_Y+2.8, 0); sewerGroup.add(entryCircleLight);
 const entryCircleGlow = new THREE.Mesh(new THREE.CircleGeometry(0.7, 28), new THREE.MeshBasicMaterial({color:0xFFFF99, transparent:true, opacity:0.55}));
 entryCircleGlow.rotation.x=-Math.PI/2; entryCircleGlow.position.set(0, SEWER_Y+0.15, 0); sewerGroup.add(entryCircleGlow);
@@ -622,111 +569,194 @@ const entryCircleRing1 = new THREE.Mesh(new THREE.RingGeometry(0.7, 0.9, 28), ne
 entryCircleRing1.rotation.x=-Math.PI/2; entryCircleRing1.position.set(0, SEWER_Y+0.16, 0); sewerGroup.add(entryCircleRing1);
 const entryCircleRing2 = new THREE.Mesh(new THREE.RingGeometry(0.9, 1.05, 28), new THREE.MeshBasicMaterial({color:0xFFDD55, transparent:true, opacity:0.35}));
 entryCircleRing2.rotation.x=-Math.PI/2; entryCircleRing2.position.set(0, SEWER_Y+0.16, 0); sewerGroup.add(entryCircleRing2);
-// Manhole rim on ceiling above
 const ceilMH = new THREE.Mesh(new THREE.CylinderGeometry(0.65,0.65,0.1,24), lm(0x444444)); ceilMH.position.set(0,SEWER_Y+3.38,0); sewerGroup.add(ceilMH);
 
-// Brick texture bands on walls
-for(let i=-4; i<=4; i++){
-  const band = bx(22, 0.07, 0.05, lm(0x2A2020)); at(band, 0, SEWER_Y+0.6+i*0.4, -2.35); sewerGroup.add(band);
-  const band2 = bx(22, 0.07, 0.05, lm(0x2A2020)); at(band2, 0, SEWER_Y+0.6+i*0.4, 2.35); sewerGroup.add(band2);
-}
-
-// Drip pipes on ceiling
 [-6,-2,2,6].forEach(x=>{
   const pipe = cy(0.06,0.06,0.5,lm(0x555555)); at(pipe,x,SEWER_Y+3.2,0); sewerGroup.add(pipe);
 });
 
-// Sewer lights — dim green/yellow
 const sewerLights = [];
-[-7,0,7].forEach(x=>{
-  const sl = new THREE.PointLight(0x88FF44, 1.2, 7); sl.position.set(x, SEWER_Y+2.8, 0); sewerGroup.add(sl); sewerLights.push(sl);
-  const bulb = sp(0.1, lm(0xAAFF66, 0x88FF33, 2)); bulb.position.set(x, SEWER_Y+3.0, 0); sewerGroup.add(bulb);
+[-5, 5].forEach(x=>{
+  const sl = new THREE.PointLight(0x88FF44, 1.4, 10); sl.position.set(0, SEWER_Y+2.8, x); sewerGroup.add(sl); sewerLights.push(sl);
+  const bulb = sp(0.1, lm(0xAAFF66, 0x88FF33, 2)); bulb.position.set(0, SEWER_Y+3.0, x); sewerGroup.add(bulb);
 });
 
-// Sewer enemy rats — spawned dynamically in spawnSewerRat()
-
-// EXIT ladder / manhole in the sewer (to come back up)
 const sewExit = new THREE.Mesh(new THREE.CylinderGeometry(0.55,0.55,0.12,18), lm(0x555555,0x888888,0.4));
-sewExit.position.set(0, SEWER_Y+0.12, -4.5);
-sewerGroup.add(sewExit);
-// Ladder rungs
-for(let i=0;i<5;i++){
-  const rung = bx(0.5,0.06,0.06,lm(0x888888)); rung.position.set(0,SEWER_Y+0.5+i*0.5,-4.7); sewerGroup.add(rung);
+sewExit.position.set(0, SEWER_Y+0.12, 7.0); sewerGroup.add(sewExit);
+for(let i=0;i<6;i++){
+  const rung = bx(0.5,0.06,0.06,lm(0x888888)); rung.position.set(0,SEWER_Y+0.5+i*0.5, 7.0); sewerGroup.add(rung);
 }
-// Exit manhole in sewer (looking up)
 const sewManholeRim2 = new THREE.Mesh(new THREE.CylinderGeometry(0.65,0.65,0.1,24), lm(0x666666));
-sewManholeRim2.position.set(0, SEWER_Y+3.35, -4.7); sewerGroup.add(sewManholeRim2);
+sewManholeRim2.position.set(0, SEWER_Y+3.35, 7.0); sewerGroup.add(sewManholeRim2);
 const sewManholeLid2 = new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.06,24), lm(0x222222));
-sewManholeLid2.position.set(0, SEWER_Y+3.38, -4.7); sewerGroup.add(sewManholeLid2);
+sewManholeLid2.position.set(0, SEWER_Y+3.38, 7.0); sewerGroup.add(sewManholeLid2);
 for(let r=-3;r<=3;r++){
-  const gl=bx(1.1,0.02,0.04,lm(0x3A3A3A)); gl.position.set(0,SEWER_Y+3.42,-4.7+r*0.15); sewerGroup.add(gl);
+  const gl=bx(1.1,0.02,0.04,lm(0x3A3A3A)); gl.position.set(0,SEWER_Y+3.42,7.0+r*0.15); sewerGroup.add(gl);
 }
 for(let r=-3;r<=3;r++){
-  const gl=bx(0.04,0.02,1.1,lm(0x3A3A3A)); gl.position.set(r*0.15,SEWER_Y+3.42,-4.7); sewerGroup.add(gl);
+  const gl=bx(0.04,0.02,1.1,lm(0x3A3A3A)); gl.position.set(r*0.15,SEWER_Y+3.42,7.0); sewerGroup.add(gl);
 }
-// Light shaft through manhole
-const shaftLight = new THREE.PointLight(0xFFEE88, 2.5, 5); shaftLight.position.set(0,SEWER_Y+2.5,-4.7); sewerGroup.add(shaftLight);
+const shaftLight = new THREE.PointLight(0xFFEE88, 2.5, 5); shaftLight.position.set(0,SEWER_Y+2.5,7.0); sewerGroup.add(shaftLight);
 const exitGlow = new THREE.Mesh(new THREE.RingGeometry(0.62,0.78,24), new THREE.MeshBasicMaterial({color:0xFFFF88,side:THREE.DoubleSide,transparent:true,opacity:0.6}));
-exitGlow.rotation.x=-Math.PI/2; exitGlow.position.set(0,SEWER_Y+0.18,-4.7); sewerGroup.add(exitGlow);
+exitGlow.rotation.x=-Math.PI/2; exitGlow.position.set(0,SEWER_Y+0.18,7.0); sewerGroup.add(exitGlow);
 const exitSign = new THREE.Mesh(new THREE.PlaneGeometry(1.3,0.35), new THREE.MeshLambertMaterial({
   map: textTex([{t:'↑ CLIMB OUT  press E',s:20,c:'#FFD166',y:42,f:'bold 20px Impact'}],'rgba(0,0,0,0.9)',340,64),
   transparent:true, side:THREE.DoubleSide
 }));
-exitSign.position.set(0,SEWER_Y+2.2,-4.7); sewerGroup.add(exitSign);
+exitSign.position.set(0,SEWER_Y+2.2,7.0); sewerGroup.add(exitSign);
 
-// SURFACE MANHOLE — on sidewalk outside shop
+const stSideFloor = bx(9.5, 0.2, 4.6, lm(0x252015)); at(stSideFloor, 7.2, SEWER_Y, 0); sewerGroup.add(stSideFloor);
+const stSideCeil  = bx(9.5, 0.2, 4.6, lm(0x181818)); at(stSideCeil,  7.2, SEWER_Y+3.4, 0); sewerGroup.add(stSideCeil);
+const stSideWallB = bx(9.5, 3.6, 0.25, lm(0x302820)); at(stSideWallB, 7.2, SEWER_Y+1.8, -2.3); sewerGroup.add(stSideWallB);
+const stSideWallF = bx(9.5, 3.6, 0.25, lm(0x302820)); at(stSideWallF, 7.2, SEWER_Y+1.8,  2.3); sewerGroup.add(stSideWallF);
+
+const waterChan2 = new THREE.Mesh(new THREE.BoxGeometry(10, 0.15, 1.1), new THREE.MeshLambertMaterial({color:0x1A301A, transparent:true, opacity:0.85}));
+at(waterChan2, 7, SEWER_Y+0.07, 0); sewerGroup.add(waterChan2);
+
+[3,6,9].forEach(ox=>{
+  const pipe2 = cy(0.055,0.055,0.45,lm(0x444444)); at(pipe2, ox+2.5, SEWER_Y+3.22, 0); sewerGroup.add(pipe2);
+  const drip = sp(0.04, lm(0x224422)); drip.position.set(ox+2.5, SEWER_Y+3.0, 0); sewerGroup.add(drip);
+});
+
+const sideTunnelLights = [];
+{ const sl2 = new THREE.PointLight(0xAAFF55, 1.2, 12); sl2.position.set(7, SEWER_Y+2.9, 0); sewerGroup.add(sl2); sideTunnelLights.push(sl2);
+  const bulb2 = sp(0.09, lm(0xCCFF88, 0x88FF33, 2.0)); bulb2.position.set(7, SEWER_Y+3.05, 0); sewerGroup.add(bulb2); }
+
+const arrowTex = textTex([{t:'→ SIDE TUNNEL',s:22,c:'#FFCC00',y:44,f:'bold 22px Impact'}],'rgba(0,0,0,0.88)',280,64);
+const arrowSign = new THREE.Mesh(new THREE.PlaneGeometry(1.5,0.38), new THREE.MeshLambertMaterial({map:arrowTex,transparent:true,side:THREE.DoubleSide}));
+arrowSign.position.set(2.35, SEWER_Y+2.0, 2.1); arrowSign.rotation.y = -Math.PI/2; sewerGroup.add(arrowSign);
+
+const srFloor = bx(5.5, 0.2, 5.5, lm(0x1E1A14)); srFloor.position.set(14.5, SEWER_Y, 0); sewerGroup.add(srFloor);
+const srCeil  = bx(5.5, 0.2, 5.5, lm(0x141414)); srCeil.position.set(14.5, SEWER_Y+4.5, 0); sewerGroup.add(srCeil);
+const srWallN = bx(5.5, 4.7, 0.3, lm(0x282018)); srWallN.position.set(14.5, SEWER_Y+2.35, -2.75); sewerGroup.add(srWallN);
+const srWallS = bx(5.5, 4.7, 0.3, lm(0x282018)); srWallS.position.set(14.5, SEWER_Y+2.35,  2.75); sewerGroup.add(srWallS);
+const srWallE = bx(0.3, 4.7, 5.5, lm(0x282018)); srWallE.position.set(17.25, SEWER_Y+2.35,  0); sewerGroup.add(srWallE);
+const srWallW = bx(0.3, 4.7, 5.5, lm(0x282018)); srWallW.position.set(11.75, SEWER_Y+2.35,  0); sewerGroup.add(srWallW);
+
+const srLight = new THREE.PointLight(0xFF3300, 3.5, 10); srLight.position.set(14.5, SEWER_Y+3.2, 0); sewerGroup.add(srLight);
+const srBulb = sp(0.14, lm(0xFF5500, 0xFF2200, 3.5)); srBulb.position.set(14.5, SEWER_Y+4.2, 0); sewerGroup.add(srBulb);
+for(let ch=0;ch<5;ch++){
+  const link = new THREE.Mesh(new THREE.TorusGeometry(0.045,0.012,5,10), lm(0x555555));
+  link.position.set(14.5, SEWER_Y+4.0-ch*0.14, 0); link.rotation.x = ch%2===0 ? 0 : Math.PI/2;
+  sewerGroup.add(link);
+}
+
+const srSignTex = textTex([
+  {t:'DO NOT ENTER',s:30,c:'#FF3300',y:46,f:'bold 30px Impact'},
+  {t:'rat territory — u have been warned',s:12,c:'#884400',y:72,f:'italic 12px monospace'}
+],'#1A0A00',340,90);
+const srSign = new THREE.Mesh(new THREE.PlaneGeometry(1.95,0.58), new THREE.MeshLambertMaterial({map:srSignTex,transparent:true,side:THREE.DoubleSide}));
+srSign.position.set(17.1, SEWER_Y+2.5, 0); srSign.rotation.y = -Math.PI/2; sewerGroup.add(srSign);
+
+[[13.6,-1.3,0],[15.4,1.1,0],[13.9,1.6,0],[13.6,-1.3,0.65],[15.4,1.1,0.65]].forEach(([x,z,dy])=>{
+  const crate=bx(0.65,0.65,0.65,lm(0x4A3820)); crate.position.set(x,SEWER_Y+0.4+dy,z); sewerGroup.add(crate);
+  const lid=bx(0.68,0.07,0.68,lm(0x3A2810)); lid.position.set(x,SEWER_Y+0.74+dy,z); sewerGroup.add(lid);
+  const sl1=bx(0.62,0.04,0.04,lm(0x5A4830)); sl1.position.set(x,SEWER_Y+0.4+dy,z+0.33); sl1.rotation.z=0.4; sewerGroup.add(sl1);
+  const sl2=bx(0.62,0.04,0.04,lm(0x5A4830)); sl2.position.set(x,SEWER_Y+0.4+dy,z+0.33); sl2.rotation.z=-0.4; sewerGroup.add(sl2);
+});
+
+[[16.8,-0.8],[16.6,0.7],[16.2,-0.1]].forEach(([x,z])=>{
+  for(let sk=0;sk<3;sk++){
+    const skull=sp(0.08+Math.random()*0.03,lm(0xCCBBAA)); skull.position.set(x+(Math.random()-.5)*0.28,SEWER_Y+0.14+sk*0.06,z+(Math.random()-.5)*0.28); sewerGroup.add(skull);
+  }
+});
+
+const barrel=cy(0.24,0.28,0.62,lm(0x4A3010)); at(barrel,16.2,SEWER_Y+0.42,-1.5); sewerGroup.add(barrel);
+const barrelLid=cy(0.26,0.26,0.05,lm(0x3A2808)); at(barrelLid,16.2,SEWER_Y+0.76,-1.5); sewerGroup.add(barrelLid);
+for(let br=0;br<3;br++){
+  const band3=new THREE.Mesh(new THREE.TorusGeometry(0.26,0.02,5,16),lm(0x222222)); band3.rotation.x=Math.PI/2; band3.position.set(16.2,SEWER_Y+0.2+br*0.2,-1.5); sewerGroup.add(band3);
+}
+const barrelGlow=new THREE.PointLight(0xFFAA00,0.8,1.2); barrelGlow.position.set(16.2,SEWER_Y+0.5,-1.5); sewerGroup.add(barrelGlow);
+
+[[17.0,SEWER_Y+1.2,-1.2],[17.0,SEWER_Y+2.4,1.0],[11.9,SEWER_Y+1.8,0.5]].forEach(([x,y,z])=>{
+  const moss=new THREE.Mesh(new THREE.CircleGeometry(0.25+Math.random()*0.15,8),new THREE.MeshLambertMaterial({color:0x1A3A10,transparent:true,opacity:0.75,side:THREE.DoubleSide}));
+  moss.position.set(x,y,z); moss.rotation.y=Math.PI/2; sewerGroup.add(moss);
+});
+
+const puddle=new THREE.Mesh(new THREE.CircleGeometry(0.8,14),new THREE.MeshLambertMaterial({color:0x0A180A,transparent:true,opacity:0.7}));
+puddle.rotation.x=-Math.PI/2; puddle.position.set(14.5,SEWER_Y+0.12,0.2); sewerGroup.add(puddle);
+
 const manholeGroup = new THREE.Group();
 const MH_X=-8.5, MH_Z=4.5;
-
-// Outer rim — grey cast iron ring
 const manholeRim = new THREE.Mesh(new THREE.CylinderGeometry(0.72,0.72,0.12,28), lm(0x777777));
 manholeRim.position.set(MH_X,0.06,MH_Z); manholeGroup.add(manholeRim);
-
-// Dark lid surface
 const manholeLid = new THREE.Mesh(new THREE.CylinderGeometry(0.68,0.68,0.07,28), lm(0x222222));
 manholeLid.position.set(MH_X,0.11,MH_Z); manholeGroup.add(manholeLid);
-
-// Grid lines — horizontal
 for(let row=-4;row<=4;row++){
-  const gl=bx(1.24,0.025,0.045,lm(0x3A3A3A));
-  gl.position.set(MH_X,0.145,MH_Z+row*0.145);
-  manholeGroup.add(gl);
+  const gl=bx(1.24,0.025,0.045,lm(0x3A3A3A)); gl.position.set(MH_X,0.145,MH_Z+row*0.145); manholeGroup.add(gl);
 }
-// Grid lines — vertical
 for(let col=-4;col<=4;col++){
-  const gl=bx(0.045,0.025,1.24,lm(0x3A3A3A));
-  gl.position.set(MH_X+col*0.145,0.145,MH_Z);
-  manholeGroup.add(gl);
+  const gl=bx(0.045,0.025,1.24,lm(0x3A3A3A)); gl.position.set(MH_X+col*0.145,0.145,MH_Z); manholeGroup.add(gl);
 }
-
-// SEWER text (raised letters) — using small boxes
 const sewerTex = textTex([{t:'SEWER',s:28,c:'#888888',y:48,f:'bold 28px Impact'}],'#1A1A1A',200,64);
 const sewerPlate = new THREE.Mesh(new THREE.BoxGeometry(0.7,0.03,0.18), new THREE.MeshLambertMaterial({map:sewerTex,color:0x999999}));
 sewerPlate.position.set(MH_X,0.16,MH_Z); manholeGroup.add(sewerPlate);
-
-// 4 bolt holes
 [[-0.38,-0.38],[0.38,-0.38],[-0.38,0.38],[0.38,0.38]].forEach(([dx,dz])=>{
   const bolt=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.04,0.04,8),lm(0x111111));
   bolt.position.set(MH_X+dx,0.16,MH_Z+dz); manholeGroup.add(bolt);
 });
-
 const mhGlow = new THREE.Mesh(new THREE.RingGeometry(0.73,0.88,28), new THREE.MeshBasicMaterial({color:0x00FF88,side:THREE.DoubleSide,transparent:true,opacity:0.5}));
 mhGlow.rotation.x=-Math.PI/2; mhGlow.position.set(MH_X,0.18,MH_Z); manholeGroup.add(mhGlow);
-
-// Floating label above
-const mhLabel = new THREE.Mesh(new THREE.PlaneGeometry(1.8,0.36), new THREE.MeshLambertMaterial({
-  map: textTex([{t:'↓ SEWER  press E',s:22,c:'#00FF88',y:42,f:'bold 22px Impact'}],'rgba(0,0,0,0.85)',340,64),
-  transparent:true, side:THREE.DoubleSide
-}));
-mhLabel.position.set(MH_X,0.9,MH_Z); manholeGroup.add(mhLabel);
 scene.add(manholeGroup);
 
 const MANHOLE_POS = new THREE.Vector3(-8.5, 0.1, 4.5);
 const SEWER_ENTRY_POS = new THREE.Vector3(40, SEWER_Y+1.7, 40);
-const SEWER_EXIT_POS = new THREE.Vector3(40, SEWER_Y+1.7, 36);
+const SEWER_EXIT_POS  = new THREE.Vector3(40, SEWER_Y+1.7, 47);
 sewerGroup.position.set(40, 0, 40);
 scene.add(sewerGroup);
-sewerGroup.visible = false; // hidden until entered
+sewerGroup.visible = false;
+sewerLights.forEach(l=>l.intensity=0);
+sideTunnelLights.forEach(l=>l.intensity=0);
+srLight.intensity=0; shaftLight.intensity=0; entryCircleLight.intensity=0; barrelGlow.intensity=0;
+
+function mkSewerCap(){
+  const g = new THREE.Group();
+  const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.62,0.62,0.09,20), lm(0x444444)); g.add(lid);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(0.64,0.06,8,20), lm(0x666666)); rim.rotation.x=Math.PI/2; g.add(rim);
+  for(let r2=-3;r2<=3;r2++){
+    const gl=bx(1.12,0.025,0.045,lm(0x333333)); gl.position.set(0,0.05,r2*0.16); g.add(gl);
+    const gl2=bx(0.045,0.025,1.12,lm(0x333333)); gl2.position.set(r2*0.16,0.05,0); g.add(gl2);
+  }
+  [[-0.38,-0.38],[0.38,-0.38],[-0.38,0.38],[0.38,0.38]].forEach(([dx,dz])=>{
+    const bolt=new THREE.Mesh(new THREE.CylinderGeometry(0.038,0.038,0.05,8),lm(0x111111)); bolt.position.set(dx,0.06,dz); g.add(bolt);
+  });
+  const lbl = new THREE.Mesh(new THREE.PlaneGeometry(1.6,0.34), new THREE.MeshLambertMaterial({
+    map: textTex([{t:'[E] ENTER SEWER',s:22,c:'#00FF88',y:42,f:'bold 22px Impact'}],'rgba(0,0,0,0.88)',300,62),
+    transparent:true, side:THREE.DoubleSide
+  }));
+  lbl.position.set(0,0.9,0); g.add(lbl);
+  return g;
+}
+const floatCapG = mkSewerCap();
+floatCapG.position.set(MANHOLE_POS.x, 0.55, MANHOLE_POS.z);
+floatCapG.scale.set(0.55,0.55,0.55);
+floatCapG.userData.tag = 'sewerCap';
+scene.add(floatCapG);
+const capRingGlow = new THREE.Mesh(new THREE.RingGeometry(0.72,0.9,24), new THREE.MeshBasicMaterial({color:0x00FF88,side:THREE.DoubleSide,transparent:true,opacity:0.55}));
+capRingGlow.rotation.x=-Math.PI/2; capRingGlow.position.set(MANHOLE_POS.x,0.2,MANHOLE_POS.z); scene.add(capRingGlow);
+
+function mkExitCap(){
+  const g = new THREE.Group();
+  const lid2 = new THREE.Mesh(new THREE.CylinderGeometry(0.58,0.58,0.09,20), lm(0x555555)); g.add(lid2);
+  const rim2 = new THREE.Mesh(new THREE.TorusGeometry(0.60,0.055,8,20), lm(0x888888)); rim2.rotation.x=Math.PI/2; g.add(rim2);
+  for(let r2=-2;r2<=2;r2++){
+    const gl=bx(1.0,0.025,0.04,lm(0x333333)); gl.position.set(0,0.05,r2*0.18); g.add(gl);
+    const gl2=bx(0.04,0.025,1.0,lm(0x333333)); gl2.position.set(r2*0.18,0.05,0); g.add(gl2);
+  }
+  const lbl2 = new THREE.Mesh(new THREE.PlaneGeometry(1.6,0.34), new THREE.MeshLambertMaterial({
+    map: textTex([{t:'[E] EXIT SEWER',s:22,c:'#FFD166',y:42,f:'bold 22px Impact'}],'rgba(0,0,0,0.88)',300,62),
+    transparent:true, side:THREE.DoubleSide
+  }));
+  lbl2.position.set(0,0.9,0); g.add(lbl2);
+  return g;
+}
+const floatExitCapG = mkExitCap();
+floatExitCapG.position.set(0, SEWER_Y+0.65, 7.0);
+floatExitCapG.scale.set(0.5,0.5,0.5);
+floatExitCapG.userData.tag = 'sewerExit';
+sewerGroup.add(floatExitCapG);
+const exitCapRing = new THREE.Mesh(new THREE.RingGeometry(0.66,0.82,24), new THREE.MeshBasicMaterial({color:0xFFD166,side:THREE.DoubleSide,transparent:true,opacity:0.55}));
+exitCapRing.rotation.x=-Math.PI/2; exitCapRing.position.set(0,SEWER_Y+0.2,7.0); sewerGroup.add(exitCapRing);
 
 const clouds=[];
 function mkCloud(x,y,z,s=1){
@@ -743,23 +773,13 @@ function addWire(x1,y1,z1,x2,y2,z2){
 }
 addWire(-17,9.2,7,17,9.2,7); addWire(-17,8.65,7,17,8.65,7);
 
-// scooters/cars removed
-
-// Floor decal: stonks reference
-// floor decal removed
-
-// floor cracks/puddles removed
-
-// ═══════════════════════════════
-//  GRILL SLOTS
-// ═══════════════════════════════
-const COOK_TIME = 60; // 1 minute in seconds
+const COOK_TIME = 60;
 const GSLOTS=[
   new THREE.Vector3(-1.72,0.97,4.1), new THREE.Vector3(-0.57,0.97,4.1),
   new THREE.Vector3(0.57,0.97,4.1),  new THREE.Vector3(1.72,0.97,4.1),
 ];
 const grillSlots=GSLOTS.map(pos=>({
-  pos, item:null, itemType:null, // itemType: 'rat' or 'kebab'
+  pos, item:null, itemType:null,
   cookTime:0, maxCook:COOK_TIME, done:false, burned:false, frozen:false, ring:null
 }));
 grillSlots.forEach(s=>{
@@ -771,14 +791,10 @@ grillSlots.forEach(s=>{
 let shopFireLevel=0, shopOnFire=false;
 let extinguisherAmmoo=100;
 
-// ═══════════════════════════════
-//  GUN SCENE (viewmodel)
-// ═══════════════════════════════
 const gunScene=new THREE.Scene();
 const gunCam=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.01,10);
 const gunGroup=new THREE.Group();
 const slideM=lm(0x1A1A1A), frameM=lm(0x2A2A2A), gripM=lm(0x222222);
-// Slide
 const slide=bx(0.038,0.038,0.265,slideM); slide.position.set(0,0.012,-0.13); gunGroup.add(slide);
 for(let i=0;i<5;i++){ const ser=bx(0.041,0.04,0.006,lm(0x0A0A0A)); ser.position.set(0,0.012,-0.01+i*-0.015); gunGroup.add(ser); }
 const gkBarrel=new THREE.Mesh(new THREE.CylinderGeometry(0.011,0.011,0.04,10),slideM); gkBarrel.rotation.x=Math.PI/2; gkBarrel.position.set(0,0.009,-0.275); gunGroup.add(gkBarrel);
@@ -802,7 +818,6 @@ gunScene.add(gunGroup);
 gunScene.add(new THREE.AmbientLight(0xffffff,0.8));
 const gunDL=new THREE.DirectionalLight(0xffffee,0.6); gunDL.position.set(1,2,2); gunScene.add(gunDL);
 
-// Extinguisher viewmodel
 const extScene=new THREE.Scene();
 const extGroup2=new THREE.Group();
 const extBod=cy(0.06,0.06,0.3,lm(0xFF2222)); extBod.rotation.x=-0.4; extGroup2.add(extBod);
@@ -811,7 +826,6 @@ const extHan=bx(0.12,0.015,0.05,lm(0xCC0000)); extHan.position.set(0,0.065,-0.02
 extGroup2.position.set(0.1,-0.12,-0.28); extGroup2.rotation.set(0.1,-0.1,0);
 extScene.add(extGroup2); extScene.add(new THREE.AmbientLight(0xffffff,0.8));
 
-// ── HAND SCENE (shown when holding rat/kebab/fkebab) ──
 const handCanvas = document.getElementById('handcanvas');
 handCanvas.width = 560; handCanvas.height = 400;
 const handRenderer = new THREE.WebGLRenderer({canvas:handCanvas, antialias:true, alpha:true});
@@ -820,126 +834,67 @@ const handScene = new THREE.Scene();
 const handCam = new THREE.PerspectiveCamera(50, 560/400, 0.01, 10);
 handCam.position.set(0,0,1.2);
 
-// Build a simple blocky hand: palm + 4 fingers + thumb
 const handGroup = new THREE.Group();
 const skinM = new THREE.MeshLambertMaterial({color:0xFFCCAA});
 const skinDarkM = new THREE.MeshLambertMaterial({color:0xDDAA88});
-
-// Palm — flat box
-const palm = new THREE.Mesh(new THREE.BoxGeometry(0.28,0.32,0.1), skinM);
-palm.position.set(0,0,0); handGroup.add(palm);
-
-// Fingers (4) — tall thin boxes
+const palm = new THREE.Mesh(new THREE.BoxGeometry(0.28,0.32,0.1), skinM); palm.position.set(0,0,0); handGroup.add(palm);
 const fingerDefs = [[-0.11,0.24],[-0.037,0.26],[0.037,0.26],[0.11,0.24]];
 fingerDefs.forEach(([fx,fy])=>{
-  const knuckle = new THREE.Mesh(new THREE.BoxGeometry(0.06,0.02,0.08), skinDarkM);
-  knuckle.position.set(fx, 0.16, 0); handGroup.add(knuckle);
-  // 3 segments per finger
+  const knuckle = new THREE.Mesh(new THREE.BoxGeometry(0.06,0.02,0.08), skinDarkM); knuckle.position.set(fx, 0.16, 0); handGroup.add(knuckle);
   [0,1,2].forEach(seg=>{
-    const seg3d = new THREE.Mesh(new THREE.BoxGeometry(0.055,0.09,0.075),
-      seg%2===0 ? skinM : skinDarkM);
-    seg3d.position.set(fx, fy + seg*0.09, 0);
-    handGroup.add(seg3d);
-    if(seg<2){
-      const joint=new THREE.Mesh(new THREE.BoxGeometry(0.058,0.018,0.078),skinDarkM);
-      joint.position.set(fx, fy+seg*0.09+0.054, 0); handGroup.add(joint);
-    }
+    const seg3d = new THREE.Mesh(new THREE.BoxGeometry(0.055,0.09,0.075), seg%2===0 ? skinM : skinDarkM);
+    seg3d.position.set(fx, fy + seg*0.09, 0); handGroup.add(seg3d);
+    if(seg<2){ const joint=new THREE.Mesh(new THREE.BoxGeometry(0.058,0.018,0.078),skinDarkM); joint.position.set(fx, fy+seg*0.09+0.054, 0); handGroup.add(joint); }
   });
-  // Fingertip (rounded look)
-  const tip = new THREE.Mesh(new THREE.SphereGeometry(0.028,6,5), skinM);
-  tip.position.set(fx, fy+0.27+0.028, 0); handGroup.add(tip);
-  // Fingernail
-  const nail = new THREE.Mesh(new THREE.BoxGeometry(0.036,0.052,0.02), new THREE.MeshLambertMaterial({color:0xFFE8D8}));
-  nail.position.set(fx, fy+0.285, -0.045); handGroup.add(nail);
+  const tip = new THREE.Mesh(new THREE.SphereGeometry(0.028,6,5), skinM); tip.position.set(fx, fy+0.27+0.028, 0); handGroup.add(tip);
+  const nail = new THREE.Mesh(new THREE.BoxGeometry(0.036,0.052,0.02), new THREE.MeshLambertMaterial({color:0xFFE8D8})); nail.position.set(fx, fy+0.285, -0.045); handGroup.add(nail);
 });
-
-// Thumb — angled out to the right-bottom
-const thumbBase = new THREE.Mesh(new THREE.BoxGeometry(0.075,0.13,0.085),skinM);
-thumbBase.position.set(0.165,-0.07,0); thumbBase.rotation.z=-0.55; handGroup.add(thumbBase);
-const thumbMid = new THREE.Mesh(new THREE.BoxGeometry(0.065,0.1,0.075),skinM);
-thumbMid.position.set(0.215,-0.0,0); thumbMid.rotation.z=-0.38; handGroup.add(thumbMid);
-const thumbTip = new THREE.Mesh(new THREE.SphereGeometry(0.032,6,5),skinM);
-thumbTip.position.set(0.245,0.07,0); handGroup.add(thumbTip);
-
-// Wrist / sleeve cuff  
-const cuff = new THREE.Mesh(new THREE.BoxGeometry(0.32,0.1,0.12), new THREE.MeshLambertMaterial({color:0x555566}));
-cuff.position.set(-0.01,-0.22,0); handGroup.add(cuff);
-const sleeve = new THREE.Mesh(new THREE.BoxGeometry(0.28,0.18,0.11), new THREE.MeshLambertMaterial({color:0x444455}));
-sleeve.position.set(-0.01,-0.34,0); handGroup.add(sleeve);
-
-// Position bottom-right FPS style
-handGroup.position.set(0.22,-0.38,-0.6);
-handGroup.rotation.set(-0.1,-0.15,0.05);
-handGroup.scale.set(1.6,1.6,1.6);
+const thumbBase = new THREE.Mesh(new THREE.BoxGeometry(0.075,0.13,0.085),skinM); thumbBase.position.set(0.165,-0.07,0); thumbBase.rotation.z=-0.55; handGroup.add(thumbBase);
+const thumbMid = new THREE.Mesh(new THREE.BoxGeometry(0.065,0.1,0.075),skinM); thumbMid.position.set(0.215,-0.0,0); thumbMid.rotation.z=-0.38; handGroup.add(thumbMid);
+const thumbTip = new THREE.Mesh(new THREE.SphereGeometry(0.032,6,5),skinM); thumbTip.position.set(0.245,0.07,0); handGroup.add(thumbTip);
+const cuff = new THREE.Mesh(new THREE.BoxGeometry(0.32,0.1,0.12), new THREE.MeshLambertMaterial({color:0x555566})); cuff.position.set(-0.01,-0.22,0); handGroup.add(cuff);
+const sleeve = new THREE.Mesh(new THREE.BoxGeometry(0.28,0.18,0.11), new THREE.MeshLambertMaterial({color:0x444455})); sleeve.position.set(-0.01,-0.34,0); handGroup.add(sleeve);
+handGroup.position.set(0.22,-0.38,-0.6); handGroup.rotation.set(-0.1,-0.15,0.05); handGroup.scale.set(1.6,1.6,1.6);
 handScene.add(handGroup);
 handScene.add(new THREE.AmbientLight(0xFFEEDD, 0.9));
 const handDL = new THREE.DirectionalLight(0xffffff,0.7); handDL.position.set(-1,2,2); handScene.add(handDL);
 const handFill = new THREE.DirectionalLight(0x8888ff,0.3); handFill.position.set(1,-1,-1); handScene.add(handFill);
 
-// VM items shown in handScene
 function mkVmQuesadilla(){
   const g=new THREE.Group();
   const lmH=function(col){return new THREE.MeshLambertMaterial({color:col});};
   const tortilla=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,0.042,20,1,false,0,Math.PI),lmH(0xDEBB60));
   tortilla.rotation.y=Math.PI/2; tortilla.position.y=0.021; g.add(tortilla);
-  const bottom=new THREE.Mesh(new THREE.CircleGeometry(0.28,20,0,Math.PI),lmH(0xC9A84C));
-  bottom.rotation.x=-Math.PI/2; bottom.rotation.z=Math.PI/2; g.add(bottom);
-  const top2=new THREE.Mesh(new THREE.CircleGeometry(0.28,20,0,Math.PI),lmH(0xD4AA50));
-  top2.rotation.x=Math.PI/2; top2.rotation.z=-Math.PI/2; top2.position.y=0.042; g.add(top2);
-  const cheese=new THREE.Mesh(new THREE.CylinderGeometry(0.285,0.285,0.03,20,1,true,0,Math.PI),lmH(0xFFCC22));
-  cheese.rotation.y=Math.PI/2; cheese.position.y=0.021; g.add(cheese);
-  for(let i=0;i<3;i++){
-    const mark=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.007,0.03),lmH(0x3A2000));
-    mark.position.set(-0.04,0.048,-0.08+i*0.08); mark.rotation.y=0.15; g.add(mark);
-  }
+  const bottom=new THREE.Mesh(new THREE.CircleGeometry(0.28,20,0,Math.PI),lmH(0xC9A84C)); bottom.rotation.x=-Math.PI/2; bottom.rotation.z=Math.PI/2; g.add(bottom);
+  const top2=new THREE.Mesh(new THREE.CircleGeometry(0.28,20,0,Math.PI),lmH(0xD4AA50)); top2.rotation.x=Math.PI/2; top2.rotation.z=-Math.PI/2; top2.position.y=0.042; g.add(top2);
+  const cheese=new THREE.Mesh(new THREE.CylinderGeometry(0.285,0.285,0.03,20,1,true,0,Math.PI),lmH(0xFFCC22)); cheese.rotation.y=Math.PI/2; cheese.position.y=0.021; g.add(cheese);
+  for(let i=0;i<3;i++){ const mark=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.007,0.03),lmH(0x3A2000)); mark.position.set(-0.04,0.048,-0.08+i*0.08); mark.rotation.y=0.15; g.add(mark); }
   return g;
 }
 function mkVmRat(){
   const g=new THREE.Group();
   const lmH=function(col){return new THREE.MeshLambertMaterial({color:col});};
-  const body=new THREE.Mesh(new THREE.SphereGeometry(0.18,12,8),lmH(0x7A5C4A));
-  body.scale.set(1.5,0.82,1.0); g.add(body);
+  const body=new THREE.Mesh(new THREE.SphereGeometry(0.18,12,8),lmH(0x7A5C4A)); body.scale.set(1.5,0.82,1.0); g.add(body);
   const head=new THREE.Mesh(new THREE.SphereGeometry(0.12,10,7),lmH(0x7A5C4A)); head.position.set(0.24,0.04,0); g.add(head);
   const snout=new THREE.Mesh(new THREE.SphereGeometry(0.06,8,6),lmH(0x8B6A58)); snout.scale.set(1.3,0.85,1.0); snout.position.set(0.33,0.02,0); g.add(snout);
-  [0.08,-0.08].forEach(function(z){
-    const ear=new THREE.Mesh(new THREE.SphereGeometry(0.052,8,6),lmH(0x8A6B5A)); ear.position.set(0.18,0.16,z); g.add(ear);
-    const earI=new THREE.Mesh(new THREE.SphereGeometry(0.032,6,5),lmH(0xFF7070)); earI.position.set(0.182,0.16,z); g.add(earI);
-  });
-  [0.07,-0.07].forEach(function(z){
-    const eye=new THREE.Mesh(new THREE.SphereGeometry(0.026,6,5),lmH(0xFF2222)); eye.position.set(0.34,0.08,z); g.add(eye);
-  });
+  [0.08,-0.08].forEach(function(z){ const ear=new THREE.Mesh(new THREE.SphereGeometry(0.052,8,6),lmH(0x8A6B5A)); ear.position.set(0.18,0.16,z); g.add(ear); const earI=new THREE.Mesh(new THREE.SphereGeometry(0.032,6,5),lmH(0xFF7070)); earI.position.set(0.182,0.16,z); g.add(earI); });
+  [0.07,-0.07].forEach(function(z){ const eye=new THREE.Mesh(new THREE.SphereGeometry(0.026,6,5),lmH(0xFF2222)); eye.position.set(0.34,0.08,z); g.add(eye); });
   const nose=new THREE.Mesh(new THREE.SphereGeometry(0.022,6,5),lmH(0xFF6666)); nose.position.set(0.38,0.03,0); g.add(nose);
-  const tailPts=[]; for(let i=0;i<=8;i++){const t=i/8; tailPts.push(new THREE.Vector3(-0.22-t*0.35,Math.sin(t*Math.PI)*0.12,0));}
-  g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(tailPts),new THREE.LineBasicMaterial({color:0xC08080})));
+  const tailPts=[]; for(let i=0;i<=8;i++){const t=i/8; tailPts.push(new THREE.Vector3(-0.22-t*0.35,Math.sin(t*Math.PI)*0.12,0));} g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(tailPts),new THREE.LineBasicMaterial({color:0xC08080})));
   return g;
 }
 
-const vmQuesadilla = mkVmQuesadilla();
-vmQuesadilla.visible=false;
-vmQuesadilla.position.set(0.15,-0.14,-0.3);
-vmQuesadilla.rotation.set(0.3, -0.4, 0.08);
-vmQuesadilla.scale.set(0.5,0.5,0.5);
-gunScene.add(vmQuesadilla);
-
-const vmRat = mkVmRat();
-vmRat.visible=false;
-vmRat.position.set(0.15,-0.14,-0.3);
-vmRat.rotation.set(0.1, Math.PI, 0.0);
-vmRat.scale.set(0.55,0.55,0.55);
-gunScene.add(vmRat);
+const vmQuesadilla = mkVmQuesadilla(); vmQuesadilla.visible=false; vmQuesadilla.position.set(0.15,-0.14,-0.3); vmQuesadilla.rotation.set(0.3, -0.4, 0.08); vmQuesadilla.scale.set(0.5,0.5,0.5); gunScene.add(vmQuesadilla);
+const vmRat = mkVmRat(); vmRat.visible=false; vmRat.position.set(0.15,-0.14,-0.3); vmRat.rotation.set(0.1, Math.PI, 0.0); vmRat.scale.set(0.55,0.55,0.55); gunScene.add(vmRat);
 
 let handBob = 0;
-
 let gunBob=0, gunRecoil=0, isReloading=false;
 
-// ═══════════════════════════════
-//  GAME STATE
-// ═══════════════════════════════
 let score=0,served=0,stars=10,level=1;
 let rats=[],customers=[],particles=[];
 let inspMesh=null,inspData=null,inspActive=false,inspHP=0;
 let inspLeaveTimer=0, inspWarningShown=false;
-let heldItem=null; // 'rat','kebab','gun','ext','fkebab'
+let heldItem=null;
 let heldRatData=null, heldKebabData=null;
 let basketCount=8;
 let hasGun=false,ammo=6,maxAmmo=6;
@@ -953,37 +908,23 @@ const PP=new THREE.Vector3(0,1.7,10);
 let velY=0,onGround=true,bobPhase=0,moving=false,stepT=0;
 const GRAV=-16,JSPD=5.2,PH=1.7,SPD=4.5,IDIST=2.3,GDIST=2.8;
 
-// ═══════════════════════════════
-//  COOK COLOR HELPER
-//  raw=white/pale, cooking=browning, done=golden brown, burned=black
-// ═══════════════════════════════
 function getCookColor(prog, burned) {
   if (burned) return new THREE.Color(0x111111);
-  if (prog <= 0)   return new THREE.Color(0xEEEEDD); // raw — white/pale
-  if (prog < 0.25) return new THREE.Color(0xDDBB99); // getting warm
-  if (prog < 0.5)  return new THREE.Color(0xBB7733); // browning
-  if (prog < 0.75) return new THREE.Color(0xAA5522); // well browned
-  if (prog < 1.0)  return new THREE.Color(0x8B3300); // done — dark brown
-  return new THREE.Color(0x441100);                   // perfect
+  if (prog <= 0)   return new THREE.Color(0xEEEEDD);
+  if (prog < 0.25) return new THREE.Color(0xDDBB99);
+  if (prog < 0.5)  return new THREE.Color(0xBB7733);
+  if (prog < 0.75) return new THREE.Color(0xAA5522);
+  if (prog < 1.0)  return new THREE.Color(0x8B3300);
+  return new THREE.Color(0x441100);
 }
 
-// ═══════════════════════════════
-//  ENTITY MESHES
-// ═══════════════════════════════
 function mkRat(){
   const g=new THREE.Group();
-  const body=new THREE.Mesh(new THREE.SphereGeometry(0.22,14,10),lm(0x5C4033));
-  body.scale.set(1.52,0.85,1.06); body.castShadow=true; g.add(body);
+  const body=new THREE.Mesh(new THREE.SphereGeometry(0.22,14,10),lm(0x5C4033)); body.scale.set(1.52,0.85,1.06); body.castShadow=true; g.add(body);
   const head=sp(0.155,lm(0x5C4033)); head.position.set(0.3,0.05,0); g.add(head);
   const snout=new THREE.Mesh(new THREE.SphereGeometry(0.08,10,7),lm(0x6B4E3D)); snout.scale.set(1.4,0.9,1.1); snout.position.set(0.42,0.02,0); g.add(snout);
-  [0.1,-0.1].forEach(z=>{
-    const ear=new THREE.Mesh(new THREE.SphereGeometry(0.068,10,7),lm(0x7A5C52)); ear.position.set(0.24,0.2,z); g.add(ear);
-    const earI=new THREE.Mesh(new THREE.SphereGeometry(0.042,8,6),lm(0xFF7070)); earI.position.set(0.245,0.2,z); g.add(earI);
-  });
-  [0.09,-0.09].forEach(z=>{
-    const eye=sp(0.034,lm(0xFF2222,0x880000,1.4)); eye.position.set(0.43,0.1,z); g.add(eye);
-    const shine=sp(0.015,lm(0xFFFFFF,0xFFFFFF,1)); shine.position.set(0.445,0.115,z+0.025); g.add(shine);
-  });
+  [0.1,-0.1].forEach(z=>{ const ear=new THREE.Mesh(new THREE.SphereGeometry(0.068,10,7),lm(0x7A5C52)); ear.position.set(0.24,0.2,z); g.add(ear); const earI=new THREE.Mesh(new THREE.SphereGeometry(0.042,8,6),lm(0xFF7070)); earI.position.set(0.245,0.2,z); g.add(earI); });
+  [0.09,-0.09].forEach(z=>{ const eye=sp(0.034,lm(0xFF2222,0x880000,1.4)); eye.position.set(0.43,0.1,z); g.add(eye); const shine=sp(0.015,lm(0xFFFFFF,0xFFFFFF,1)); shine.position.set(0.445,0.115,z+0.025); g.add(shine); });
   const nose=new THREE.Mesh(new THREE.SphereGeometry(0.03,8,6),lm(0xFF6666)); nose.position.set(0.49,0.04,0); g.add(nose);
   [-0.03,0.03].forEach(z=>{ const w=bx(0.12,0.005,0.005,lm(0xDDD8C8)); w.position.set(0.49,0.04,z); g.add(w); });
   const tailPts=[]; for(let i=0;i<=12;i++){const t=i/12; tailPts.push(new THREE.Vector3(-0.3-t*0.55,Math.sin(t*Math.PI*1.5)*0.18,Math.cos(t*Math.PI)*0.06));}
@@ -994,15 +935,11 @@ function mkRat(){
 const CCOLS=[0xBBBBBB,0xAAAAAA,0xCCCCCC,0x999999,0xDDDDDD,0x888888,0xC0C0C0,0xE0E0E0];
 function mkCustomer(color){
   const g=new THREE.Group();
-  // Simple capsule body — NO arms, NO legs sticking out, NO hair
   const bodyBot=new THREE.Mesh(new THREE.SphereGeometry(0.28,12,8),lm(color)); bodyBot.scale.set(1,0.7,1); bodyBot.position.y=0.28; g.add(bodyBot);
   const bodyCyl=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,0.55,12),lm(color)); bodyCyl.position.y=0.65; g.add(bodyCyl);
   const bodyTop=new THREE.Mesh(new THREE.SphereGeometry(0.28,12,8),lm(color)); bodyTop.scale.set(1,0.75,1); bodyTop.position.y=0.92; g.add(bodyTop);
-  // Head — plain ball, no hair
   const head=sp(0.25,lm(0xFFCCAA)); head.position.y=1.32; head.castShadow=true; g.add(head);
-  // Eyes
   [-0.1,0.1].forEach(x=>{ const e=sp(0.04,lm(0x111111)); e.position.set(x,1.36,0.22); g.add(e); const hi=sp(0.014,lm(0xFFFFFF)); hi.position.set(x+0.016,1.375,0.24); g.add(hi); });
-  // Patience bar
   const barBg=bx(0.68,0.07,0.07,lm(0x222222)); barBg.position.set(0,1.88,0); g.add(barBg);
   const barFg=bx(0.68,0.07,0.08,lm(0xffffff)); barFg.position.set(0,1.88,0); g.add(barFg);
   g._bar=barFg; g.castShadow=true; return g;
@@ -1025,83 +962,26 @@ function mkInspector(){
 }
 
 function mkKebab(){
-  // Quesadilla shape — flat folded semicircle
   const g=new THREE.Group();
-
-  // Main flat disc (the tortilla fold) — CylinderGeometry squashed flat
-  const tortilla=new THREE.Mesh(
-    new THREE.CylinderGeometry(0.38,0.38,0.055,20,1,false,0,Math.PI),
-    lm(0xDEBB60)
-  );
-  tortilla.rotation.y = Math.PI/2;
-  tortilla.position.y = 0.028;
-  g.add(tortilla);
-
-  // Bottom flat cap
-  const bottom=new THREE.Mesh(
-    new THREE.CircleGeometry(0.38,20,0,Math.PI),
-    lm(0xC9A84C)
-  );
-  bottom.rotation.x=-Math.PI/2; bottom.rotation.z=Math.PI/2;
-  bottom.position.y=0.001;
-  g.add(bottom);
-
-  // Top flat cap
-  const top2=new THREE.Mesh(
-    new THREE.CircleGeometry(0.38,20,0,Math.PI),
-    lm(0xC9A84C)
-  );
-  top2.rotation.x=Math.PI/2; top2.rotation.z=-Math.PI/2;
-  top2.position.y=0.055;
-  g.add(top2);
-
-  // Cheese ooze on the curved edge — yellowish strip
-  const cheese=new THREE.Mesh(
-    new THREE.CylinderGeometry(0.385,0.385,0.04,20,1,true,0,Math.PI),
-    lm(0xFFCC22)
-  );
-  cheese.rotation.y=Math.PI/2;
-  cheese.position.y=0.028;
-  g.add(cheese);
-
-  // Char grill marks on top (dark stripes)
-  for(let i=0;i<4;i++){
-    const mark=new THREE.Mesh(
-      new THREE.BoxGeometry(0.55,0.008,0.04),
-      lm(0x3A2000)
-    );
-    mark.position.set(-0.05,0.062,-0.12+i*0.09);
-    mark.rotation.y=0.15;
-    g.add(mark);
-  }
-
-  // Filling peek on flat edge (meat/cheese visible on cut side)
-  const filling=new THREE.Mesh(
-    new THREE.PlaneGeometry(0.72,0.05),
-    lm(0xCC7722)
-  );
-  filling.position.set(0,0.028,0);
-  filling.rotation.x=Math.PI/2;
-  g.add(filling);
-
-  g._isKebab=true;
-  return g;
+  const tortilla=new THREE.Mesh(new THREE.CylinderGeometry(0.38,0.38,0.055,20,1,false,0,Math.PI),lm(0xDEBB60));
+  tortilla.rotation.y = Math.PI/2; tortilla.position.y = 0.028; g.add(tortilla);
+  const bottom=new THREE.Mesh(new THREE.CircleGeometry(0.38,20,0,Math.PI),lm(0xC9A84C)); bottom.rotation.x=-Math.PI/2; bottom.rotation.z=Math.PI/2; bottom.position.y=0.001; g.add(bottom);
+  const top2=new THREE.Mesh(new THREE.CircleGeometry(0.38,20,0,Math.PI),lm(0xC9A84C)); top2.rotation.x=Math.PI/2; top2.rotation.z=-Math.PI/2; top2.position.y=0.055; g.add(top2);
+  const cheese=new THREE.Mesh(new THREE.CylinderGeometry(0.385,0.385,0.04,20,1,true,0,Math.PI),lm(0xFFCC22)); cheese.rotation.y=Math.PI/2; cheese.position.y=0.028; g.add(cheese);
+  for(let i=0;i<4;i++){ const mark=new THREE.Mesh(new THREE.BoxGeometry(0.55,0.008,0.04),lm(0x3A2000)); mark.position.set(-0.05,0.062,-0.12+i*0.09); mark.rotation.y=0.15; g.add(mark); }
+  const filling=new THREE.Mesh(new THREE.PlaneGeometry(0.72,0.05),lm(0xCC7722)); filling.position.set(0,0.028,0); filling.rotation.x=Math.PI/2; g.add(filling);
+  g._isKebab=true; return g;
 }
 
-// ═══════════════════════════════
-//  SPAWN
-// ═══════════════════════════════
-
-// ── SEWER RATS ──
 function spawnSewerRat(){
   if(!inSewer||sewerRats.length>=6) return;
-  const mesh=mkRat();
-  mesh.scale.set(0.8,0.8,0.8);
-  // Spawn at random tunnel position (offset by sewerGroup world pos 40,0,40)
-  const side=Math.random()<0.5?-1:1;
-  mesh.position.set(40+side*(6+Math.random()*4), SEWER_Y+0.35, 40+(Math.random()-0.5)*14);
+  const mesh=mkRat(); mesh.scale.set(0.65,0.65,0.65);
+  const side = (PP.z - 40) < 0 ? 1 : -1;
+  const spawnZ = 40 + side*(6+Math.random()*2.5);
+  const spawnX = 40 + (Math.random()-0.5)*3.6;
+  mesh.position.set(spawnX, SEWER_Y+0.38, spawnZ);
   scene.add(mesh);
-  sewerRats.push({mesh, hp:2, attackTimer:0, speed:0.04+Math.random()*0.02});
+  sewerRats.push({mesh, hp:2, attackTimer:0, speed:0.03+Math.random()*0.02});
 }
 let sewerRatSpawnT=0;
 
@@ -1109,44 +989,23 @@ function updateSewerRats(delta){
   if(!inSewer){ sewerRats.forEach(r=>scene.remove(r.mesh)); sewerRats.length=0; return; }
   sewerRatSpawnT+=delta;
   if(sewerRatSpawnT>3){ spawnSewerRat(); sewerRatSpawnT=0; }
-
   sewerRats.forEach((r,i)=>{
     const toPlayer=PP.clone().sub(r.mesh.position);
     const dist=toPlayer.length();
-    // Chase
-    if(dist>0.6){
-      const spd=r.speed*(dist<3?1.8:1);
-      r.mesh.position.x+=toPlayer.x/dist*spd;
-      r.mesh.position.z+=toPlayer.z/dist*spd;
-      r.mesh.rotation.y=Math.atan2(toPlayer.x,toPlayer.z);
-      r.mesh.position.y=SEWER_Y+0.35+Math.abs(Math.sin(Date.now()*0.012+i))*0.08;
-    }
-    // Attack
+    if(dist>0.6){ const spd=r.speed*(dist<3?1.8:1); r.mesh.position.x+=toPlayer.x/dist*spd; r.mesh.position.z+=toPlayer.z/dist*spd; r.mesh.rotation.y=Math.atan2(toPlayer.x,toPlayer.z); r.mesh.position.y=SEWER_Y+0.38+Math.abs(Math.sin(Date.now()*0.01+i))*0.06; }
     r.attackTimer-=delta;
-    if(dist<0.9&&r.attackTimer<=0){
-      r.attackTimer=1.2;
-      playerHP=Math.max(0,playerHP-12);
-      updateHealthBar();
-      flash('dmg',200);
-      showMsg('Sewer rat bit you!','#FF4444');
-      if(playerHP<=0) endGame('Eaten alive by sewer rats!','#AA2200');
-    }
+    if(dist<0.9&&r.attackTimer<=0){ r.attackTimer=1.2; playerHP=Math.max(0,playerHP-12); updateHealthBar(); flash('dmg',200); showMsg('Sewer rat bit you!','#FF4444'); if(playerHP<=0) endGame('Eaten alive by sewer rats!','#AA2200'); }
   });
   sewerRats.filter(r=>r.hp<=0).forEach(r=>scene.remove(r.mesh));
   sewerRats.splice(0,sewerRats.length,...sewerRats.filter(r=>r.hp>0));
 }
 
 function damageSewerRat(){
-  // Shoot sewer rats with gun
   if(!inSewer||!hasGun||ammo<=0) return;
   const dir=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize();
   for(const r of sewerRats){
     const toR=r.mesh.position.clone().sub(PP).normalize();
-    if(dir.angleTo(toR)<0.15&&PP.distanceTo(r.mesh.position)<12){
-      r.hp--; spawnBlood(r.mesh.position.clone().add(new THREE.Vector3(0,0.3,0)),20);
-      if(r.hp<=0){ scene.remove(r.mesh); score+=25; updateHUD(); showMsg('Sewer rat killed! +25','#FFD166'); }
-      return;
-    }
+    if(dir.angleTo(toR)<0.15&&PP.distanceTo(r.mesh.position)<12){ r.hp--; spawnBlood(r.mesh.position.clone().add(new THREE.Vector3(0,0.3,0)),20); if(r.hp<=0){ scene.remove(r.mesh); score+=25; updateHUD(); showMsg('Sewer rat killed! +25','#FFD166'); } return; }
   }
 }
 
@@ -1180,11 +1039,6 @@ function spawnInspector(){
   playSound('inspector'); triggerGlitch();
 }
 
-// ═══════════════════════════════
-//  INTERACTIONS
-// ═══════════════════════════════
-
-// ── RAYCASTER for crosshair pickup ──
 const raycaster = new THREE.Raycaster();
 const SCREEN_CENTER = new THREE.Vector2(0,0);
 function getCrosshairTarget(){
@@ -1198,15 +1052,34 @@ function getCrosshairTarget(){
   return null;
 }
 
+// ═══════════════════════════════
+//  tryInteract — E key does EVERYTHING
+//  Priority order:
+//  1. If holding kebab/fkebab AND near customer → SERVE
+//  2. If holding kebab/fkebab AND no nearby customer → DROP
+//  3. If holding rat → DROP (returns rat to basket)
+//  4. Grab rat from basket
+//  5. Grab kebab from fridge
+//  6. Enter/exit sewer
+//  7. Pick up gun from locker
+//  8. Pick up extinguisher
+//  9. Pick up done item off grill
+// ═══════════════════════════════
 function tryInteract(){
-  if(heldItem==='rat'){ dropRat(); return; }
-  if(heldItem==='kebab'||heldItem==='fkebab'){ dropKebab(); return; }
+  // Priority 1+2: holding food — serve nearby customer or drop
+  if(heldItem==='kebab'||heldItem==='fkebab'){
+    const nearCust = customers.some(cd=>!cd.served&&!cd.exiting&&PP.distanceTo(cd.mesh.position)<IDIST+0.7);
+    if(nearCust){ tryServe(); return; }
+    dropKebab(); return;
+  }
 
-  // Crosshair raycast — also use generous proximity as fallback
+  // Priority 3: holding rat → drop
+  if(heldItem==='rat'){ dropRat(); return; }
+
   const xTarget = getCrosshairTarget();
   const xTag = xTarget ? xTarget.tag : null;
 
-  // Rat — ONLY crosshair on floating rat OR very close to basket
+  // Priority 4: grab rat from basket
   const nearBasket = PP.distanceTo(BASKET_POS)<1.8;
   if(basketCount>0 && (xTag==='floatRat' || (nearBasket && xTag!=='floatKebab' && xTag!=='fridge'))){
     basketCount--;
@@ -1216,74 +1089,74 @@ function tryInteract(){
     updateHeldUI(); showMsg('Got a rat!  F = grill','#FFD166'); playSound('catch'); return;
   }
 
-  // Quesadilla — ONLY crosshair on floating quesadilla OR very close to fridge
+  // Priority 5: grab fridge kebab
   const nearFridge = PP.distanceTo(FRIDGE_POS)<1.8;
   if(xTag==='floatKebab'||xTag==='fridge' || nearFridge){
     const kb=mkKebab(); kb.visible=false; scene.add(kb);
     heldItem='fkebab'; heldKebabData={km:kb,fridge:true};
-    updateHeldUI(); showMsg('Quesadilla! F=grill  G=serve','#00BFFF'); playSound('ding'); return;
+    updateHeldUI(); showMsg('Quesadilla! F=grill  E near customer=serve','#00BFFF'); playSound('ding'); return;
   }
 
-  // Sewer manhole — enter or exit
-  if(!inSewer && PP.distanceTo(MANHOLE_POS)<1.8){
-    inSewer=true;
-    sewerGroup.visible=true;
+  // Priority 6a: enter sewer
+  if(!inSewer && (xTag==='sewerCap' || PP.distanceTo(MANHOLE_POS)<1.8)){
+    inSewer=true; sewerGroup.visible=true;
+    sewerLights.forEach(l=>l.intensity=1.4);
+    sideTunnelLights.forEach(l=>l.intensity=1.2);
+    srLight.intensity=3.5; shaftLight.intensity=2.5;
     scene.fog=new THREE.FogExp2(0x111108,0.07);
     scene.background=new THREE.Color(0x111108);
-    PP.copy(SEWER_ENTRY_POS);
-    yaw=Math.PI; velY=0;
+    PP.copy(SEWER_ENTRY_POS); yaw=Math.PI; pitch=0; velY=0;
     document.getElementById('healthbar').classList.add('on');
     updateHealthBar();
-    showMsg('You crawled into the sewer... RATS INCOMING!','#FF4444'); return;
+    showMsg('You crawled into the sewer! RATS INCOMING! Side tunnel →','#FF4444'); return;
   }
-  if(inSewer && PP.distanceTo(SEWER_EXIT_POS)<1.8){
-    inSewer=false;
-    sewerGroup.visible=false;
+
+  // Priority 6b: exit sewer
+  const exitWorldPos = new THREE.Vector3(40, SEWER_Y+1.7, 47);
+  if(inSewer && (xTag==='sewerExit' || PP.distanceTo(exitWorldPos)<2.0)){
+    inSewer=false; sewerGroup.visible=false;
+    sewerLights.forEach(l=>l.intensity=0);
+    sideTunnelLights.forEach(l=>l.intensity=0);
+    srLight.intensity=0; shaftLight.intensity=0; entryCircleLight.intensity=0; barrelGlow.intensity=0;
     scene.fog=new THREE.FogExp2(0xAAAAAA,0.016);
     scene.background=new THREE.Color(0x888888);
-    PP.set(-8.5,1.7,4.5); yaw=0; velY=0;
+    PP.set(MANHOLE_POS.x, 1.7, MANHOLE_POS.z); yaw=Math.PI; pitch=0; velY=0;
     document.getElementById('healthbar').classList.remove('on');
     playerHP=Math.min(maxPlayerHP,playerHP+30);
     sewerRats.forEach(r=>scene.remove(r.mesh)); sewerRats.length=0;
     showMsg('You escaped the sewer! +30 HP','#FFD166'); return;
   }
 
-  // Locker — gun
+  // Priority 7: gun locker
   if(!hasGun&&PP.distanceTo(LOCKER_POS)<IDIST+0.6){
     hasGun=true; ammo=maxAmmo; heldItem='gun';
     document.getElementById('ammodiv').style.opacity='1';
     document.getElementById('xhair').className='gun';
-    updateHeldUI(); showMsg('Glock 19 equipped!  Click=shoot  R=reload','#EF476F');
+    updateHeldUI(); showMsg('Glock 19 equipped!  Click=shoot  R=reload  Q=drop gun','#EF476F');
     playSound('gunpickup'); lockLight.intensity=0.2; return;
   }
 
-  // Extinguisher
+  // Priority 8: extinguisher
   if(!hasExt&&PP.distanceTo(EXT_POS)<IDIST+0.5){
     hasExt=true; extinguisherAmmoo=100; heldItem='ext';
-    extG.visible=false; extRing.visible=false;
-    extColActive=false; // remove collision box when picked up
+    extG.visible=false; extRing.visible=false; extColActive=false;
     document.getElementById('xhair').className='ext';
     updateHeldUI(); showMsg('Extinguisher!  Click=spray  Q=drop','#00BFFF'); return;
   }
 
-  // Pick up done item from grill
+  // Priority 9: pick up done item from grill
   for(const s of grillSlots){
     if(s.done&&s.item&&PP.distanceTo(s.pos)<GDIST){
-      const itemMesh = s.item.mesh || s.item._mesh;
       if(s.itemType==='rat'){
-        // Grilled rat — hold the actual rat mesh
-        const rd = s.item;
-        rd.mesh.visible=false;
+        const rd = s.item; rd.mesh.visible=false;
         heldItem='kebab'; heldKebabData={km:rd.mesh, fridge:false, grillKebab:false, isGrilledRat:true};
         rats=rats.filter(r=>r!==rd);
       } else {
-        // Grilled fridge kebab — hold the quesadilla mesh
-        const km = s.item._mesh;
-        km.visible=false;
+        const km = s.item._mesh; km.visible=false;
         heldItem='kebab'; heldKebabData={km, fridge:false, grillKebab:true};
       }
       s.item=null; s.itemType=null; s.done=false; s.burned=false; s.cookTime=0; s.ring.visible=false;
-      updateHeldUI(); showMsg('Grilled! G = serve','#06D6A0'); playSound('ding'); return;
+      updateHeldUI(); showMsg('Grilled! Walk to customer + E to serve','#06D6A0'); playSound('ding'); return;
     }
   }
 
@@ -1291,7 +1164,6 @@ function tryInteract(){
   else showMsg('Nothing nearby','#666');
 }
 
-// F — GRILL: now accepts BOTH rat and fkebab
 function tryGrill(){
   if(heldItem!=='rat'&&heldItem!=='fkebab'){
     showMsg(heldItem?'Cant grill this item':'Grab a rat or fridge kebab first','#888'); return;
@@ -1299,31 +1171,18 @@ function tryGrill(){
   for(const s of grillSlots){
     if(!s.item&&PP.distanceTo(s.pos)<GDIST){
       if(heldItem==='rat'){
-        const rd=heldRatData;
-        rd.caught=false; rd.onGrill=true;
-        rd.mesh.visible=true; // reveal on grill
-        rd.mesh.position.copy(s.pos); rd.mesh.rotation.set(0,0,Math.PI/2);
-        scene.add(rd.mesh);
-        // Reset rat to raw (white/pale) color
+        const rd=heldRatData; rd.caught=false; rd.onGrill=true; rd.mesh.visible=true;
+        rd.mesh.position.copy(s.pos); rd.mesh.rotation.set(0,0,Math.PI/2); scene.add(rd.mesh);
         rd.mesh.traverse(c=>{ if(c.isMesh&&c.material&&c.material.color) c.material.color.copy(getCookColor(0,false)); });
-        s.item=rd; s.itemType='rat';
-        heldItem=null; heldRatData=null;
+        s.item=rd; s.itemType='rat'; heldItem=null; heldRatData=null;
       } else {
-        // fkebab from fridge — place it on grill
-        const km=heldKebabData.km; km.visible=true;
-        km.position.copy(s.pos); km.rotation.set(0,Math.PI/2,0); scene.add(km);
-        // Reset to white/raw
+        const km=heldKebabData.km; km.visible=true; km.position.copy(s.pos); km.rotation.set(0,Math.PI/2,0); scene.add(km);
         km.traverse(c=>{ if(c.isMesh&&c.material&&c.material.color) c.material.color.copy(getCookColor(0,false)); });
-        s.item={mesh:km,_mesh:km}; s.itemType='kebab';
-        heldItem=null; heldKebabData=null;
+        s.item={mesh:km,_mesh:km}; s.itemType='kebab'; heldItem=null; heldKebabData=null;
       }
-      s.cookTime=0; s.done=false; s.burned=false; s.frozen=false;
-      s.maxCook = 10;
-      s.ring.visible=true;
-      updateHeldUI();
-      showMsg('Grilling! RAT=10s  Quesadilla=10s','#FF8800');
-      playSound('sizzle'); spawnPart(s.pos,0xFF5500,10);
-      return;
+      s.cookTime=0; s.done=false; s.burned=false; s.frozen=false; s.maxCook=10; s.ring.visible=true;
+      updateHeldUI(); showMsg('Grilling! RAT=10s  Quesadilla=10s','#FF8800');
+      playSound('sizzle'); spawnPart(s.pos,0xFF5500,10); return;
     }
   }
   showMsg('Walk closer to the grill!','#EF476F');
@@ -1338,34 +1197,28 @@ function tryServe(){
       cd.served=true; cd.exiting=true;
       const isFridge=heldKebabData&&heldKebabData.fridge&&!heldKebabData.grillKebab;
       if(isFridge){
-        // Uncooked — poop explosion
         const poopPos=cd.mesh.position.clone().add(new THREE.Vector3(0,0.6,0));
         for(let i=0;i<50;i++){
           const size=0.05+Math.random()*0.1;
           const p=new THREE.Mesh(new THREE.SphereGeometry(size,4,3),new THREE.MeshBasicMaterial({color:Math.random()<0.5?0x5C3317:0x8B5A2B,transparent:true}));
           p.position.copy(poopPos);
           const a=Math.random()*Math.PI*2, el=(Math.random()-0.3)*Math.PI;
-          const spd=0.05+Math.random()*0.14;
-          scene.add(p);
+          const spd=0.05+Math.random()*0.14; scene.add(p);
           particles.push({mesh:p,vx:Math.cos(el)*Math.cos(a)*spd,vy:Math.abs(Math.sin(el))*spd+0.02,vz:Math.cos(el)*Math.sin(a)*spd,life:1,decay:0.016+Math.random()*0.012});
         }
         const poopDecal=new THREE.Mesh(new THREE.CircleGeometry(0.3+Math.random()*0.15,10),new THREE.MeshBasicMaterial({color:0x3B1F0A,transparent:true,opacity:0.9}));
         poopDecal.rotation.x=-Math.PI/2; poopDecal.position.set(cd.mesh.position.x,0.02,cd.mesh.position.z); scene.add(poopDecal);
         particles.push({mesh:poopDecal,vx:0,vy:0,vz:0,life:1,decay:0.002});
-        scene.remove(cd.mesh);
-        scene.remove(heldKebabData.km);
+        scene.remove(cd.mesh); scene.remove(heldKebabData.km);
         heldItem=null; heldKebabData=null; updateHeldUI();
         loseStar('Customer got food poisoning! -1 star');
         showMsg('POOP EXPLOSION - RAW FOOD! -1 star','#8B5A2B'); return;
       }
       const pts=Math.floor(100*(cd.patience/cd.maxP))+50;
-      score+=pts; served++;
-      stars=Math.min(10,stars+1);
-      updateHUD();
+      score+=pts; served++; stars=Math.min(10,stars+1); updateHUD();
       spawnPart(cd.mesh.position,0xFFD166,20);
-      showMsg('Grilled! +'+pts+'pts -- +1 star','#FFD166');
-      scene.remove(heldKebabData.km);
-      heldItem=null; heldKebabData=null; updateHeldUI();
+      showMsg('Served! +'+pts+'pts -- +1 star','#FFD166');
+      scene.remove(heldKebabData.km); heldItem=null; heldKebabData=null; updateHeldUI();
       playSound('ding'); checkLevel(); return;
     }
   }
@@ -1380,11 +1233,18 @@ function dropKebab(){
   if(heldKebabData?.km) scene.remove(heldKebabData.km);
   heldItem=null; heldKebabData=null; updateHeldUI();
 }
+function dropGun(){
+  if(heldItem!=='gun') return;
+  heldItem=null; hasGun=false; ammo=0;
+  document.getElementById('ammodiv').style.opacity='0';
+  document.getElementById('xhair').className='';
+  gunGroup.visible=false;
+  updateHeldUI(); showMsg('Gun dropped — go back to locker for another','#aaa');
+}
 function dropExtinguisher(){
   if(heldItem!=='ext') return;
   hasExt=false; heldItem=null;
-  extG.visible=true; extRing.visible=true;
-  extColActive=true; // restore collision when put down
+  extG.visible=true; extRing.visible=true; extColActive=true;
   document.getElementById('xhair').className='';
   document.getElementById('dropext').classList.remove('on');
   updateHeldUI(); showMsg('Extinguisher put down','#aaa');
@@ -1398,11 +1258,9 @@ function tryShootCustomer(){
     const toC=cd.mesh.position.clone().add(new THREE.Vector3(0,0.8,0)).sub(PP).normalize();
     if(dir.angleTo(toC)<0.22&&PP.distanceTo(cd.mesh.position)<18){
       ammo--; updateAmmoUI(); gunRecoil=1; flash('mflash',60); playSound('gunshot');
-      spawnBullet(PP.clone(),dir);
-      cd.exiting=true;
+      spawnBullet(PP.clone(),dir); cd.exiting=true;
       spawnPart(cd.mesh.position.clone().add(new THREE.Vector3(0,0.8,0)),0xffffff,12);
-      loseStar('You shot a customer! -1 star');
-      return;
+      loseStar('You shot a customer! -1 star'); return;
     }
   }
   if(hasGun&&ammo>0){ ammo--; updateAmmoUI(); gunRecoil=1; flash('mflash',50); playSound('gunshot'); spawnBullet(PP.clone(),dir); }
@@ -1414,37 +1272,18 @@ function shootGun(){
   ammo--; updateAmmoUI(); gunRecoil=1; flash('mflash',60); playSound('gunshot');
   const dir=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize();
   spawnBullet(PP.clone(),dir);
-
-  // Raycast for customer headshot
   const xhit = getCrosshairTarget();
   if(xhit && xhit.tag==='customer'){
     const cd=customers.find(c=>c.mesh===xhit.obj&&!c.served&&!c.exiting);
-    if(cd){
-      const headPos=cd.mesh.position.clone().add(new THREE.Vector3(0,1.25,0));
-      spawnBlood(headPos, 55);
-      flash('dmg',120);
-      cd.exiting=true;
-      loseStar('You shot a customer that very mean -1 star');
-      showMsg('HEADSHOT bad boy -1 star','#FF2222');
-      return;
-    }
+    if(cd){ const headPos=cd.mesh.position.clone().add(new THREE.Vector3(0,1.25,0)); spawnBlood(headPos,55); flash('dmg',120); cd.exiting=true; loseStar('You shot a customer that very mean -1 star'); showMsg('HEADSHOT bad boy -1 star','#FF2222'); return; }
   }
-  // Angle fallback for customers
   for(const cd of customers){
     if(cd.exiting||cd.served) continue;
     const headPos=cd.mesh.position.clone().add(new THREE.Vector3(0,1.25,0));
     const toHead=headPos.clone().sub(PP).normalize();
-    if(dir.angleTo(toHead)<0.12&&PP.distanceTo(cd.mesh.position)<16){
-      spawnBlood(headPos, 55);
-      flash('dmg',120);
-      cd.exiting=true;
-      loseStar('You shot a customer! -1 star');
-      showMsg('HEADSHOT 💀 -1 star','#FF2222');
-      return;
-    }
+    if(dir.angleTo(toHead)<0.12&&PP.distanceTo(cd.mesh.position)<16){ spawnBlood(headPos,55); flash('dmg',120); cd.exiting=true; loseStar('You shot a customer! -1 star'); showMsg('HEADSHOT 💀 -1 star','#FF2222'); return; }
   }
   damageSewerRat();
-  // Inspector
   if(inspActive&&inspMesh){
     const toI=inspMesh.position.clone().add(new THREE.Vector3(0,1,0)).sub(PP).normalize();
     if(dir.angleTo(toI)<0.18&&PP.distanceTo(inspMesh.position)<22) hitInspector();
@@ -1460,30 +1299,19 @@ function reloadGun(){
 function sprayExtinguisher(){
   if(!hasExt||extinguisherAmmoo<=0||!gameRunning) return;
   extinguisherAmmoo-=8; flash('freeze',200); playSound('extspray');
-  grillSlots.forEach(s=>{
-    if(s.item&&PP.distanceTo(s.pos)<GDIST+1){
-      s.frozen=true;
-      setTimeout(()=>{ s.frozen=false; },8000);
-      showMsg('Frozen! Slower cooking','#00BFFF');
-    }
-  });
+  grillSlots.forEach(s=>{ if(s.item&&PP.distanceTo(s.pos)<GDIST+1){ s.frozen=true; setTimeout(()=>{ s.frozen=false; },8000); showMsg('Frozen! Slower cooking','#00BFFF'); } });
   if(shopOnFire){ shopFireLevel=Math.max(0,shopFireLevel-25); updateFireBar(); }
   spawnFreezeCloud(PP.clone().add(new THREE.Vector3(-Math.sin(yaw)*2,0,-Math.cos(yaw)*2)));
   if(extinguisherAmmoo<=0){ hasExt=false; heldItem=null; document.getElementById('xhair').className=''; updateHeldUI(); }
 }
 
-
 function spawnBlood(pos, n=40){
   for(let i=0;i<n;i++){
     const size=0.04+Math.random()*0.09;
     const p=new THREE.Mesh(new THREE.SphereGeometry(size,4,3),new THREE.MeshBasicMaterial({color:Math.random()<0.6?0xBB0000:0xFF1111,transparent:true}));
-    p.position.copy(pos);
-    const a=Math.random()*Math.PI*2, el=(Math.random()-0.5)*Math.PI;
-    const spd=0.06+Math.random()*0.18;
-    scene.add(p);
+    p.position.copy(pos); const a=Math.random()*Math.PI*2, el=(Math.random()-0.5)*Math.PI; const spd=0.06+Math.random()*0.18; scene.add(p);
     particles.push({mesh:p,vx:Math.cos(el)*Math.cos(a)*spd,vy:Math.abs(Math.sin(el))*spd+0.04,vz:Math.cos(el)*Math.sin(a)*spd,life:1,decay:0.018+Math.random()*0.015});
   }
-  // Blood decal on floor
   const decal=new THREE.Mesh(new THREE.CircleGeometry(0.28+Math.random()*0.22,12),new THREE.MeshBasicMaterial({color:0x880000,transparent:true,opacity:0.85}));
   decal.rotation.x=-Math.PI/2; decal.position.set(pos.x,0.02,pos.z); scene.add(decal);
   particles.push({mesh:decal,vx:0,vy:0,vz:0,life:1,decay:0.003});
@@ -1491,8 +1319,7 @@ function spawnBlood(pos, n=40){
 
 function spawnBullet(from,dir){
   const trail=new THREE.Mesh(new THREE.CylinderGeometry(0.015,0.015,0.55,4),lm(0xFFDD44,0xFFAA00,2));
-  trail.rotation.x=Math.PI/2; trail.position.copy(from); trail.lookAt(from.clone().add(dir)); trail.rotateX(Math.PI/2);
-  scene.add(trail);
+  trail.rotation.x=Math.PI/2; trail.position.copy(from); trail.lookAt(from.clone().add(dir)); trail.rotateX(Math.PI/2); scene.add(trail);
   particles.push({mesh:trail,vx:dir.x*0.9,vy:dir.y*0.9,vz:dir.z*0.9,life:1,decay:0.18,isBullet:true});
 }
 
@@ -1505,16 +1332,9 @@ function spawnFreezeCloud(pos){
 }
 
 function hitInspector(){
-  inspHP--; playSound('hit'); spawnPart(inspMesh.position.clone().add(new THREE.Vector3(0,1,0)),0xFF2222,14);
-  updateInspBar();
-  if(inspHP<=0){
-    score+=200; updateHUD(); spawnPart(inspMesh.position.clone().add(new THREE.Vector3(0,0.9,0)),0xFFD166,28);
-    showMsg('INSPECTOR DOWN! +200','#ddd'); playSound('inspdown');
-    inspMesh.visible=false; inspActive=false;
-    document.getElementById('inspbar').classList.remove('on');
-  } else {
-    showMsg(['Direct hit!','Keep shooting!','One more!'][3-inspHP]||'Hit!','#EF476F');
-  }
+  inspHP--; playSound('hit'); spawnPart(inspMesh.position.clone().add(new THREE.Vector3(0,1,0)),0xFF2222,14); updateInspBar();
+  if(inspHP<=0){ score+=200; updateHUD(); spawnPart(inspMesh.position.clone().add(new THREE.Vector3(0,0.9,0)),0xFFD166,28); showMsg('INSPECTOR DOWN! +200','#ddd'); playSound('inspdown'); inspMesh.visible=false; inspActive=false; document.getElementById('inspbar').classList.remove('on'); }
+  else { showMsg(['Direct hit!','Keep shooting!','One more!'][3-inspHP]||'Hit!','#EF476F'); }
 }
 
 function igniteFire(){
@@ -1522,17 +1342,14 @@ function igniteFire(){
   shopOnFire=true; shopFireLevel=50;
   fireLight.intensity=3; fireLight.distance=12; grillFire.intensity=6;
   updateFireBar(); document.getElementById('firebar').classList.add('on');
-  showMsg('THE SHOP IS ON FIRE!','#FF2200');
-  playSound('fire'); triggerGlitch();
+  showMsg('THE SHOP IS ON FIRE!','#FF2200'); playSound('fire'); triggerGlitch();
   setTimeout(()=>{ if(shopOnFire&&shopFireLevel>30) triggerFireCutscene(); },5000);
 }
 
 function triggerFireCutscene(){
-  gameRunning=false;
-  document.getElementById('hud').classList.remove('on');
+  gameRunning=false; document.getElementById('hud').classList.remove('on');
   const cs=document.getElementById('cutscene'); cs.classList.add('on');
-  const cvc=document.getElementById('cutcanvas');
-  const cctx=cvc.getContext('2d');
+  const cvc=document.getElementById('cutcanvas'); const cctx=cvc.getContext('2d');
   document.getElementById('cttxt').textContent='THE SHOP BURNS DOWN!';
   document.getElementById('ctsub').textContent='The Health Inspector arrives on scene...';
   let frame=0;
@@ -1540,47 +1357,20 @@ function triggerFireCutscene(){
     if(frame>220){ finishCutscene(); return; }
     frame++;
     const W=cvc.width,H=cvc.height;
-    cctx.fillStyle=`rgb(${Math.floor(80*(1-Math.min(1,frame/80)))},${Math.floor(30*(1-Math.min(1,frame/80)))},0)`;
-    cctx.fillRect(0,0,W,H);
+    cctx.fillStyle=`rgb(${Math.floor(80*(1-Math.min(1,frame/80)))},${Math.floor(30*(1-Math.min(1,frame/80)))},0)`; cctx.fillRect(0,0,W,H);
     cctx.fillStyle='#111'; cctx.fillRect(100,120,440,220); cctx.fillRect(160,80,80,45);
-    cctx.fillStyle='#8DB870'; cctx.fillRect(102,122,436,218);
-    cctx.fillStyle='#111'; cctx.fillRect(180,200,100,140);
-    for(let i=0;i<40;i++){
-      cctx.fillStyle=`hsla(${20+Math.random()*40},100%,${40+Math.random()*30}%,${0.4+Math.random()*0.5})`;
-      cctx.beginPath(); cctx.ellipse(80+Math.random()*480,80+Math.random()*60,8+Math.random()*12,40+Math.random()*80+Math.sin(frame*0.3+i)*20,0,0,Math.PI*2); cctx.fill();
-    }
-    for(let i=0;i<15;i++){
-      const age=((frame+i*13)%60)/60;
-      cctx.fillStyle=`rgba(50,50,50,${0.3*(1-age)})`;
-      cctx.beginPath(); cctx.arc(200+i*20,(80-age*180+i*5)%300,12+age*30,0,Math.PI*2); cctx.fill();
-    }
-    if(frame>80){
-      const ix=640+Math.max(-320,(80-frame)*4);
-      cctx.fillStyle='#001122';
-      cctx.fillRect(ix-18,200,36,90); cctx.beginPath(); cctx.arc(ix,196,22,0,Math.PI*2); cctx.fill();
-      cctx.fillRect(ix-35,210,70,8); cctx.fillRect(ix-12,202,24,28);
-      cctx.fillStyle='#FFD700'; cctx.fillRect(ix+8,220,10,8);
-      const legSwing=Math.sin(frame*0.35)*15;
-      cctx.fillStyle='#001122'; cctx.save(); cctx.translate(ix,290);
-      cctx.fillRect(-12+legSwing,0,14,55); cctx.fillRect(-2-legSwing,0,14,55); cctx.restore();
-    }
+    cctx.fillStyle='#8DB870'; cctx.fillRect(102,122,436,218); cctx.fillStyle='#111'; cctx.fillRect(180,200,100,140);
+    for(let i=0;i<40;i++){ cctx.fillStyle=`hsla(${20+Math.random()*40},100%,${40+Math.random()*30}%,${0.4+Math.random()*0.5})`; cctx.beginPath(); cctx.ellipse(80+Math.random()*480,80+Math.random()*60,8+Math.random()*12,40+Math.random()*80+Math.sin(frame*0.3+i)*20,0,0,Math.PI*2); cctx.fill(); }
+    for(let i=0;i<15;i++){ const age=((frame+i*13)%60)/60; cctx.fillStyle=`rgba(50,50,50,${0.3*(1-age)})`; cctx.beginPath(); cctx.arc(200+i*20,(80-age*180+i*5)%300,12+age*30,0,Math.PI*2); cctx.fill(); }
+    if(frame>80){ const ix=640+Math.max(-320,(80-frame)*4); cctx.fillStyle='#001122'; cctx.fillRect(ix-18,200,36,90); cctx.beginPath(); cctx.arc(ix,196,22,0,Math.PI*2); cctx.fill(); cctx.fillRect(ix-35,210,70,8); cctx.fillRect(ix-12,202,24,28); cctx.fillStyle='#FFD700'; cctx.fillRect(ix+8,220,10,8); const legSwing=Math.sin(frame*0.35)*15; cctx.fillStyle='#001122'; cctx.save(); cctx.translate(ix,290); cctx.fillRect(-12+legSwing,0,14,55); cctx.fillRect(-2-legSwing,0,14,55); cctx.restore(); }
     cctx.fillStyle=`rgba(0,0,0,${Math.min(0.6,frame/60)})`; cctx.fillRect(0,0,W,H);
-    if(frame>100){
-      const a=Math.min(1,(frame-100)/30);
-      cctx.fillStyle=`rgba(255,60,0,${a})`; cctx.font="bold 38px 'Bebas Neue',Impact"; cctx.textAlign='center';
-      cctx.fillText('SHOP DESTROYED!',W/2,H/2-20);
-      cctx.fillStyle=`rgba(255,220,100,${a})`; cctx.font="18px 'IBM Plex Mono',monospace";
-      cctx.fillText('The inspector has called the fire department...',W/2,H/2+22);
-    }
+    if(frame>100){ const a=Math.min(1,(frame-100)/30); cctx.fillStyle=`rgba(255,60,0,${a})`; cctx.font="bold 38px 'Bebas Neue',Impact"; cctx.textAlign='center'; cctx.fillText('SHOP DESTROYED!',W/2,H/2-20); cctx.fillStyle=`rgba(255,220,100,${a})`; cctx.font="18px 'IBM Plex Mono',monospace"; cctx.fillText('The inspector has called the fire department...',W/2,H/2+22); }
     requestAnimationFrame(drawCut);
   }
   drawCut();
 }
 function finishCutscene(){ document.getElementById('cutscene').classList.remove('on'); endGame('Shop burned down!','#FF4400'); }
 
-// ═══════════════════════════════
-//  PARTICLES
-// ═══════════════════════════════
 function spawnPart(pos,color,n){
   for(let i=0;i<n;i++){
     const p=new THREE.Mesh(new THREE.SphereGeometry(0.055+Math.random()*0.03,4,3),new THREE.MeshBasicMaterial({color,transparent:true}));
@@ -1590,17 +1380,16 @@ function spawnPart(pos,color,n){
 }
 let steamT=0;
 function doSteam(delta){
-  steamT+=delta; if(steamT<0.12) return; steamT=0;
+  steamT+=delta; if(steamT<0.18) return; steamT=0;
+  if(particles.length>60) return;
   grillSlots.forEach(s=>{
     if(!s.item||s.frozen) return;
-    for(let i=0;i<2;i++){
-      const p=new THREE.Mesh(new THREE.SphereGeometry(0.08+Math.random()*0.04,4,3),new THREE.MeshBasicMaterial({color:s.frozen?0xAADDFF:0xCCCCCC,transparent:true,opacity:0.5}));
-      p.position.set(s.pos.x+(Math.random()-.5)*.35,s.pos.y+0.06,s.pos.z+(Math.random()-.5)*.15);
-      scene.add(p); particles.push({mesh:p,vx:(Math.random()-.5)*.007,vy:0.03+Math.random()*.022,vz:0,life:1,decay:0.014,isSteam:true});
-    }
+    const p=new THREE.Mesh(new THREE.SphereGeometry(0.08+Math.random()*0.04,4,3),new THREE.MeshBasicMaterial({color:s.frozen?0xAADDFF:0xCCCCCC,transparent:true,opacity:0.5}));
+    p.position.set(s.pos.x+(Math.random()-.5)*.35,s.pos.y+0.06,s.pos.z+(Math.random()-.5)*.15);
+    scene.add(p); particles.push({mesh:p,vx:(Math.random()-.5)*.007,vy:0.03+Math.random()*.022,vz:0,life:1,decay:0.014,isSteam:true});
   });
-  if(shopOnFire){
-    for(let i=0;i<8;i++){
+  if(shopOnFire&&particles.length<80){
+    for(let i=0;i<4;i++){
       const p=new THREE.Mesh(new THREE.SphereGeometry(0.06+Math.random()*0.1,4,3),new THREE.MeshBasicMaterial({color:Math.random()<0.5?0xFF4400:0xFFAA00,transparent:true}));
       p.position.set((Math.random()-.5)*10,0.5+Math.random()*2,1+Math.random()*7);
       scene.add(p); particles.push({mesh:p,vx:(Math.random()-.5)*.04,vy:0.06+Math.random()*0.08,vz:(Math.random()-.5)*.04,life:1,decay:0.02+Math.random()*0.02,isFire:true});
@@ -1608,9 +1397,6 @@ function doSteam(delta){
   }
 }
 
-// ═══════════════════════════════
-//  AUDIO
-// ═══════════════════════════════
 let actx;
 function ensureAudio(){ if(!actx)actx=new AudioContext(); if(actx.state==='suspended')actx.resume(); }
 function tone(freq,type,dur,gain,start){
@@ -1645,17 +1431,8 @@ function playSound(t){
   if(t==='burned')  { tone(100,'square',0.8,0.2); noize(0.5,0.12,150); }
 }
 
-// ═══════════════════════════════
-//  UI
-// ═══════════════════════════════
 function showMsg(txt,col='#fff'){ const el=document.getElementById('msg'); el.textContent=txt; el.style.color=col; el.style.opacity=1; clearTimeout(el._t); el._t=setTimeout(()=>el.style.opacity=0,2400); }
-function updateHUD(){
-  document.getElementById('sv').textContent=score;
-  document.getElementById('srv').textContent=served;
-  document.getElementById('lvl').textContent=level;
-  document.getElementById('starsv').textContent='x'+stars;
-  document.getElementById('starsBot').textContent='x'+stars;
-}
+function updateHUD(){ document.getElementById('sv').textContent=score; document.getElementById('srv').textContent=served; document.getElementById('lvl').textContent=level; document.getElementById('starsv').textContent='x'+stars; document.getElementById('starsBot').textContent='x'+stars; }
 function updateAmmoUI(){ document.getElementById('ammodiv').innerHTML=ammo+'<small>/ '+maxAmmo+'</small>'; }
 function updateInspBar(){ const el=document.getElementById('inspbar'); if(inspActive&&inspMesh){el.classList.add('on');document.getElementById('ibfill').style.width=(inspHP/3*100)+'%';}else el.classList.remove('on'); }
 function updateFireBar(){ document.getElementById('fbfill').style.width=shopFireLevel+'%'; }
@@ -1663,28 +1440,24 @@ function triggerGlitch(){ const g=document.getElementById('glitch'); g.classList
 function flash(id,ms){ const el=document.getElementById(id); el.style.opacity=1; setTimeout(()=>el.style.opacity=0,ms); }
 function checkLevel(){ if(served>=level*5){ level++; updateHUD(); showMsg('LEVEL '+level,'#eee'); playSound('levelup'); } }
 
-// COOK BAR UPDATE — shows the most progressed active slot
 function updateCookBar(){
   const cb=document.getElementById('cookbar');
   const active=grillSlots.filter(s=>s.item&&!s.done&&!s.burned);
   if(active.length===0){ cb.classList.remove('on'); return; }
   cb.classList.add('on');
-  // Show the one closest to done
   const worst=active.reduce((a,b)=>a.cookTime>b.cookTime?a:b);
   const prog=Math.min(1,worst.cookTime/worst.maxCook);
   const pct=Math.round(prog*100);
-  const secsLeft=Math.max(0,worst.maxCook-worst.cookTime);
   document.getElementById('cookbar-fill').style.width=pct+'%';
   document.getElementById('cookbar-time').textContent=Math.round(worst.cookTime)+'s / '+Math.round(worst.maxCook)+'s';
-  // Color the bar: white → yellow → green → red (overcooked)
   const fill=document.getElementById('cookbar-fill');
   const overTime=worst.cookTime/worst.maxCook;
-  if(overTime < 0.3)      fill.style.background='linear-gradient(to right,#eee,#ddd)';  // raw white
-  else if(overTime < 0.6) fill.style.background='linear-gradient(to right,#ddd,#CC8800)'; // browning
-  else if(overTime < 0.9) fill.style.background='linear-gradient(to right,#CC8800,#8B4400)'; // cooked
-  else if(overTime < 1.2) fill.style.background='linear-gradient(to right,#8B4400,#44FF44)'; // perfect green flash
-  else if(overTime < 1.8) fill.style.background='linear-gradient(to right,#FF8800,#FF2200)'; // overcooked warning
-  else                     fill.style.background='linear-gradient(to right,#331100,#111)';    // burned black
+  if(overTime < 0.3)      fill.style.background='linear-gradient(to right,#eee,#ddd)';
+  else if(overTime < 0.6) fill.style.background='linear-gradient(to right,#ddd,#CC8800)';
+  else if(overTime < 0.9) fill.style.background='linear-gradient(to right,#CC8800,#8B4400)';
+  else if(overTime < 1.2) fill.style.background='linear-gradient(to right,#8B4400,#44FF44)';
+  else if(overTime < 1.8) fill.style.background='linear-gradient(to right,#FF8800,#FF2200)';
+  else                     fill.style.background='linear-gradient(to right,#331100,#111)';
   const lbl=document.getElementById('cookbar-label');
   if(overTime < 0.85)     lbl.textContent='COOKING — '+pct+'%';
   else if(overTime < 1.05)lbl.textContent='DONE! PICK UP! (E near grill)';
@@ -1693,12 +1466,10 @@ function updateCookBar(){
   lbl.style.color=overTime>1.2?'#FF4400':overTime>0.85?'#44FF44':'#ddd';
 }
 
-// RADAR
 const rc=document.getElementById('rc'), rctx=rc.getContext('2d');
 function drawRadar(){
   const W=rc.width,H=rc.height,cx=W/2,cy=H/2;
-  rctx.clearRect(0,0,W,H);
-  rctx.fillStyle='rgba(0,6,3,0.9)'; rctx.fillRect(0,0,W,H);
+  rctx.clearRect(0,0,W,H); rctx.fillStyle='rgba(0,6,3,0.9)'; rctx.fillRect(0,0,W,H);
   rctx.strokeStyle='rgba(6,214,160,0.14)';
   [0.5,0.85].forEach(r=>{rctx.beginPath();rctx.arc(cx,cy,cx*r,0,Math.PI*2);rctx.stroke();});
   rctx.fillStyle='#06D6A0'; rctx.beginPath(); rctx.arc(cx,cy,3.5,0,Math.PI*2); rctx.fill();
@@ -1720,35 +1491,31 @@ function updateHeldUI(){
   const icons={rat:'🐀',kebab:'🍢',fkebab:'❄',gun:'🔫',ext:'🧊'};
   if(!heldItem){el.classList.remove('on');}else{el.textContent=icons[heldItem]||'?';el.classList.add('on');}
   document.getElementById('dropext').classList.toggle('on',heldItem==='ext');
-
-  // Item label
   const lbl=document.getElementById('itemlabel');
   const lname=document.getElementById('itemlabel-name');
   const handCv=document.getElementById('handcanvas');
   const labelNames={rat:'RAT',kebab:'KEBAB (GRILLED)',fkebab:'KEBAB (FRIDGE)',gun:'GLOCK 19',ext:'FIRE EXTINGUISHER'};
   const showHand = heldItem==='rat'||heldItem==='kebab'||heldItem==='fkebab';
-  if(heldItem && labelNames[heldItem]){
-    lname.textContent=labelNames[heldItem];
-    lbl.classList.add('on');
-  } else {
-    lbl.classList.remove('on');
-  }
+  if(heldItem && labelNames[heldItem]){ lname.textContent=labelNames[heldItem]; lbl.classList.add('on'); } else { lbl.classList.remove('on'); }
   handCv.classList.toggle('on', showHand);
   vmRat.visible = (heldItem==='rat') || (heldItem==='kebab' && heldKebabData && heldKebabData.isGrilledRat);
   vmQuesadilla.visible = (heldItem==='fkebab') || (heldItem==='kebab' && heldKebabData && !heldKebabData.isGrilledRat);
   gunGroup.visible = (heldItem==='gun');
   const obj=document.getElementById('objt');
-  if(heldItem==='rat')      obj.innerHTML='<span class="k">F</span> Grill  <span class="k">E</span> Drop';
-  else if(heldItem==='fkebab') obj.innerHTML='<span class="k">F</span> Grill it  OR<br><span class="k">G</span> Serve raw (less pts)';
-  else if(heldItem==='kebab')  obj.innerHTML='<span class="k">G</span> Serve  <span class="k">E</span> Drop';
-  else if(heldItem==='gun')    obj.innerHTML='<span class="k">CLICK</span> Shoot<br><span class="k">R</span> Reload ('+ammo+'/'+maxAmmo+')';
-  else if(heldItem==='ext')    obj.innerHTML='<span class="k">CLICK</span> Spray<br><span class="k">Q</span> Drop it<br>Ammo: '+extinguisherAmmoo+'%';
-  else obj.innerHTML=`<span class="k">E</span> Basket (${basketCount})<br><span class="k">E</span> Fridge kebab<br><span class="k">F</span> Grill<br><span class="k">G</span> Serve`+(hasGun?'':`<br><span class="k">E</span> Locker=gun`)+(hasExt?'':`<br><span class="k">E</span> Ext`);
+  if(heldItem==='rat')
+    obj.innerHTML='<span class="k">F</span> Grill  <span class="k">E</span> Drop';
+  else if(heldItem==='fkebab')
+    obj.innerHTML='<span class="k">F</span> Grill it  OR<br><span class="k">E</span> near customer = serve raw';
+  else if(heldItem==='kebab')
+    obj.innerHTML='<span class="k">E</span> near customer = Serve<br><span class="k">E</span> away = Drop';
+  else if(heldItem==='gun')
+    obj.innerHTML='<span class="k">CLICK</span> Shoot<br><span class="k">R</span> Reload ('+ammo+'/'+maxAmmo+')<br><span class="k">Q</span> Drop gun';
+  else if(heldItem==='ext')
+    obj.innerHTML='<span class="k">CLICK</span> Spray<br><span class="k">Q</span> Drop it<br>Ammo: '+extinguisherAmmoo+'%';
+  else
+    obj.innerHTML=`<span class="k">E</span> Basket (${basketCount})<br><span class="k">E</span> Fridge kebab<br><span class="k">F</span> Grill<br><span class="k">E</span> Serve`+(hasGun?'':`<br><span class="k">E</span> Locker=gun`)+(hasExt?'':`<br><span class="k">E</span> Ext`);
 }
 
-// ═══════════════════════════════
-//  GAME CONTROL
-// ═══════════════════════════════
 function startGame(){
   ensureAudio(); playSound('start');
   document.getElementById('tut').style.display='none';
@@ -1777,7 +1544,7 @@ function startGame(){
   document.getElementById('healthbar').classList.remove('on');
   sewerRats.forEach(r=>scene.remove(r.mesh)); sewerRats.length=0;
   updateHUD(); updateHeldUI(); spawnCustomer();
-  showMsg('E=grab rat  F=grill  G=serve  1 MIN cook time','#FFD166');
+  showMsg('E=grab  F=grill  E near customer=serve','#FFD166');
 }
 
 function loseStar(reason){
@@ -1797,13 +1564,8 @@ function endGame(reason,col='#EF476F'){
 
 function resetGame(){ document.getElementById('go').classList.remove('on'); document.getElementById('cutscene').classList.remove('on'); startGame(); }
 
-// ═══════════════════════════════
-//  UPDATE
-// ═══════════════════════════════
 function update(delta){
   if(!gameRunning) return;
-
-  // Player movement
   const sprint=keys['ShiftLeft']||keys['ShiftRight'];
   const spd=(sprint?7.2:SPD)*delta;
   const fwd=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));
@@ -1815,82 +1577,49 @@ function update(delta){
   if(keys['KeyD']||keys['ArrowRight']) {PP.addScaledVector(right,spd);  moving=true;}
   if(keys['Space']&&onGround){ velY=JSPD; onGround=false; }
   velY+=GRAV*delta; PP.y+=velY*delta;
-  if(PP.y<=PH){ PP.y=PH; velY=0; onGround=true; }
+  const floorY = inSewer ? SEWER_Y+1.7 : PH;
+  if(PP.y<=floorY){ PP.y=floorY; velY=0; onGround=true; }
   for(let i=0;i<3;i++) resolvePlayer(PP);
   if(moving&&onGround){ bobPhase+=(sprint?13:8)*delta; stepT+=delta; if(stepT>(sprint?0.24:0.44)){playSound('step');stepT=0;} }
   else bobPhase*=0.88;
-
   camera.position.set(PP.x, PP.y+Math.sin(bobPhase)*0.021*(sprint?1.5:1), PP.z);
   camera.quaternion.setFromEuler(new THREE.Euler(pitch,yaw,0,'YXZ'));
   gunGroup.position.set(0.15+Math.sin(bobPhase*2)*0.005,-0.14+Math.sin(bobPhase)*0.008,-0.3);
   gunGroup.rotation.set(0.0+pitch*0.04-gunRecoil*0.1,-0.06,0);
   extGroup2.position.set(0.1+Math.sin(bobPhase*2)*0.005,-0.12+Math.sin(bobPhase)*0.008,-0.28);
   gunRecoil*=0.72;
-  // Hand bob
   handGroup.position.set(0.22+Math.sin(bobPhase*2)*0.006,-0.38+Math.sin(bobPhase)*0.01,-0.6);
   handGroup.rotation.set(-0.1+pitch*0.05,-0.15,0.05);
-  if(vmRat.visible){
-    vmRat.position.set(0.15+Math.sin(bobPhase*2)*0.005,-0.14+Math.sin(bobPhase)*0.008,-0.3);
-    vmRat.rotation.x=0.1+pitch*0.04-gunRecoil*0.05;
-  }
-  if(vmQuesadilla.visible){
-    vmQuesadilla.position.set(0.15+Math.sin(bobPhase*2)*0.005,-0.14+Math.sin(bobPhase)*0.008,-0.3);
-    vmQuesadilla.rotation.x=0.3+pitch*0.04;
-  }
+  if(vmRat.visible){ vmRat.position.set(0.15+Math.sin(bobPhase*2)*0.005,-0.14+Math.sin(bobPhase)*0.008,-0.3); vmRat.rotation.x=0.1+pitch*0.04-gunRecoil*0.05; }
+  if(vmQuesadilla.visible){ vmQuesadilla.position.set(0.15+Math.sin(bobPhase*2)*0.005,-0.14+Math.sin(bobPhase)*0.008,-0.3); vmQuesadilla.rotation.x=0.3+pitch*0.04; }
 
-  // Timers
   custT+=delta; inspT+=delta; refillT+=delta;
   if(custT>6){ spawnCustomer(); custT=Math.random()*2; }
   if(!inspActive&&inspT>INSP_INTERVAL){ spawnInspector(); inspT=0; }
   if(basketCount<8&&refillT>12){ basketCount++; refillT=0; }
 
-  // ── GRILL COOKING ──
-  // Cook color progression: white (raw) → brown → golden → DONE → overcooked → BLACK (burned)
   let burnedAnything=false;
   grillSlots.forEach(s=>{
     if(!s.item||s.done||s.burned) return;
-    const rate=s.frozen?0.3:1.0;
-    s.cookTime+=delta*rate;
+    const rate=s.frozen?0.3:1.0; s.cookTime+=delta*rate;
     const prog=s.cookTime/s.maxCook;
-
-    // Update item color: raw=white, cooking=browning, done=dark brown, burned=black
     const mesh3D = s.itemType==='rat' ? s.item.mesh : s.item._mesh;
-    if(mesh3D){
-      const col=getCookColor(Math.min(1,prog), s.burned);
-      mesh3D.traverse(c=>{
-        if(c.isMesh&&c.material&&c.material.color) c.material.color.copy(col);
-      });
-    }
-
-    // Update ring arc
+    if(mesh3D){ const col=getCookColor(Math.min(1,prog), s.burned); mesh3D.traverse(c=>{ if(c.isMesh&&c.material&&c.material.color) c.material.color.copy(col); }); }
     const progCapped=Math.min(1,prog);
-    const pts=[]; for(let i=0;i<=30;i++){const a=-Math.PI/2+Math.PI*2*(i/30)*progCapped; pts.push(new THREE.Vector3(Math.cos(a)*0.25,0,Math.sin(a)*0.25));}
-    s.ring.geometry.dispose(); s.ring.geometry=new THREE.BufferGeometry().setFromPoints(pts);
+    { const pos=s.ring.geometry.attributes.position; for(let i=0;i<=30;i++){ const a=-Math.PI/2+Math.PI*2*(i/30)*progCapped; pos.setXYZ(i,Math.cos(a)*0.25,0,Math.sin(a)*0.25); } pos.needsUpdate=true; }
     if(s.frozen) s.ring.material.color.setHex(0x00BFFF);
-    else if(prog<0.5) s.ring.material.color.setHex(0xFFEEDD); // white/raw
-    else if(prog<0.85) s.ring.material.color.setHex(0xFF8800); // browning
-    else if(prog<1.1) s.ring.material.color.setHex(0x00FF88); // done green
-    else s.ring.material.color.setHex(0xFF2200); // over warning
-
-    // DONE check (at exactly 60 seconds)
-    if(s.cookTime>=s.maxCook&&!s.done&&!s.burned){
-      s.done=true;
-      if(s.itemType==='rat'&&s.item) s.item.done=true;
-      s.ring.material.color.setHex(0x00FF88);
-      showMsg('KEBAB DONE!  E near grill to pick up','#06D6A0'); playSound('ding');
-    }
-
-    // OVERCOOKED → BURNED (black) — happens 45s after done
+    else if(prog<0.5) s.ring.material.color.setHex(0xFFEEDD);
+    else if(prog<0.85) s.ring.material.color.setHex(0xFF8800);
+    else if(prog<1.1) s.ring.material.color.setHex(0x00FF88);
+    else s.ring.material.color.setHex(0xFF2200);
+    if(s.cookTime>=s.maxCook&&!s.done&&!s.burned){ s.done=true; if(s.itemType==='rat'&&s.item) s.item.done=true; s.ring.material.color.setHex(0x00FF88); showMsg('KEBAB DONE!  E near grill to pick up','#06D6A0'); playSound('ding'); }
     if(s.cookTime>s.maxCook+45&&!s.burned){
       s.burned=true; s.done=false; burnedAnything=true;
-      // Turn black
       if(mesh3D) mesh3D.traverse(c=>{ if(c.isMesh&&c.material&&c.material.color) c.material.color.copy(getCookColor(0,true)); });
       s.ring.material.color.setHex(0x111111);
       shopFireLevel=Math.min(100,shopFireLevel+25); updateFireBar();
       if(!shopOnFire&&shopFireLevel>=50) igniteFire();
-      loseStar('Burned the food! -1 star');
-      playSound('burned');
-      // Remove burned item after 2s
+      loseStar('Burned the food! -1 star'); playSound('burned');
       setTimeout(()=>{
         if(mesh3D) scene.remove(mesh3D);
         if(s.itemType==='rat'&&s.item) rats=rats.filter(r=>r!==s.item);
@@ -1901,11 +1630,8 @@ function update(delta){
 
   if(!burnedAnything&&shopFireLevel>0&&!shopOnFire){ shopFireLevel=Math.max(0,shopFireLevel-delta*3); updateFireBar(); }
   if(shopOnFire){ shopFireLevel=Math.min(100,shopFireLevel+delta*4); updateFireBar(); document.getElementById('fireoverlay').style.opacity=Math.min(0.6,shopFireLevel/100); }
-
-  // Update cook bar
   updateCookBar();
 
-  // Customers
   customers.forEach(cd=>{
     if(cd.exiting){ cd.mesh.position.x+=cd.side*0.08; return; }
     cd.mesh.position.x+=(cd.tx-cd.mesh.position.x)*0.03;
@@ -1917,35 +1643,19 @@ function update(delta){
   });
   customers=customers.filter(cd=>{ if(cd.exiting&&Math.abs(cd.mesh.position.x)>18){scene.remove(cd.mesh);return false;} return true; });
 
-  // Inspector
   if(inspActive&&inspData&&inspMesh){
     inspMesh.position.x+=inspData.vx;
     const tp=new THREE.Vector2(PP.x-inspMesh.position.x,PP.z-inspMesh.position.z);
-    if(tp.length()<7) inspMesh.rotation.y=Math.atan2(tp.x,tp.y);
-    else inspMesh.rotation.y=inspData.vx<0?-Math.PI/2:Math.PI/2;
-    if(Math.abs(inspMesh.position.x)<8){
-      if(grillSlots.some(s=>s.item)&&Math.random()<0.004){
-        loseStar('Inspector busted you! -1 star');
-        grillSlots.forEach(s=>{
-          if(s.item){const m=s.item.mesh||s.item._mesh; if(m) scene.remove(m);}
-          s.item=null; s.itemType=null; s.done=false; s.burned=false; s.cookTime=0; s.ring.visible=false;
-        });
-        rats=rats.filter(r=>!r.onGrill); triggerGlitch();
-      }
-    }
+    if(tp.length()<7) inspMesh.rotation.y=Math.atan2(tp.x,tp.y); else inspMesh.rotation.y=inspData.vx<0?-Math.PI/2:Math.PI/2;
+    if(Math.abs(inspMesh.position.x)<8){ if(grillSlots.some(s=>s.item)&&Math.random()<0.004){ loseStar('Inspector busted you! -1 star'); grillSlots.forEach(s=>{ if(s.item){const m=s.item.mesh||s.item._mesh; if(m) scene.remove(m);} s.item=null; s.itemType=null; s.done=false; s.burned=false; s.cookTime=0; s.ring.visible=false; }); rats=rats.filter(r=>!r.onGrill); triggerGlitch(); } }
     const absX=Math.abs(inspMesh.position.x);
     if(absX>15&&!inspWarningShown){ inspWarningShown=true; inspLeaveTimer=0; showMsg('Inspector leaving! Shoot him!','#FF8800'); }
     if(inspWarningShown) inspLeaveTimer+=delta;
-    if(absX>21){
-      if(inspWarningShown) loseStar('Inspector escaped! -1 star');
-      inspActive=false; inspMesh.visible=false; inspWarningShown=false; inspLeaveTimer=0;
-      document.getElementById('inspbar').classList.remove('on');
-    }
+    if(absX>21){ if(inspWarningShown) loseStar('Inspector escaped! -1 star'); inspActive=false; inspMesh.visible=false; inspWarningShown=false; inspLeaveTimer=0; document.getElementById('inspbar').classList.remove('on'); }
     if(inspMesh._hpBar){ const p=inspHP/3; inspMesh._hpBar.scale.x=p; inspMesh._hpBar.position.x=(p-1)*0.36; }
     updateInspBar();
   }
 
-  // Particles
   particles.forEach(p=>{
     if(p.isBullet){ p.mesh.position.x+=p.vx; p.mesh.position.y+=p.vy; p.mesh.position.z+=p.vz; }
     else{ p.mesh.position.x+=p.vx; p.mesh.position.y+=p.vy; p.mesh.position.z+=p.vz; p.vy-=p.isFire?0.001:0.004; if(p.isSteam) p.mesh.scale.setScalar(1+(1-p.life)*3); }
@@ -1953,12 +1663,13 @@ function update(delta){
   });
   particles=particles.filter(p=>{ if(p.life<=0){scene.remove(p.mesh);return false;} return true; });
 
-
   doSteam(delta);
   updateSewerRats(delta);
+  if(inSewer){ srLight.intensity = 2.8+Math.sin(Date.now()*0.007)*0.8; }
 
-  // Interact prompt
   let near=false;
+  if(!inSewer&&PP.distanceTo(MANHOLE_POS)<2.2) near=true;
+  if(inSewer&&PP.distanceTo(new THREE.Vector3(40,SEWER_Y+1.7,47))<2.0) near=true;
   if(PP.distanceTo(BASKET_POS)<IDIST+0.4&&basketCount>0&&!heldItem) near=true;
   if(PP.distanceTo(FRIDGE_POS)<IDIST+0.5&&!heldItem) near=true;
   if(!hasGun&&PP.distanceTo(LOCKER_POS)<IDIST+0.6) near=true;
@@ -1966,65 +1677,55 @@ function update(delta){
   grillSlots.forEach(s=>{ if(s.done&&PP.distanceTo(s.pos)<GDIST&&!heldItem) near=true; });
   customers.forEach(cd=>{ if(!cd.served&&!cd.exiting&&(heldItem==='kebab'||heldItem==='fkebab')&&PP.distanceTo(cd.mesh.position)<IDIST+0.7) near=true; });
   document.getElementById('inter').classList.toggle('on',near);
-
   drawRadar();
 }
 
-// ═══════════════════════════════
-//  RENDER LOOP
-// ═══════════════════════════════
 const clock=new THREE.Clock();
 let time=0;
 let fpsTime=0, fpsCount=0, fpsDisplay=0;
 function animate(){
-  setTimeout(animate,0);
+  requestAnimationFrame(animate);
   const delta=Math.min(clock.getDelta(),0.05);
   time+=delta;
   fpsTime+=delta; fpsCount++;
   if(fpsTime>=0.5){ fpsDisplay=Math.round(fpsCount/fpsTime); fpsCount=0; fpsTime=0; document.getElementById('fps').textContent=fpsDisplay+' FPS'; }
   update(delta);
 
-  // Grill fire flicker
   grillFire.intensity=(shopOnFire?6:3.5)+Math.sin(time*13)*0.9+Math.sin(time*19)*0.4;
   grillFire.color.setHSL(0.07+Math.random()*0.025,1,0.52);
   coalPlane.material.opacity=0.55+Math.sin(time*8)*0.14;
   if(shopOnFire){ fireLight.intensity=3+Math.sin(time*7)*1.5; fireLight.color.setHSL(0.04+Math.random()*0.04,1,0.5); }
-
-  // Neon
   const fl=0.7+0.3*Math.sin(time*7+Math.sin(time*21));
   neonRing.material.emissiveIntensity=fl*3; signGlow.intensity=fl*2.2;
-
-  // Lamp flicker
-  lampPostLights.forEach((l,i)=>{ l.intensity=1.7+Math.sin(time*58+i)*0.06; });
-
-  // Clouds
   clouds.forEach((c,i)=>{ c.position.x+=(i%2?0.012:-0.01); if(c.position.x>40)c.position.x=-40; if(c.position.x<-40)c.position.x=40; });
-
-  // Trees sway
   trees.forEach((t,i)=>{ t.rotation.z=Math.sin(time*0.72+i*1.65)*0.028+(i%2?-0.04:0.04); });
-  // Float rat + quesadilla bob
   floatRatG.position.y = 1.3 + Math.sin(time*1.8)*0.12;
   floatRatMesh.rotation.y = time*1.2;
   frRing.material.opacity = 0.35+Math.sin(time*3)*0.2;
   floatKebabG.position.y = 2.5 + Math.sin(time*1.8+1)*0.12;
   floatKebabMesh.rotation.y = time*1.0;
   fkRing.material.opacity = 0.35+Math.sin(time*3+1)*0.2;
-
-
-  // Ring pulses
   bkRing.material.opacity=PP.distanceTo(BASKET_POS)<2.8?0.55+Math.sin(time*5)*0.2:0.22;
+  floatCapG.position.y = 0.55 + Math.sin(time*1.6)*0.1;
+  floatCapG.rotation.y = time*0.7;
+  capRingGlow.material.opacity = inSewer ? 0 : 0.4+Math.sin(time*4)*0.2;
+  floatCapG.visible = !inSewer;
+  floatExitCapG.position.y = SEWER_Y+0.6 + Math.sin(time*1.6+1)*0.1;
+  floatExitCapG.rotation.y = -time*0.7;
+  exitCapRing.material.opacity = 0.4+Math.sin(time*4+1)*0.2;
   mhGlow.material.opacity = inSewer ? 0 : (0.35+Math.sin(time*4)*0.2);
   if(inSewer){
     entryCircleGlow.material.opacity=0.4+Math.sin(time*4)*0.2;
     entryCircleRing1.material.opacity=0.5+Math.sin(time*4+0.5)*0.25;
     entryCircleLight.intensity=2.5+Math.sin(time*3)*1.0;
+    sideTunnelLights.forEach((l,i)=>{ l.intensity=0.9+Math.sin(time*4+i*1.5)*0.35; });
+    barrelGlow.intensity=0.6+Math.sin(time*5)*0.4;
   }
-  sewerLights.forEach((l,i)=>{ l.intensity = 1.0+Math.sin(time*3+i*1.2)*0.3; });
+  if(inSewer){ sewerLights.forEach((l,i)=>{ l.intensity = 1.0+Math.sin(time*3+i*1.2)*0.3; }); }
   if(!hasExt) extRing.material.opacity=PP.distanceTo(EXT_POS)<2.5?0.55+Math.sin(time*5)*0.2:0.28;
   fridgeRing.material.opacity=PP.distanceTo(FRIDGE_POS)<2.5?0.65+Math.sin(time*5)*0.2:0.35;
   if(!hasGun) lockLight.intensity=1.4+Math.sin(time*4)*0.6;
 
-  // Render
   renderer.autoClear=true;
   renderer.render(scene,camera);
   renderer.autoClear=false;
@@ -2040,4 +1741,3 @@ animate();
 </script>
 </body>
 </html>
-
