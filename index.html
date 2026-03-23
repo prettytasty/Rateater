@@ -1,0 +1,891 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>RAT KEBAB</title>
+<!-- ✅ FIX 1: FAVICON — rat image from model folder -->
+<link rel="icon" href="model/ratlogo.png" type="image/png">
+<script>
+// Fallback: also set via JS in case link tag doesn't work in some browsers
+(function(){
+  var l=document.querySelector('link[rel="icon"]');
+  if(!l){l=document.createElement('link');l.rel='icon';document.head.appendChild(l);}
+  l.href='model/ratlogo.png';l.type='image/png';
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js" as="script">
+<link rel="preload" href="model/thickrat.glb" as="fetch" crossorigin>
+<link rel="preload" href="model/shotgun.glb" as="fetch" crossorigin>
+<style>@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;700&family=Poppins:wght@400;600;700&display=swap') screen;*{margin:0;padding:0;box-sizing:border-box}body{background:#111;overflow:hidden;width:100vw;height:100vh;font-family:'IBM Plex Mono',monospace;cursor:auto}canvas#main{display:block;position:fixed;top:0;left:0;width:100vw!important;height:100vh!important;cursor:auto}body.locked{cursor:none}body.locked canvas#main{cursor:none}#xhair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:20;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,0.85);box-shadow:0 0 0 1px rgba(0,0,0,0.5);display:none}body.locked #xhair{display:block}#xhair::before,#xhair::after{display:none}#xhair.gun{border-color:#fff;box-shadow:0 0 6px rgba(255,255,255,0.5),0 0 0 1px rgba(0,0,0,0.5)}#xhair.ext{border-color:#88CCFF;box-shadow:0 0 6px rgba(136,204,255,0.5),0 0 0 1px rgba(0,0,0,0.5)}#xhair.shotgun{border-color:#FF9900;box-shadow:0 0 8px rgba(255,153,0,0.6),0 0 0 1px rgba(0,0,0,0.5);width:48px;height:48px;transition:width 0.15s,height 0.15s}#xhair.shotgun-bloom{border-color:#FF5500;box-shadow:0 0 14px rgba(255,85,0,0.7),0 0 0 1px rgba(0,0,0,0.5);width:80px;height:80px;transition:width 0.05s,height 0.05s}#vignette{position:fixed;inset:0;pointer-events:none;z-index:4;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.7) 100%)}#dmg{position:fixed;inset:0;pointer-events:none;z-index:30;opacity:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(200,200,200,0.4) 100%)}#mflash{position:fixed;inset:0;pointer-events:none;z-index:31;opacity:0;background:rgba(255,255,255,0.18)}#freeze{position:fixed;inset:0;pointer-events:none;z-index:32;opacity:0;background:rgba(200,220,255,0.18)}#fireoverlay{position:fixed;inset:0;pointer-events:none;z-index:33;opacity:0;background:radial-gradient(ellipse at center,transparent 30%,rgba(180,100,50,0.35) 100%)}#glitch{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.025) 2px,rgba(255,255,255,0.025) 4px)}#glitch.on{opacity:1}#itemlabel{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.88);border:2px solid rgba(255,255,255,0.3);border-radius:4px;padding:8px 22px;text-align:center;pointer-events:none;opacity:0;transition:opacity .2s;z-index:25;min-width:180px}#itemlabel.on{opacity:1}#itemlabel-name{font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:4px}#itemlabel-sub{font-size:9px;color:#fff;letter-spacing:2px;margin-top:2px}#hud{display:none;position:fixed;inset:0;pointer-events:none;z-index:10}#hud.on{display:block}.htop{position:fixed;top:0;left:0;right:0;height:50px;background:linear-gradient(to bottom,rgba(0,0,0,0.9),transparent);display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,0.06)}.hst{padding:5px 18px;border-right:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:center}.hst:last-child{border-right:none}.hv{font-family:'Bebas Neue',sans-serif;font-size:21px;color:#eee;letter-spacing:2px;line-height:1}.hl{font-size:8px;color:rgba(255,255,255,0.3);letter-spacing:4px;margin-top:1px}.hbot{position:fixed;bottom:0;left:0;right:0;height:52px;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);display:flex;align-items:center;justify-content:space-between;padding:0 22px}.ammo{font-family:'Bebas Neue',sans-serif;font-size:30px;color:#ddd;letter-spacing:2px}.ammo small{font-size:14px;color:rgba(255,255,255,0.25);margin-left:3px}.heldico{font-size:32px;filter:drop-shadow(0 0 8px rgba(255,255,255,0.5));opacity:0;transition:opacity .3s}.heldico.on{opacity:1}#panel{position:fixed;top:54px;right:14px;background:rgba(10,10,10,0.82);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:9px 13px;font-size:11px;line-height:2.1;color:#999;max-width:185px;backdrop-filter:blur(6px)}#panel .pt{font-family:'Bebas Neue',sans-serif;font-size:13px;color:#ddd;letter-spacing:3px;margin-bottom:3px}.k{display:inline-block;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);padding:0 5px;border-radius:3px;color:#ccc;font-size:10px}#radar{position:fixed;bottom:55px;right:14px;width:96px;height:96px;border-radius:50%;border:1px solid rgba(180,180,180,0.2);background:rgba(0,0,0,0.88);overflow:hidden}#msg{position:fixed;top:37%;left:50%;transform:translateX(-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,3vw,40px);letter-spacing:3px;text-shadow:0 2px 14px rgba(0,0,0,0.95);opacity:0;transition:opacity .25s;pointer-events:none;z-index:50;text-align:center;white-space:nowrap}#inter{position:fixed;bottom:36%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);border:1px solid rgba(255,255,255,0.15);color:#ddd;padding:4px 16px;font-size:11px;letter-spacing:3px;border-radius:18px;opacity:0;transition:opacity .18s;pointer-events:none}#inter.on{opacity:1}#healthbar{position:fixed;bottom:60px;left:14px;width:180px;pointer-events:none;z-index:20;display:none}#healthbar.on{display:block}#hb-label{font-family:'Bebas Neue',sans-serif;font-size:11px;color:#ffffff;letter-spacing:3px;margin-bottom:3px}#hb-track{width:100%;height:10px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,50,50,0.35);border-radius:5px;overflow:hidden}#hb-fill{height:100%;width:100%;background:linear-gradient(to right,#22cc22,#66ff66);border-radius:5px;transition:width .4s ease,background .5s ease}#hb-fill.hit{animation:hbHit 0.3s ease;}@keyframes hbHit{0%{filter:brightness(2)}100%{filter:brightness(1)}}#fps{position:fixed;top:54px;left:14px;background:rgba(0,0,0,0.6);color:#0f0;font-size:11px;font-family:"IBM Plex Mono",monospace;padding:2px 8px;border-radius:4px;z-index:20;pointer-events:none;letter-spacing:1px}#lookhint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.32);font-size:11px;letter-spacing:3px;padding:3px 14px;border-radius:18px;background:rgba(0,0,0,0.5);transition:opacity 2s}#inspbar{position:fixed;top:50%;left:50%;transform:translate(-50%,55px);width:130px;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center}#inspbar.on{opacity:1}#ibfill{height:5px;background:#ccc;border-radius:3px;transition:width .12s}#iblbl{font-size:9px;color:#bbb;letter-spacing:3px;margin-top:2px}#firebar{position:fixed;bottom:75px;left:50%;transform:translateX(-50%);width:200px;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center}#firebar.on{opacity:1}#fbfill{height:6px;background:linear-gradient(to right,#888,#ccc);border-radius:3px;transition:width .2s}#fblbl{font-size:9px;color:#aaa;letter-spacing:3px;margin-top:2px}
+#powerbar{position:fixed;bottom:80px;right:18px;width:160px;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center;z-index:20}#powerbar.on{opacity:1}#cookbar{position:fixed;top:58px;left:50%;transform:translateX(-50%);width:280px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:15}#cookbar.on{opacity:1}#cookbar-track{width:100%;height:14px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);border-radius:7px;overflow:hidden;position:relative}#cookbar-fill{height:100%;width:0%;border-radius:7px;transition:width .25s,background .5s}#cookbar-label{font-family:'Bebas Neue',sans-serif;font-size:13px;color:#ddd;letter-spacing:3px;text-align:center;margin-bottom:3px}#cookbar-time{font-size:9px;color:rgba(255,255,255,0.4);text-align:center;margin-top:2px;letter-spacing:3px}#dropext{position:fixed;bottom:95px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);border:1px solid rgba(255,255,255,0.18);color:#ddd;padding:5px 18px;font-size:11px;letter-spacing:3px;border-radius:18px;opacity:0;transition:opacity .2s;pointer-events:all;cursor:pointer;font-family:'IBM Plex Mono',monospace}#dropext.on{opacity:1}#dropkebab{position:fixed;bottom:125px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);border:1px solid rgba(255,180,0,0.4);color:#FFD166;padding:5px 18px;font-size:11px;letter-spacing:3px;border-radius:18px;opacity:0;transition:opacity .2s;pointer-events:none;cursor:pointer;font-family:'IBM Plex Mono',monospace}#dropkebab.on{opacity:1;pointer-events:all}#tut{position:fixed;inset:0;background:#0a0a0a;z-index:100;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:auto}#tut *{cursor:auto}#tut::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px)}.tbox{position:relative;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:28px 36px;max-width:560px;width:94%;backdrop-filter:blur(12px);box-shadow:0 0 80px rgba(255,255,255,0.04)}.mega-title{text-align:center;margin-bottom:4px}.mega-title .line1{display:block;font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,9vw,90px);color:#fff;letter-spacing:8px;line-height:0.9;text-shadow:0 0 40px rgba(255,255,255,0.3),4px 4px 0 #333,8px 8px 0 #222}.mega-title .line2{display:block;font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,52px);color:#fff;letter-spacing:14px;margin-top:4px}.mega-title .line3{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#fff;letter-spacing:6px;margin-top:8px;margin-bottom:18px}.rat-deco{font-size:38px;display:block;text-align:center;margin:8px 0;filter:grayscale(1)}.credit-tag{text-align:center;font-size:10px;color:#fff;letter-spacing:5px;margin-bottom:14px}.credit-tag span{color:#fff}.shoutout{text-align:center;font-size:9px;color:#fff;letter-spacing:3px;margin-bottom:12px}.shoutout span{color:#fff}.steps{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}.step{display:flex;gap:11px;align-items:flex-start;background:rgba(255,255,255,0.03);border-radius:5px;padding:7px 11px;border-left:3px solid #444}.si{font-size:18px;flex-shrink:0;filter:grayscale(0.5)}.st h4{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:#fff;margin-bottom:1px}.st p{color:#fff;font-size:10px;line-height:1.5}.krow{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}.kb{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:3px 9px;color:#fff;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:1px}.kb span{font-size:8px;color:#fff;letter-spacing:1px}.sbtn{width:100%;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:6px;background:#fff;border:none;border-radius:6px;color:#000;cursor:pointer;transition:all .15s;box-shadow:0 4px 24px rgba(255,255,255,0.1)}.sbtn:hover{background:#eee;transform:translateY(-2px)}#cutscene{display:none;position:fixed;inset:0;background:#000;z-index:200;flex-direction:column;align-items:center;justify-content:center}#cutscene.on{display:flex}#cutcanvas{border:none}.ct-txt{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,4vw,46px);color:#fff;letter-spacing:4px;margin-top:22px;text-align:center}.ct-sub{color:rgba(255,255,255,0.35);font-size:13px;letter-spacing:4px;margin-top:8px}#go{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);flex-direction:column;align-items:center;justify-content:center;z-index:300;cursor:auto}#go.on{display:flex}#go *{cursor:auto}.gotl{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,82px);letter-spacing:6px;margin-bottom:6px}.gosb{color:#444;font-size:13px;margin-bottom:20px;letter-spacing:4px}#loadscreen{position:fixed;inset:0;background:#0a0a0a;z-index:500;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}#loadscreen.hidden{display:none}#loadtxt{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#aaa;letter-spacing:6px}#loadbar{width:200px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden}#loadfill{height:100%;width:0%;background:#fff;border-radius:2px;transition:width .3s}
+#infobtn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.15);border:2.5px solid rgba(255,255,255,0.5);color:#fff;font-size:26px;font-family:'Bebas Neue',sans-serif;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s;z-index:150;box-shadow:0 0 24px rgba(255,255,255,0.12),0 4px 16px rgba(0,0,0,0.5)}#infobtn:hover{background:rgba(255,255,255,0.28);border-color:#fff;transform:scale(1.12);box-shadow:0 0 36px rgba(255,255,255,0.25)}
+#creditsmodal{display:none;position:fixed;inset:0;z-index:500;align-items:center;justify-content:center;background:rgba(0,0,0,0.82);backdrop-filter:blur(8px)}#creditsmodal.on{display:flex}
+#creditsbox{position:relative;background:#0d0d0d;border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:36px 40px 32px;max-width:500px;width:94%;box-shadow:0 0 80px rgba(0,0,0,0.9),0 0 0 1px rgba(255,255,255,0.05);animation:cfadein .22s ease}
+@keyframes cfadein{from{opacity:0;transform:scale(0.93)}to{opacity:1;transform:scale(1)}}
+#creditsbox .ctitle{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:8px;color:#fff;text-align:center;margin-bottom:24px;text-shadow:0 0 30px rgba(255,255,255,0.2)}
+.cblock{margin-bottom:18px;background:rgba(255,255,255,0.04);border-radius:8px;padding:14px 18px;border-left:4px solid #444}
+.cblock-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:5px;color:rgba(255,255,255,0.4);margin-bottom:10px}
+.cnames{display:flex;flex-wrap:wrap;gap:8px}
+.cname{font-family:'IBM Plex Mono',monospace;font-size:15px;padding:5px 14px;border-radius:22px;font-weight:700;letter-spacing:1px}
+.cname.model{background:rgba(255,209,102,0.14);border:1.5px solid rgba(255,209,102,0.4);color:#FFD166}
+.cname.shout{background:rgba(6,214,160,0.12);border:1.5px solid rgba(6,214,160,0.3);color:#06D6A0}
+.cname.donor{background:rgba(239,71,111,0.12);border:1.5px solid rgba(239,71,111,0.3);color:#EF476F}
+.cblock.model-block{border-left-color:#FFD166}
+.cblock.shout-block{border-left-color:#06D6A0}
+.cblock.donor-block{border-left-color:#EF476F}
+#creditsclose{position:absolute;top:14px;right:18px;background:none;border:none;color:rgba(255,255,255,0.4);font-size:26px;cursor:pointer;line-height:1;transition:color .15s;font-family:'IBM Plex Mono',monospace}#creditsclose:hover{color:#fff}
+.cbottom{text-align:center;font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:4px;margin-top:12px}
+
+/* ===== MAIN MENU STYLES ===== */
+#tut{position:fixed;inset:0;background:#0d0d0d;z-index:200;display:flex;align-items:stretch;justify-content:flex-end;cursor:auto;overflow:hidden;}
+#tut *{cursor:auto;}
+#tut::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,0.012) 40px,rgba(255,255,255,0.012) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,0.012) 40px,rgba(255,255,255,0.012) 41px);pointer-events:none;z-index:1;}
+#menuPanel{position:relative;z-index:10;width:30%;min-width:280px;background:rgba(5,5,5,0.92);border-left:1px solid rgba(255,255,255,0.09);display:flex;flex-direction:column;justify-content:flex-start;padding:48px 38px 36px;backdrop-filter:blur(14px);}
+#modePicker,#settingsPanel,#creditsPanel{position:absolute;top:0;right:0;bottom:0;width:30%;min-width:280px;z-index:20;background:rgba(5,5,5,0.97);border-left:1px solid rgba(255,255,255,0.09);display:flex;flex-direction:column;justify-content:center;padding:40px 36px;overflow-y:auto;}
+/* ── Mobile: stack panels full-width so they're easy to tap ── */
+@media(pointer:coarse),(max-width:700px){
+  #tut{justify-content:center;align-items:flex-start;overflow-y:auto;}
+  #menuPanel{width:100%!important;min-width:0!important;border-left:none!important;padding:36px 24px 80px;border-top:none;justify-content:flex-start;}
+  #modePicker,#settingsPanel,#creditsPanel{width:100%!important;min-width:0!important;border-left:none!important;padding:28px 20px 80px;position:fixed;top:0;right:0;left:0;bottom:0;overflow-y:auto;}
+  .mBtn{font-size:22px!important;padding:15px 0 15px 18px!important;min-height:56px;}
+  .mpCard{padding:16px!important;min-height:64px;}
+  .mpCardTitle{font-size:20px!important;}
+}
+#menuTitle{margin-bottom:32px;}
+.mtL1{display:block;font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,4.5vw,64px);color:#fff;letter-spacing:5px;line-height:0.88;text-shadow:0 0 50px rgba(255,200,100,0.25),3px 3px 0 #1a1a1a;}
+.mtL2{display:block;font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,2.2vw,26px);color:rgba(255,200,80,0.7);letter-spacing:10px;margin-top:5px;}
+.mtL3{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(255,255,255,0.22);letter-spacing:2px;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.07);}
+.menuBtns{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+.mBtn{width:100%;padding:13px 0;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:5px;border:none;border-radius:5px;cursor:pointer;transition:all .18s;text-align:left;padding-left:18px;}
+.mBtnPrimary{background:linear-gradient(135deg,#fff 0%,#e8e8e8 100%);color:#000;box-shadow:0 2px 12px rgba(255,255,255,0.08);}
+.mBtnPrimary:hover{background:linear-gradient(135deg,#fff 0%,#d0d0d0 100%);transform:translateX(4px);box-shadow:0 4px 20px rgba(255,255,255,0.15);}
+.mBtnSecondary{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.1);}
+.mBtnSecondary:hover{background:rgba(255,255,255,0.1);color:#fff;transform:translateX(4px);border-color:rgba(255,255,255,0.25);}
+.mBtnDisabled{background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.06);cursor:default;}
+.mBtnDisabled:hover{transform:none;}
+.mpBack{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.95);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:3px;cursor:pointer;text-align:left;padding:10px 18px;margin-bottom:22px;border-radius:5px;transition:all .15s;display:inline-flex;align-items:center;gap:8px;}
+.mpBack:hover{background:rgba(255,255,255,0.13);border-color:rgba(255,255,255,0.4);color:#fff;}
+.mpTitle{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:5px;color:#fff;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.mpCard{display:flex;gap:14px;align-items:center;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:8px;padding:14px 16px;cursor:pointer;transition:all .15s;}
+.mpCard:hover{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.22);transform:translateX(4px);}
+.mpCardIcon{font-size:26px;flex-shrink:0;}
+.mpCardTitle{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;color:#fff;}
+.mpCardSub{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:1px;margin-top:3px;line-height:1.5;}
+.settingsList{display:flex;flex-direction:column;gap:8px;margin-top:4px;overflow-y:auto;max-height:calc(100vh - 160px);padding-right:2px;}
+.sEntry{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:11px 13px;}
+.sCurrent{border-color:rgba(255,200,80,0.35);background:rgba(255,200,80,0.05);}
+.sVer{font-family:'Poppins',sans-serif;font-size:11px;font-weight:400;color:rgba(255,200,80,0.7);letter-spacing:2px;margin-bottom:4px;text-transform:uppercase;}
+.sCurrent .sVer{color:#FFD166;}
+.sTitle{font-family:'Poppins',sans-serif;font-size:15px;font-weight:400;letter-spacing:1px;color:#fff;margin-bottom:6px;}
+.sBody{font-family:'Poppins',sans-serif;font-size:12px;font-weight:400;letter-spacing:0px;color:#fff;line-height:1.9;}
+.sBeta{background:rgba(255,80,80,0.07);border:1px solid rgba(255,80,80,0.18);border-radius:5px;padding:9px 12px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:400;color:#fff;letter-spacing:1px;margin-top:6px;text-align:center;}
+
+/* ✅ MOBILE CHAT BUTTON — matches other mobile buttons */
+#mobileChatBtn{
+  position:fixed;
+  bottom:170px;
+  left:16px;
+  z-index:99998;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.1);
+  border:2px solid rgba(255,255,255,0.3);
+  color:#fff;
+  font-size:20px;
+  font-family:'Bebas Neue',sans-serif;
+  letter-spacing:1px;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-appearance:none;
+  appearance:none;
+  outline:none;
+  pointer-events:all;
+  transition:background .08s;
+  user-select:none;
+  -webkit-user-select:none;
+}
+#mobileChatBtn:active, #mobileChatBtn.pressed{
+  background:rgba(80,80,80,0.75);
+  border-color:rgba(255,255,255,0.9);
+  transform:scale(0.93);
+}
+@media(pointer:coarse),(max-width:900px){
+  #mobileChatBtn.gameactive{ display:flex !important; }
+}
+
+/* ✅ MOBILE CROSSHAIR — small dot */
+#mobileCrosshair{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:20;
+  display:none;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.9);
+  box-shadow:0 0 0 1.5px rgba(0,0,0,0.6);
+}
+@media(pointer:coarse),(max-width:900px){
+  #mobileCrosshair.gameactive{ display:block !important; }
+}
+</style></head><body>
+<div id="loadscreen"><div id="loadtxt">LOADING RAT...</div><div id="loadbar"><div id="loadfill"></div></div></div>
+<canvas id="main"></canvas><div id="xhair"></div><div id="fps">0 FPS</div>
+<div id="dayCounter" style="position:fixed;top:54px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.65);color:#FFD166;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:3px;padding:3px 16px;border-radius:18px;pointer-events:none;z-index:20;display:none;">DAY 1</div>
+
+<!-- CHAT — hidden until T button pressed -->
+<div id="chatWindow" style="position:fixed;bottom:80px;left:14px;width:min(300px,calc(100vw-28px));background:rgba(20,20,30,0.95);border:1px solid rgba(255,255,255,0.15);border-radius:10px;overflow:hidden;z-index:9995;display:none;flex-direction:column;pointer-events:all;font-family:'IBM Plex Mono',monospace;box-shadow:0 4px 24px rgba(0,0,0,0.7);">
+  <div id="chatLog" style="height:160px;overflow-y:auto;padding:8px 10px;display:flex;flex-direction:column;gap:4px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;"></div>
+  <div style="display:flex;align-items:center;border-top:1px solid rgba(255,255,255,0.1);padding:4px 6px;gap:4px;background:rgba(0,0,0,0.3);">
+    <input id="chatInput" type="text" maxlength="80" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type message..." inputmode="text" style="flex:1;background:transparent;border:none;outline:none;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:14px;caret-color:#FFD166;min-width:0;padding:6px 4px;">
+    <button id="chatSendBtn" style="background:rgba(255,209,102,0.2);border:1px solid rgba(255,209,102,0.4);border-radius:6px;cursor:pointer;color:#FFD166;font-size:18px;padding:6px 10px;min-width:40px;min-height:40px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;flex-shrink:0;">➤</button>
+  </div>
+</div>
+<div id="chatFloat" style="position:fixed;bottom:80px;left:14px;width:min(300px,calc(100vw-28px));pointer-events:none;z-index:49;display:flex;flex-direction:column;gap:4px;justify-content:flex-end;"></div>
+<style>
+.chatMsg{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#eee;line-height:1.4;word-break:break-word;}
+.chatMsg.system{color:#aaa;font-style:italic;}
+.chatFloat-msg{font-family:'IBM Plex Mono',monospace;font-size:12px;background:rgba(30,30,40,0.82);border-radius:4px;padding:3px 8px;color:#eee;animation:floatFade 8s ease forwards;word-break:break-word;}
+@keyframes floatFade{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
+#chatLog::-webkit-scrollbar{width:4px;}
+#chatLog::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);border-radius:2px;}
+</style>
+
+<!-- MOBILE CHAT BUTTON — same style as other mobile buttons -->
+<button id="mobileChatBtn" aria-label="Open chat">T</button>
+
+<!-- MOBILE CROSSHAIR — shown during gameplay on touch devices -->
+<div id="mobileCrosshair"></div>
+
+<div id="healthbar"><div id="hb-label">❤ HEALTH</div><div id="hb-track"><div id="hb-fill"></div></div></div>
+<div id="vignette"></div><div id="dmg"></div><div id="mflash"></div><div id="freeze"></div><div id="fireoverlay"></div><div id="glitch"></div>
+<div id="itemlabel"><div id="itemlabel-name">RAT</div><div id="itemlabel-sub">sorry we have low budget (5 dollar)</div></div>
+
+<button id="dropext">[ Q ] PUT DOWN EXTINGUISHER</button>
+<button id="dropkebab" onclick="if(heldItem==='kebab'||heldItem==='fkebab')dropKebab();else if(heldItem==='grilledbread')dropBread()">[ Q ] DROP KEBAB</button>
+<!-- ===== BAD GAMES STUDIO SPLASH ===== -->
+<div id="badgamesSplash">
+  <div id="bgSplashInner">
+    <div id="bgPresents">BAD GAME STUDIO PRESENTS</div>
+    <img id="bgLogo" src="model/betterlogo.png" alt="Bad Games">
+  </div>
+</div>
+
+<style>
+#badgamesSplash{
+  position:fixed;inset:0;z-index:9999;
+  background:#000;
+  display:flex;align-items:center;justify-content:center;
+  animation: bgFadeOut 0.6s ease-in 3.2s forwards;
+}
+#bgSplashInner{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
+  animation: bgFadeIn 0.7s ease-out 0.2s both;
+  text-align:center;
+}
+#bgPresents{
+  font-family:'Bebas Neue',Impact,sans-serif;
+  font-size:clamp(13px,2vw,20px);
+  letter-spacing:10px;
+  color:rgba(255,255,255,0.35);
+  text-align:center;
+  animation: bgSlideUp 0.7s ease-out 0.2s both;
+}
+#bgLogo{
+  width:clamp(200px,22vw,300px);
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border-radius:6px;
+  background:transparent;
+  box-shadow:none;
+  animation: bgAuraFadeIn 1.4s ease-out 0.6s forwards, bgPulse 1.8s ease-in-out 2.0s infinite alternate, bgSlideUp 0.7s ease-out 0.2s both;
+}
+@keyframes bgFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes bgSlideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bgAuraFadeIn{from{box-shadow:0 0 0px rgba(180,0,0,0),0 0 0px rgba(180,0,0,0)}to{box-shadow:0 0 80px rgba(180,0,0,0.6),0 0 20px rgba(180,0,0,0.3)}}
+@keyframes bgPulse{from{box-shadow:0 0 60px rgba(180,0,0,0.5),0 0 15px rgba(180,0,0,0.2)}to{box-shadow:0 0 110px rgba(220,0,0,0.9),0 0 40px rgba(200,30,0,0.5)}}
+</style>
+
+<script>
+(function(){
+  const splash = document.getElementById('badgamesSplash');
+  const tut    = document.getElementById('tut');
+  if(tut) tut.style.display='none';
+  splash.style.opacity='0';
+  splash.style.transition='opacity 0.6s ease';
+
+  function showSplash(){
+    splash.style.opacity='1';
+    setTimeout(()=>{
+      splash.style.opacity='0';
+      setTimeout(()=>{
+        splash.style.display='none';
+        if(tut) tut.style.display='flex';
+      },650);
+    },3000);
+  }
+
+  const loadEl = document.getElementById('loadscreen');
+  if(loadEl){
+    const obs=new MutationObserver(()=>{
+      if(loadEl.classList.contains('hidden')){
+        obs.disconnect();
+        setTimeout(showSplash,200);
+      }
+    });
+    obs.observe(loadEl,{attributes:true,attributeFilter:['class']});
+  }
+})();
+</script>
+
+<!-- ===== MAIN MENU / TITLE SCREEN ===== -->
+<div id="tut">
+  <canvas id="menuCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+
+  <div id="menuPanel">
+    <div id="menuTitle" style="margin-bottom:32px;">
+      <span class="mtL1" style="font-size:clamp(52px,5vw,76px);letter-spacing:4px;">RAT KEBAB</span>
+      <span class="mtL2" style="font-size:clamp(18px,2.5vw,30px);letter-spacing:14px;color:rgba(255,180,60,0.85);">SIMULATOR</span>
+      <div style="width:40px;height:2px;background:rgba(255,180,60,0.4);margin:12px 0 8px 0;"></div>
+      <span class="mtL3" style="color:rgba(255,255,255,0.75);font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:4px;">v1.5 &nbsp;·&nbsp; <span style="color:#ffffff;">STILL IN BETA</span> &nbsp;·&nbsp; MADE BY TONY</span>
+    </div>
+
+    <div class="menuBtns">
+      <button class="mBtn mBtnPrimary" id="playBtn">▶&nbsp;&nbsp;PLAY</button>
+      <button class="mBtn mBtnSecondary" id="settingsBtn">☰&nbsp;&nbsp;CHANGELOG</button>
+      <button class="mBtn mBtnSecondary" id="creditsBtn">★&nbsp;&nbsp;CREDITS</button>
+      <button class="mBtn mBtnSecondary" id="studioBtn">🎮&nbsp;&nbsp;ABOUT US</button>
+    </div>
+
+    <div style="margin-top:auto;padding-top:28px;font-family:'Bebas Neue',sans-serif;font-size:13px;color:rgba(255,255,255,0.75);letter-spacing:4px;line-height:2;">
+      WASD · MOUSE · E · F · R · Q 
+    </div>
+  </div>
+
+  <!-- PLAY MODE PICKER -->
+  <div id="modePicker" style="display:none;">
+    <button class="mpBack" id="modeBackBtn">← BACK</button>
+    <div class="mpTitle">SELECT MODE</div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
+      <div class="mpCard" id="spCard">
+        <div class="mpCardIcon">🎮</div>
+        <div>
+          <div class="mpCardTitle">SINGLEPLAYER</div>
+          <div class="mpCardSub">Play alone — serve kebabs, fight the inspector</div>
+        </div>
+      </div>
+      <div class="mpCard" id="mpCard">
+        <div class="mpCardIcon">🌐</div>
+        <div>
+          <div class="mpCardTitle">MULTIPLAYER</div>
+          <div class="mpCardSub" style="color:rgba(255,180,60,0.6);">Play with friends — host or join a room</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:18px;">
+      <div style="font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:4px;margin-bottom:6px;text-align:center;">YOUR NAME</div>
+      <input id="nameinput" maxlength="12" placeholder="RAT" style="width:100%;padding:10px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#fff;text-align:center;outline:none;text-transform:uppercase;">
+      <div style="font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:4px;margin:10px 0 6px;text-align:center;">YOUR COLOUR</div>
+      <div id="colorPicker" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+        <div class="colorSwatch" data-color="0x1A6FD4" style="background:#1A6FD4;" title="Blue"></div>
+        <div class="colorSwatch" data-color="0xE63946" style="background:#E63946;" title="Red"></div>
+        <div class="colorSwatch" data-color="0x2DC653" style="background:#2DC653;" title="Green"></div>
+        <div class="colorSwatch" data-color="0xFF8C00" style="background:#FF8C00;" title="Orange"></div>
+        <div class="colorSwatch" data-color="0xAA44CC" style="background:#AA44CC;" title="Purple"></div>
+        <div class="colorSwatch" data-color="0xFFD700" style="background:#FFD700;" title="Yellow"></div>
+        <div class="colorSwatch" data-color="0xFF69B4" style="background:#FF69B4;" title="Pink"></div>
+        <div class="colorSwatch" data-color="0xFFFFFF" style="background:#fff;border-color:rgba(255,255,255,0.5);" title="White"></div>
+      </div>
+      <style>
+        .colorSwatch{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);cursor:pointer;transition:transform .15s,border-color .15s;}
+        .colorSwatch:hover{transform:scale(1.2);}
+        .colorSwatch.selected{border-color:#fff;transform:scale(1.2);box-shadow:0 0 8px rgba(255,255,255,0.5);}
+      </style>
+    </div>
+  </div>
+
+  <!-- SETTINGS / CHANGELOG PANEL -->
+  <div id="settingsPanel" style="display:none;">
+    <button class="mpBack" id="settingsBackBtn">← BACK</button>
+    <div class="mpTitle">CHANGELOG</div>
+    <div class="settingsList">
+      <div class="sEntry sCurrent">
+        <div class="sVer">V1.5 — LATEST</div>
+        <div class="sTitle">🌐 THE BIG SYNC UPDATE</div>
+        <div class="sBody">
+          ✅ Chat system (Y to open)<br>
+          ✅ Day/Night cycle — full 5 minute day, sky/fog/sun all change<br>
+          ✅ Day counter HUD showing time until next day/night<br>
+          ✅ Rat emoji favicon in browser tab 🐀<br>
+          ✅ Added F1 car<br>
+          ✅ Added F1 track<br>
+          ✅ Added Car<br>
+          ✅ Added Shooting in mutiplayer<br>
+          ✅ Added synchronized animations for all players <br>
+          ✅ fixes for mobile player control<br>
+          ✅ Bug fixes and optimizations for the game :D<br>
+        </div>
+      </div>
+      <div class="sEntry">
+        <div class="sVer">V1.4</div>
+        <div class="sTitle">🏪 THE BREADSHOP UPDATE</div>
+        <div class="sBody">
+          ✅ AFTER 500 YEARS MASON FINALLY FINISHED THE BREADSHOP MODEL<br>
+          ✅ BREADSHOP — NEW BUILDING NEXT TO THE KEBAB SHOP<br>
+          ✅ MOBILE CONTROLLER — PLAY ON PHONE WITH JOYSTICK<br>
+          ✅ MULTIPLAYER SYNC — ALSO WORK IN SCHOOL<br>
+          ✅ RAY GUN DAMAGE — NOW DEALS DAMAGE TO OTHER PLAYERS<br>
+          ✅ DROP ITEMS — RAT AND KEBAB CAN BE DROPPED ON FLOOR AND PICKED BACK UP<br>
+          ✅ BAD GAMES STUDIO SPLASH SCREEN<br>
+          ✅ SEWER ENTRANCE MOVED TO MIDDLE OF ROAD<br>
+          ✅ BUG FIXES AND OPTIMIZATIONS
+        </div>
+      </div>
+      <div class="sEntry">
+        <div class="sVer">V1.3</div>
+        <div class="sTitle">🎉 THE BIG UPDATE</div>
+        <div class="sBody">
+          THE LONG AWAITED UPDATE 1.3 HAS ARRIVED.<br>
+          ✅ BUG FIXES — VARIOUS BUGS PATCHED<br>
+          ✅ NEW MODELS — NEW ITEMS ADDED<br>
+          ✅ OPTIMIZATION — GAME IS LESS LAGGY<br>
+          ✅ BIG PLAZA BEHIND THE SHOP
+        </div>
+      </div>
+      <div class="sEntry">
+        <div class="sVer">V1.2</div>
+        <div class="sTitle">SEWER UPGRADE</div>
+        <div class="sBody">SEWER EXPANDED WITH SIDE TUNNEL AND SECRET ROOM. POWER BAR UI ADDED.</div>
+      </div>
+      <div class="sEntry">
+        <div class="sVer">V1.1</div>
+        <div class="sTitle">🐀 SEWER UPDATE</div>
+        <div class="sBody">ADDED THE SEWER —FIND THE SEWER CAP ON THE SIDEWALK. SIDE TUNNEL WITH SECRET ROOM FULL OF CRATES AND RAT SKULLS!</div>
+      </div>
+      <div class="sEntry">
+        <div class="sVer">V1.0</div>
+        <div class="sTitle">🍢 INITIAL RELEASE</div>
+        <div class="sBody">RAT KEBAB LAUNCHES. GRILL RATS, SERVE CUSTOMERS, SURVIVE THE HEALTH INSPECTOR.</div>
+      </div>
+      <div class="sBeta">⚠ THIS IS A BETA — THERE MIGHT BE GLITCHES AND BUGS. REPORT THEM TO ME</div>
+    </div>
+  </div>
+
+  <!-- CREDITS PANEL -->
+  <div id="creditsPanel" style="display:none;">
+    <button class="mpBack" id="creditsBackBtn">← BACK</button>
+    <div class="mpTitle">CREDITS</div>
+    <div class="cblock model-block" style="margin-top:12px;">
+      <div class="cblock-title">🐀 3D MODELS BY</div>
+      <div class="cnames">
+        <span class="cname model">Mason</span>
+        <span class="cname model">Zach</span>
+        <span class="cname model">Mitchel</span>
+        <span class="cname model">Kyle</span>
+        <span class="cname model">Lucas</span>
+      </div>
+    </div>
+    <div class="cblock shout-block" style="margin-top:10px;">
+      <div class="cblock-title">📣 SHOUTOUT TO</div>
+      <div class="cnames">
+        <span class="cname shout">Aiden</span>
+        <span class="cname shout">Zach</span>
+        <span class="cname shout">Mitchel</span>
+        <span class="cname shout">Mason</span>
+        <span class="cname shout">Eesa</span>
+        <span class="cname shout">Scarlett</span>
+        <span class="cname shout">Nr3</span>
+      </div>
+    </div>
+    <div class="cblock donor-block" style="margin-top:10px;">
+      <div class="cblock-title">💸 DONATORS</div>
+      <div class="cnames">
+        <span class="cname donor">Jason</span>
+        <span class="cname donor">Nr3</span>
+        <span class="cname donor">Mason</span>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:3px;margin-top:14px;">RAT KEBAB — BY TONY · TOTALLY LEGAL</div>
+  </div>
+</div>
+
+<div id="cutscene"><canvas id="cutcanvas" width="640" height="360"></canvas><div class="ct-txt" id="cttxt">THE SHOP IS ON FIRE!</div><div class="ct-sub" id="ctsub">Health inspector arrives...</div></div>
+<div id="hud"><div class="htop"><div class="hst"><div class="hv" id="sv">0</div><div class="hl">SCORE</div></div><div class="hst"><div class="hv" id="srv">0</div><div class="hl">SERVED</div></div><div class="hst"><div class="hv" id="starsv">x10</div><div class="hl">STARS</div></div><div class="hst"><div class="hv" id="lvl">1</div><div class="hl">LEVEL</div></div></div><div id="cookbar"><div id="cookbar-label">COOKING</div><div id="cookbar-track"><div id="cookbar-fill"></div></div><div id="cookbar-time">0s / 60s</div></div><div class="hbot"><div class="ammo" id="ammodiv" style="opacity:0">6<small>/ 6</small></div><div class="heldico" id="hico">🐀</div><div style="font-size:16px;letter-spacing:1px" id="starsBot">x10</div></div><div id="panel"><div class="pt">OBJECTIVE</div><div id="objt"><span class="k">E</span> Basket<br><span class="k">F</span> Grill<br><span class="k">E</span> Serve</div></div><div id="radar"><canvas id="rc" width="96" height="96"></canvas></div><div id="inspbar"><div style="background:rgba(0,0,0,0.5);border-radius:3px;overflow:hidden;"><div id="ibfill" style="width:100%;height:5px;"></div></div><div id="iblbl">INSPECTOR</div></div><div id="firebar"><div style="background:rgba(0,0,0,0.5);border-radius:3px;overflow:hidden;"><div id="fbfill" style="width:0%;height:6px;"></div></div><div id="fblbl">FIRE DANGER</div></div>
+<div id="powerbar"><div style="background:rgba(0,0,0,0.6);border:1px solid rgba(0,255,170,0.25);border-radius:4px;overflow:hidden;"><div id="pb-fill" style="width:100%;height:8px;background:linear-gradient(to right,#00FFAA,#00CC88);transition:width .15s;"></div></div><div id="pb-label" style="font-family:'Bebas Neue',sans-serif;font-size:11px;color:#00FFAA;letter-spacing:3px;text-align:center;margin-top:3px;">⚡ POWER</div></div></div>
+<div id="inter">[ E ] INTERACT</div><div id="lookhint">CLICK to lock mouse · WASD to move · ESC to unlock</div><div id="msg"></div>
+<div id="go"><div class="gotl" id="gotl" style="color:#ddd">GAME OVER</div><div class="gosb" id="gosb">Inspector shut you down</div><div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,4vw,46px);color:#FF2222;letter-spacing:5px;margin-bottom:12px;text-shadow:0 0 20px rgba(255,0,0,0.6)">EZ YOU SUCK AT THIS GAME BRO HOW DID YOU EVEN DIE TO RAT 💀</div><div style="font-family:'Bebas Neue';font-size:22px;color:#aaa;margin-bottom:6px;letter-spacing:3px">SCORE: <span id="fs">0</span></div><div style="font-size:10px;color:#333;letter-spacing:5px;margin-bottom:4px">BY TONY</div><div style="font-size:9px;color:#2a2a2a;letter-spacing:4px;margin-bottom:20px">SHOUTOUT:SCARLETT · AIDEN · ZACH · MASON · JASON</div><button class="sbtn" style="max-width:220px" id="replaybtn">PLAY AGAIN</button></div>
+
+<!-- PAUSE SCREEN — fully self-contained, no dependency on game.js wiring -->
+<div id="pauseScreen" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:99990;align-items:center;justify-content:center;backdrop-filter:blur(8px);pointer-events:all;touch-action:manipulation;">
+  <div style="background:#0d0d0d;border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:40px 48px;min-width:340px;display:flex;flex-direction:column;align-items:center;gap:14px;pointer-events:all;touch-action:manipulation;position:relative;z-index:1;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:8px;color:#fff;margin-bottom:6px;">PAUSED</div>
+    <div id="pauseRoomCode" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:rgba(255,180,60,0.8);letter-spacing:3px;margin-bottom:8px;display:none;">ROOM CODE: <span id="pauseCodeVal" style="color:#FFD166;font-size:20px;letter-spacing:6px;font-family:'Bebas Neue',sans-serif;"></span></div>
+
+    <!-- RENDER DISTANCE -->
+    <div style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:8px;padding:14px 16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:#ddd;">👁 RENDER DISTANCE</div>
+        <div id="rdLabel" style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:#FFD166;letter-spacing:2px;">FAR</div>
+      </div>
+      <input id="rdSlider" type="range" min="1" max="3" step="1" value="3"
+        style="width:100%;accent-color:#FFD166;cursor:pointer;height:6px;">
+      <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:3px;">
+        <span>NEAR</span><span>MID</span><span>FAR</span>
+      </div>
+    </div>
+
+    <!-- LOW DETAILS TOGGLE -->
+    <div id="lowDetailsRow" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:8px;padding:14px 16px;cursor:pointer;transition:background .15s;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:#ddd;">⚡ LOW DETAILS MODE</div>
+          <div style="font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:2px;margin-top:3px;">LOWER RES · SIMPLE LIGHTING · FOR LOW-END DEVICES</div>
+        </div>
+        <div id="ldToggle" style="width:42px;height:24px;border-radius:12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);position:relative;transition:background .2s;flex-shrink:0;">
+          <div id="ldKnob" style="position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#888;transition:transform .2s,background .2s;"></div>
+        </div>
+      </div>
+    </div>
+
+    <button id="pauseResumeBtn" style="width:100%;padding:13px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:5px;background:#fff;color:#000;border:none;border-radius:6px;cursor:pointer;min-height:56px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">▶  RESUME</button>
+    <button id="pauseMenuBtn" style="width:100%;padding:13px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:5px;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.18);border-radius:6px;cursor:pointer;min-height:56px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">⌂  MAIN MENU</button>
+    <div style="font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:4px;margin-top:6px;">PRESS ESC TO RESUME</div>
+  </div>
+</div>
+
+<script>
+// ── PAUSE MENU sliders/toggles — wired after game.js loads ──
+window.addEventListener('load', function(){
+  var ldOn = false;
+  var RD_PRESETS = [{label:'NEAR',far:40},{label:'MID',far:70},{label:'FAR',far:200}];
+
+  var rdSlider = document.getElementById('rdSlider');
+  if(rdSlider){
+    rdSlider.addEventListener('input', function(){
+      var preset = RD_PRESETS[parseInt(this.value) - 1];
+      document.getElementById('rdLabel').textContent = preset.label;
+      if(window.__setRenderDistance) window.__setRenderDistance(preset.far);
+    });
+  }
+
+  var ldRow = document.getElementById('lowDetailsRow');
+  if(ldRow){
+    ldRow.addEventListener('click', function(){
+      ldOn = !ldOn;
+      var knob   = document.getElementById('ldKnob');
+      var toggle = document.getElementById('ldToggle');
+      var row    = document.getElementById('lowDetailsRow');
+      if(ldOn){
+        toggle.style.background='rgba(255,209,102,0.35)';toggle.style.borderColor='rgba(255,209,102,0.6)';
+        knob.style.transform='translateX(18px)';knob.style.background='#FFD166';
+        row.style.background='rgba(255,209,102,0.07)';row.style.borderColor='rgba(255,209,102,0.25)';
+      } else {
+        toggle.style.background='rgba(255,255,255,0.1)';toggle.style.borderColor='rgba(255,255,255,0.2)';
+        knob.style.transform='translateX(0)';knob.style.background='#888';
+        row.style.background='rgba(255,255,255,0.04)';row.style.borderColor='rgba(255,255,255,0.09)';
+      }
+      if(window.__setLowDetails) window.__setLowDetails(ldOn);
+    });
+  }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="game.js"></script>
+<script>
+// ================================================================
+// FINAL OVERRIDES — runs after game.js has fully loaded
+// Fixes: pause resume, pause main menu, render distance, low details, chat T toggle
+// ================================================================
+window.addEventListener('load', function(){
+
+  // ── PAUSE BUTTON REWIRE ──────────────────────────────────────────
+  // Clone buttons to strip ALL listeners game.js attached, then add ours
+  function rewire(id, fn){
+    var old = document.getElementById(id);
+    if(!old) return;
+    var n = old.cloneNode(true);
+    old.parentNode.replaceChild(n, old);
+    n.addEventListener('click', fn);
+  }
+
+  function doResume(){
+    document.getElementById('pauseScreen').style.display = 'none';
+    window.gameRunning = true;
+    if(window.__setGameRunning) window.__setGameRunning(true);
+    // Re-enable the mobile look pad now that we're back in game
+    var lp = document.getElementById('lookPad');
+    if(lp) lp.style.pointerEvents = 'all';
+    // Only request pointer lock on desktop
+    var isMobile = ('ontouchstart' in window) || window.matchMedia('(pointer:coarse)').matches;
+    if(!isMobile){
+      var c = document.getElementById('main');
+      if(c && c.requestPointerLock) c.requestPointerLock();
+    }
+  }
+
+  function doMainMenu(){
+    document.getElementById('pauseScreen').style.display = 'none';
+    window.gameRunning = false;
+
+    try{ if(window.mpSocket){ window.mpSocket.disconnect(); window.mpSocket=null; window.mpConnected=false; window.mpRoomCode=null; } }catch(e){}
+    try{ customers.forEach(function(c){ scene.remove(c.mesh); }); customers=[]; }catch(e){}
+    try{ particles.forEach(function(p){ scene.remove(p.mesh); }); particles=[]; }catch(e){}
+    try{ sewerRats.forEach(function(r){ scene.remove(r.mesh); }); sewerRats.length=0; }catch(e){}
+    try{ clearTaxEntities(); }catch(e){}
+    try{ if(inspMesh){ inspMesh.visible=false; } inspActive=false; }catch(e){}
+    try{ gunGroup.visible=false; }catch(e){}
+    try{ if(vmShotgun) vmShotgun.visible=false; }catch(e){}
+    try{ if(vmRayGun)  vmRayGun.visible=false;  }catch(e){}
+    try{ if(vmRat)     vmRat.visible=false;      }catch(e){}
+    try{ if(vmKebab)   vmKebab.visible=false;    }catch(e){}
+    try{ if(vmPan)     vmPan.visible=false;      }catch(e){}
+    try{ if(vmBread)   vmBread.visible=false;    }catch(e){}
+    try{ heldItem=null; heldRatData=null; heldKebabData=null; heldBreadData=null; carriedItem=null; }catch(e){}
+    try{ inSewer=false; sewerGroup.visible=false; }catch(e){}
+    try{ inCar=null; }catch(e){}
+    try{ scene.fog=new THREE.FogExp2(0xAAAAAA,0.016); scene.background=new THREE.Color(0x888888); }catch(e){}
+
+    ['hud','inspbar','firebar','cookbar','healthbar'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.classList.remove('on');
+    });
+    var ammo=document.getElementById('ammodiv'); if(ammo) ammo.style.opacity='0';
+    var fire=document.getElementById('fireoverlay'); if(fire) fire.style.opacity='0';
+    var dc=document.getElementById('dayCounter'); if(dc) dc.style.display='none';
+
+    if(document.pointerLockElement) document.exitPointerLock();
+    var tut=document.getElementById('tut'); if(tut) tut.style.display='flex';
+  }
+
+  rewire('pauseResumeBtn', doResume);
+  rewire('pauseMenuBtn',   doMainMenu);
+
+  // ── POINTER LOCK LOST → show pause (desktop only) ───────────────
+  // On mobile there's no pointer lock so we skip this entirely
+  var isMobileDevice = ('ontouchstart' in window) || window.matchMedia('(pointer:coarse)').matches;
+  if(!isMobileDevice){
+  document.addEventListener('pointerlockchange', function(){
+    var locked = document.pointerLockElement === document.getElementById('main');
+    var ps = document.getElementById('pauseScreen');
+    if(!locked && window.gameRunning && !(window._chatOpen && window._chatOpen())){
+      ps.style.display = 'flex';
+      var codeEl = document.getElementById('pauseRoomCode');
+      if(codeEl){
+        if(window.mpRoomCode){
+          codeEl.style.display = 'block';
+          var pv = document.getElementById('pauseCodeVal');
+          if(pv) pv.textContent = window.mpRoomCode;
+        } else {
+          codeEl.style.display = 'none';
+        }
+      }
+    }
+  });
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // CHAT SYSTEM — complete override of game.js chat
+  // T = open chat. T again while open = SEND + close. ➤ button = send.
+  // ══════════════════════════════════════════════════════════════
+  (function(){
+    var chatWindow = document.getElementById('chatWindow');
+    var chatLog    = document.getElementById('chatLog');
+    var chatFloat  = document.getElementById('chatFloat');
+    var chatOpen   = false;
+
+    function getInput(){ return document.getElementById('chatInput'); }
+    function getSend(){  return document.getElementById('chatSendBtn'); }
+
+    function openChat(){
+      if(chatOpen) return;
+      chatOpen = true;
+      chatWindow.style.display = 'flex';
+      if(chatFloat) chatFloat.style.display = 'none';
+      var inp = getInput();
+      if(inp){ inp.value = ''; setTimeout(function(){ inp.focus(); }, 50); }
+      if(chatLog) chatLog.scrollTop = chatLog.scrollHeight;
+      if(document.pointerLockElement) document.exitPointerLock();
+    }
+
+    function closeChat(){
+      if(!chatOpen) return;
+      chatOpen = false;
+      chatWindow.style.display = 'none';
+      if(chatFloat) chatFloat.style.display = 'flex';
+      var inp = getInput(); if(inp) inp.blur();
+    }
+
+    function sendAndClose(){
+      var inp = getInput();
+      var txt = inp ? inp.value.trim() : '';
+      if(inp) inp.value = '';
+      if(txt){
+        if(window._addChatMsg) window._addChatMsg(txt, false);
+        if(window.mpSocket && window.mpConnected) window.mpSocket.emit('chat', {text: txt});
+      }
+      closeChat();
+    }
+
+    // Expose so game.js / other code can call these
+    window._chatOpen  = function(){ return chatOpen; };
+    window._openChat  = openChat;
+    window._closeChat = closeChat;
+
+    // ── Send button ──────────────────────────────────────────────
+    function wireSendBtn(){
+      var btn = getSend();
+      if(!btn || btn._chatWired) return;
+      btn._chatWired = true;
+      btn.addEventListener('mousedown',  function(e){ e.preventDefault(); });
+      btn.addEventListener('touchstart', function(e){ e.preventDefault(); }, {passive:false});
+      btn.addEventListener('touchend',   function(e){ e.preventDefault(); e.stopPropagation(); sendAndClose(); }, {passive:false});
+      btn.addEventListener('click',      function(e){ e.stopPropagation(); sendAndClose(); });
+    }
+    wireSendBtn();
+
+    // ── Input: Enter = send, Escape = close ──────────────────────
+    document.addEventListener('keydown', function(e){
+      if(!chatOpen) return;
+      var inp = getInput();
+      if(!inp || document.activeElement !== inp) return;
+      if(e.key === 'Enter'){  e.preventDefault(); e.stopImmediatePropagation(); sendAndClose(); }
+      if(e.key === 'Escape'){ e.preventDefault(); e.stopImmediatePropagation(); closeChat(); }
+    }, true);
+
+    // ── T key: open OR (if open) send+close ──────────────────────
+    document.addEventListener('keydown', function(e){
+      if(e.code !== 'KeyT') return;
+      if(!window.gameRunning) return;
+      if(chatOpen){
+        // T while chat is open = send and close
+        e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation();
+        sendAndClose();
+      } else {
+        e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation();
+        openChat();
+      }
+    }, true);
+
+    // ── Mobile T button ──────────────────────────────────────────
+    var mBtn = document.getElementById('mobileChatBtn');
+    if(mBtn){
+      mBtn.addEventListener('touchstart', function(e){ e.preventDefault(); }, {passive:false});
+      mBtn.addEventListener('touchend', function(e){
+        e.preventDefault(); e.stopPropagation();
+        if(chatOpen) sendAndClose(); else openChat();
+      }, {passive:false});
+      mBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        if(chatOpen) sendAndClose(); else openChat();
+      });
+    }
+
+    // ── Show/hide T button based on game state ───────────────────
+    var isMobile = ('ontouchstart' in window) || window.matchMedia('(pointer:coarse)').matches;
+    setInterval(function(){
+      var btn = document.getElementById('mobileChatBtn');
+      if(!btn) return;
+      var running = !!window.gameRunning;
+      var pauseOpen = document.getElementById('pauseScreen') && document.getElementById('pauseScreen').style.display === 'flex';
+      if(isMobile && running && !pauseOpen){
+        btn.classList.add('gameactive');
+      } else {
+        btn.classList.remove('gameactive');
+      }
+      // Update button icon: T when closed, ➤ when open
+      btn.textContent = chatOpen ? '➤' : 'T';
+      // Float messages: hide when chat is open, show when closed
+      var cf = document.getElementById('chatFloat');
+      if(cf) cf.style.display = (chatOpen ? 'none' : 'flex');
+    }, 150);
+
+  })();
+
+});
+</script>
+
+<!-- MULTIPLAYER SCREEN -->
+<div id="mpscreen" style="display:none;position:fixed;inset:0;background:#0a0a0a;z-index:110;align-items:center;justify-content:center;flex-direction:column;">
+  <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,0.015) 40px,rgba(255,255,255,0.015) 41px)"></div>
+  <div style="position:relative;background:rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:32px 40px;max-width:460px;width:94%;backdrop-filter:blur(12px)">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:#fff;letter-spacing:8px;text-align:center;margin-bottom:4px">MULTIPLAYER</div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:4px;text-align:center;margin-bottom:24px">DIRECT · NO SERVER · FREE</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:rgba(255,255,255,0.35);letter-spacing:5px;margin-bottom:8px">HOST A GAME</div>
+    <button id="hostbtn" style="width:100%;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:5px;background:#fff;color:#000;border:none;border-radius:6px;cursor:pointer;margin-bottom:14px">🏠 CREATE ROOM</button>
+    <div id="room-code-box" style="display:none;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:14px;text-align:center;margin-bottom:18px">
+      <div style="font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:4px;margin-bottom:6px">SHARE THIS CODE</div>
+      <div id="room-code" style="font-family:'Bebas Neue',sans-serif;font-size:56px;color:#FFD166;letter-spacing:14px">----</div>
+      <div id="mp-status" style="font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:2px;margin-top:4px">Waiting for players...</div>
+      <div id="mp-players" style="font-size:11px;color:#06D6A0;letter-spacing:1px;margin-top:5px;min-height:16px"></div>
+      <button id="host-start-btn" onclick="document.getElementById('mpscreen').style.display='none';startGame();" style="display:none;margin-top:12px;width:100%;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:5px;background:linear-gradient(135deg,#FFD166,#FF9900);color:#000;border:none;border-radius:6px;cursor:pointer;">▶ START GAME</button>
+    </div>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:18px"></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:rgba(255,255,255,0.35);letter-spacing:5px;margin-bottom:8px">JOIN A GAME</div>
+    <input id="codeinput" maxlength="6" placeholder="ENTER CODE" style="width:100%;padding:11px;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#fff;text-align:center;margin-bottom:8px;outline:none;text-transform:uppercase">
+    <button id="joinbtn" style="width:100%;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:5px;background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.18);border-radius:6px;cursor:pointer;margin-bottom:8px">🌐 JOIN ROOM</button>
+    <div id="join-status" style="font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:2px;text-align:center;min-height:16px;margin-bottom:16px"></div>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:14px"></div>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:18px"></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:rgba(255,255,255,0.35);letter-spacing:5px;margin-bottom:8px">SERVER JOIN</div>
+    <input id="serverinput" maxlength="80" placeholder="https://sever-7c1b.onrender.com" value="https://sever-7c1b.onrender.com" style="width:100%;padding:11px;font-family:'IBM Plex Mono',monospace;font-size:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#fff;text-align:center;margin-bottom:8px;outline:none;">
+    <button id="serverjoibtn" style="width:100%;padding:12px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:5px;background:rgba(6,214,160,0.15);color:#06D6A0;border:1px solid rgba(6,214,160,0.35);border-radius:6px;cursor:pointer;margin-bottom:8px">SERVER JOIN</button>
+    <div id="server-status" style="font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:2px;text-align:center;min-height:16px;margin-bottom:16px"></div>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:14px"></div>
+    <button id="mp-back" style="width:100%;padding:8px;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:4px;background:transparent;color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:6px;cursor:pointer">← BACK</button>
+  </div>
+</div>
+
+<!-- ── MOBILE CONTROLLER ─────────────────────────────────────────── -->
+<div id="mobileCtrl">
+  <div id="lookPad"></div>
+  <button class="mobBtn" id="mBtnQ" ontouchstart="mobileKey('KeyQ',true)" ontouchend="mobileKey('KeyQ',false)" style="position:absolute;top:22%;left:20px;">Q</button>
+  <button class="mobBtn mobBtnSm" id="mBtnR" ontouchstart="mobileKey('KeyR',true)" ontouchend="mobileKey('KeyR',false)" style="position:absolute;top:22%;left:90px;">R</button>
+  <div id="joystickZone" style="position:absolute;bottom:28px;left:20px;">
+    <div id="joystickBase">
+      <div id="joystickKnob"></div>
+    </div>
+  </div>
+  <button class="mobBtn mobBtnSm" id="mBtnF" ontouchstart="mobileKey('KeyF',true)" ontouchend="mobileKey('KeyF',false)" style="position:absolute;top:22%;right:24px;">F</button>
+  <button class="mobBtn mobBtnFire" id="mBtnFire" ontouchstart="mobileFire()" ontouchend="" style="position:absolute;bottom:52px;right:180px;">🔫</button>
+  <button class="mobBtn mobBtnSm" id="mBtnE" ontouchstart="mobileKey('KeyE',true)" ontouchend="mobileKey('KeyE',false)" style="position:absolute;bottom:52px;right:112px;">E</button>
+  <button class="mobBtn mobBtnBig" id="mBtnJump" ontouchstart="mobileKey('Space',true)" ontouchend="mobileKey('Space',false)" style="position:absolute;bottom:28px;right:18px;">↑</button>
+</div>
+
+<style>
+#mobileCtrl{display:none;position:fixed;inset:0;pointer-events:none;z-index:90;}
+@media(pointer:coarse),(max-width:900px){#mobileCtrl{display:block;}}
+#joystickZone{width:140px;height:140px;pointer-events:all;touch-action:none;}
+#joystickBase{width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.22);display:flex;align-items:center;justify-content:center;position:relative;}
+#joystickKnob{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.35);border:2px solid rgba(255,255,255,0.6);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 0 12px rgba(255,255,255,0.2);}
+#lookPad{position:absolute;inset:0;pointer-events:all;touch-action:none;}
+.mobBtn{border-radius:50%;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.3);color:#fff;font-family:'Bebas Neue',sans-serif;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;appearance:none;outline:none;cursor:pointer;display:flex;align-items:center;justify-content:center;pointer-events:all;transition:background .08s;}
+.mobBtn:active,.mobBtn.pressed{background:rgba(80,80,80,0.75);border-color:rgba(255,255,255,0.9);transform:scale(0.93);}
+.mobBtn{width:58px;height:58px;font-size:20px;letter-spacing:1px;}
+.mobBtnSm{width:50px;height:50px;font-size:17px;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.22);}
+.mobBtnBig{width:88px;height:88px;font-size:32px;background:rgba(255,255,255,0.1);border-width:3px;}
+.mobBtnBig:active,.mobBtnBig.pressed{background:rgba(60,60,60,0.85);border-color:#fff;transform:scale(0.92);}
+.mobBtnFire{background:rgba(255,60,60,0.22);border-color:rgba(255,100,100,0.5);font-size:22px;}
+.mobBtnFire:active,.mobBtnFire.pressed{background:rgba(200,30,30,0.7);}
+</style>
+
+<script>
+window.addEventListener('load', function(){
+  const isMobile = ('ontouchstart' in window) || window.matchMedia('(pointer:coarse)').matches || window.innerWidth<=900;
+
+  // ── Crosshair visibility ──────────────────────────────────────
+  setInterval(function(){
+    const xhair = document.getElementById('mobileCrosshair');
+    if(!xhair) return;
+    const running = window.gameRunning;
+    const chatIsOpen = window._chatOpen && window._chatOpen();
+    const pauseOpen = document.getElementById('pauseScreen') && document.getElementById('pauseScreen').style.display === 'flex';
+    if(isMobile && running && !chatIsOpen && !pauseOpen) xhair.classList.add('gameactive');
+    else xhair.classList.remove('gameactive');
+  }, 300);
+
+  if(!isMobile) return;
+  document.getElementById('mobileCtrl').style.display='block';
+
+  const zone = document.getElementById('joystickZone');
+  const knob = document.getElementById('joystickKnob');
+  const base = document.getElementById('joystickBase');
+  const MAX_R = 44;
+  let joyId=null, joyOriginX=0, joyOriginY=0;
+
+  function setKey(code,val){ if(window.keys) window.keys[code]=val; }
+
+  function joyUpdate(dx,dy){
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    const clamped=Math.min(dist,MAX_R);
+    const angle=Math.atan2(dy,dx);
+    knob.style.transform=`translate(calc(-50% + ${Math.cos(angle)*clamped}px),calc(-50% + ${Math.sin(angle)*clamped}px))`;
+    const nx=dist>1?dx/dist*Math.min(dist/MAX_R,1):0;
+    const ny=dist>1?dy/dist*Math.min(dist/MAX_R,1):0;
+    const t=0.28;
+    setKey('KeyW',ny<-t); setKey('KeyS',ny>t);
+    setKey('KeyA',nx<-t); setKey('KeyD',nx>t);
+  }
+
+  zone.addEventListener('touchstart',e=>{ e.preventDefault();
+    const t=e.changedTouches[0]; joyId=t.identifier;
+    const r=base.getBoundingClientRect();
+    joyOriginX=r.left+r.width/2; joyOriginY=r.top+r.height/2;
+    joyUpdate(t.clientX-joyOriginX,t.clientY-joyOriginY);
+  },{passive:false});
+  zone.addEventListener('touchmove',e=>{ e.preventDefault();
+    for(const t of e.changedTouches) if(t.identifier===joyId) joyUpdate(t.clientX-joyOriginX,t.clientY-joyOriginY);
+  },{passive:false});
+  zone.addEventListener('touchend',e=>{ e.preventDefault();
+    joyId=null; knob.style.transform='translate(-50%,-50%)';
+    setKey('KeyW',false);setKey('KeyS',false);setKey('KeyA',false);setKey('KeyD',false);
+  },{passive:false});
+
+  const lookPad=document.getElementById('lookPad');
+  let lookId=null,lookLx=0,lookLy=0;
+  const SENS=0.007;
+
+  lookPad.addEventListener('touchstart',e=>{ e.preventDefault();
+    if(lookId!==null)return;
+    const t=e.changedTouches[0];
+    lookId=t.identifier; lookLx=t.clientX; lookLy=t.clientY;
+  },{passive:false});
+  lookPad.addEventListener('touchmove',e=>{ e.preventDefault();
+    for(const t of e.changedTouches){
+      if(t.identifier!==lookId)continue;
+      const dx=t.clientX-lookLx, dy=t.clientY-lookLy;
+      lookLx=t.clientX; lookLy=t.clientY;
+      if(window.__setYaw) window.__setYaw(window.__getYaw()-dx*SENS);
+      if(window.__setPitch) window.__setPitch(Math.max(-1.05,Math.min(1.05,window.__getPitch()-dy*SENS)));
+    }
+  },{passive:false});
+  lookPad.addEventListener('touchend',e=>{ e.preventDefault();
+    for(const t of e.changedTouches) if(t.identifier===lookId) lookId=null;
+  },{passive:false});
+
+  window.mobileKey=function(code,down){
+    setKey(code,down);
+    if(down){
+      if(code==='KeyE'&&window.tryInteract) window.tryInteract();
+      if(code==='KeyF'&&window.tryGrill) window.tryGrill();
+      if(code==='KeyR'){
+        if(window.reloadGun) window.reloadGun();
+        if(window.reloadShotgun) window.reloadShotgun();
+      }
+      if(code==='KeyQ'){
+        if(window.carriedItem){ if(window.placeCarried) window.placeCarried(); }
+        else if(window.heldItem==='rat'){ if(window.dropRat) window.dropRat(); }
+        else if(window.heldItem==='kebab'||window.heldItem==='fkebab'){ if(window.dropKebab) window.dropKebab(); }
+        else if(window.heldItem==='bread'||window.heldItem==='grilledbread'){ if(window.dropBread) window.dropBread(); }
+        else { ['dropExtinguisher','dropGun','dropShotgun','dropRayGun','dropPan'].forEach(fn=>window[fn]&&window[fn]()); }
+      }
+    }
+  };
+
+  window.mobileFire=function(){
+    const h=window.__heldItem?window.__heldItem():null;
+    if(h==='gun'&&window.shootGun) window.shootGun();
+    else if(h==='shotgun'&&window.shootShotgun) window.shootShotgun();
+    else if(h==='raygun'&&window.shootRayGun) window.shootRayGun();
+    else if(h==='pan'&&window.swingPan) window.swingPan();
+    else if(window.tryShootCustomer) window.tryShootCustomer();
+  };
+
+  document.querySelectorAll('.mobBtn').forEach(btn=>{
+    btn.addEventListener('touchstart',()=>btn.classList.add('pressed'),{passive:true});
+    btn.addEventListener('touchend',()=>btn.classList.remove('pressed'),{passive:true});
+    btn.addEventListener('touchcancel',()=>btn.classList.remove('pressed'),{passive:true});
+  });
+});
+</script>
+</body></html>
